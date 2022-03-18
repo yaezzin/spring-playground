@@ -8,40 +8,36 @@
 brew install heroku/brew/heroku
 ```
 
-###
-
-#### 헤로쿠 로그인 
-```terminal
+### 3. 헤로쿠 로그인 
+```
 heroku login
 ``` 
 
-#### 해당 경로 이동
+### 4. 해당 경로 이동
 
-```terminal cd Desktop/heroku
+```
+cd Desktop/heroku
 ``` 
 스프링 프로젝트를 담을 폴더 생성 후, 프로젝트를 복사하여 붙여넣음
 
-#### 깃 초기화
-``` terminal
+### 5. 깃 초기화
+```
 git init
 ```
 
-#### 헤로쿠 깃과 연결
-``` terminal
+### 6. 헤로쿠 깃과 연결
+```
 heroku git:remote -a <app-name>
 ```
 
-### add commit push!
+### 7. add commit push!
 ```git add .```  
 ```git commit -am "commit comment" ```  
 ```git push heroku main```
 
-#### 화면을 열자!
+### 8. 화면을 열자!
 ```heroku open```
 
-
-
-```heroku open ```
 
 ## 배포하면서 발생한 오류들
 
@@ -53,7 +49,7 @@ heroku git:remote -a <app-name>
 
 ### Procfile
 Procfile을 루트 디렉토리에 생성하고
-```web: java -jar build/libs/나의프로젝트이름-0.0.1-SNAPSHOT.jar```을 넣어준다
+```web: java -jar build/libs/나의프로젝트이름-0.0.1-SNAPSHOT.jar```을 넣어준다.  
 이번에도 루트 디렉토리에 생성해야함을 주의하고, Procfile의 p는 무조건 대문자로..! 안그러면 에러남.
 
 

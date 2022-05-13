@@ -3,8 +3,10 @@ package com.yaezzin.webservice.config.auth.dto;
 import com.yaezzin.webservice.web.domain.user.User;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class SessionUser {
+public class SessionUser implements Serializable {
 
     // SessionUser는 인증된 사용자 정보만 필요
 

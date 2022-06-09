@@ -15,10 +15,3 @@
 |CH.4|🖥 [머스테치로 화면 구성](https://github.com/yaezzin/springboot-aws-webservice/issues/4#issue-1231529521)|```템플릿 엔진``` ```머스테치``` ```@Query``` |
 |CH.5|🔓 [구글 로그인 구현](https://github.com/yaezzin/springboot-aws-webservice/issues/5#issue-1234137045)</br> 🛠 [어노테이션 기반으로 개선](https://github.com/yaezzin/springboot-aws-webservice/issues/6#issue-1234193310) </br> 🗳 [세션저장소로 데이터베이스 사용](https://github.com/yaezzin/springboot-aws-webservice/issues/7#issue-1235112182)</br> 🍏 [네이버 로그인 구현](https://github.com/yaezzin/springboot-aws-webservice/issues/8#issue-1235163433)</br>🔑 [기존 테스트에 시큐리티 적용](https://github.com/yaezzin/springboot-aws-webservice/issues/9#issue-1235447429)|```스프링 시큐리티``` ```SessionUser``` ```JDBC``` ```소셜 로그인```|
 |CH.6|⛅ [AWS EC2](https://github.com/yaezzin/springboot-aws-webservice/issues/10#issue-1235552669)|```EC2 인스턴스``` ```EC2 서버 접속```|
-|CH.7|||
-|CH.8|||
-|CH.9|||
-|CH.10|||
-
-
-## ✨ 결과물

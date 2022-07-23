@@ -293,4 +293,4 @@ def gcd1(x, y):
 
 ## 참고자료
 * https://velog.io/@aonee/Python-%EC%A0%95%EB%A0%AC-sort-sorted-reverse
-* https://blockdmask.tistory.com/531
+* https://blockdmask.tistory.com/531 

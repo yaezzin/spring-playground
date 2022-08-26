@@ -2,9 +2,11 @@ package com.example.demo.src.product;
 
 import com.example.demo.src.product.model.GetProdDetailRes;
 import com.example.demo.src.product.model.GetProdRes;
+import com.example.demo.src.product.model.PostProdReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -152,6 +154,37 @@ public class ProductDao {
                         rs.getInt("mannerTemp")
                 ),
                 getProductsDetailParams);
+    }
+
+    public int createProduct(PostProdReq postProdReq) {
+        String getRegionIdxQuery = "select regionIdx from Region where userIdx = ? ";
+        int getSellerIdx = postProdReq.getSellerIdx();
+        int regionIdx = this.jdbcTemplate.queryForObject(getRegionIdxQuery, int.class, getSellerIdx);
+
+        String createProductQuery = "insert into Product(title, " +
+                "description, price, canProposal, categoryIdx, sellerIdx, regionIdx) \n" +
+                "values(?,?,?,?,?,?,?)";
+
+        Object[] createProductParams = new Object[] {
+                postProdReq.getTitle(),
+                postProdReq.getDescription(),
+                postProdReq.getPrice(),
+                postProdReq.getCanProposal(),
+                postProdReq.getCategoryIdx(),
+                postProdReq.getSellerIdx(),
+                regionIdx
+        };
+
+        this.jdbcTemplate.update(createProductQuery, createProductParams);
+        String lastProductIdxQuery = "select last_insert_id()";
+        int lastProductIdx = this.jdbcTemplate.queryForObject(lastProductIdxQuery, int.class);
+
+        String createProductImageQuery = "insert into ProductImage (productImage, productIdx) VALUES (?,?)";
+        Object[] createProductImageParams = new Object[]{postProdReq.getProductImage(), lastProductIdx};
+        this.jdbcTemplate.update(createProductImageQuery, createProductImageParams);
+
+        String lastInsertImageIdxQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertImageIdxQuery, int.class);
     }
 
 }

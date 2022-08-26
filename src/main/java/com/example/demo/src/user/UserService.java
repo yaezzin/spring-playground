@@ -61,7 +61,18 @@ public class UserService {
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
-        } catch(Exception exception){
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteUser(DeleteUserReq deleteUserReq) throws BaseException {
+        try {
+            int result = userDao.deleteUser(deleteUserReq);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_USER);
+            }
+        } catch(Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }

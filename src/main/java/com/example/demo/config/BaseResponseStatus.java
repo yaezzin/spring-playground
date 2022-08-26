@@ -11,7 +11,7 @@ public enum BaseResponseStatus {
      * 1000 : 요청 성공
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
-
+    SUCCESS_DELETE_USER(true, 1001, "회원 탈퇴에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -35,8 +35,8 @@ public enum BaseResponseStatus {
     // 3. password
     POST_USERS_EMPTY_PASSWORD(false, 2015, "패스워드를 입력해주세요.."),
     POST_USERS_INVALID_PASSWORD(false, 2016, "패스워드 형식을 확인해주세요."),
-
-
+    // 4. 탈퇴 사유
+    EMPTY_DELETE_ACCOUNT_REASON(false, 2017, "탈퇴 사유를 입력해주세요"),
 
 
     /**
@@ -59,9 +59,13 @@ public enum BaseResponseStatus {
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
+    DELETE_FAIL_USER(false, 4015, "유저 탈퇴 실패"),
+
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
+
 
 
     // 5000 : 필요시 만들어서 쓰세요

@@ -110,7 +110,7 @@ public class UserController {
     /* 유저 정보 수정 API - 프로필 사진, 닉네임 */
     @ResponseBody
     @PatchMapping("/{userIdx}")
-    public BaseResponse<String> modifyUser(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserReq patchUserReq){
+    public BaseResponse<String> modifyUser(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserReq patchUserReq) {
         try {
             int userIdxByJwt = jwtService.getUserIdx();
             if(userIdx != userIdxByJwt){
@@ -127,5 +127,25 @@ public class UserController {
         }
     }
 
+    /* 유저 탈퇴 API */
+    @ResponseBody
+    @PatchMapping("/{userIdx}")
+    public BaseResponse<String> deleteUser(@PathVariable("userIdx") int userIdx, @RequestBody DeleteUserReq deleteUserReq) {
+        if (deleteUserReq.getDeleteReason() == null) {
+            return new BaseResponse<>(EMPTY_DELETE_ACCOUNT_REASON);
+        }
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            // 유저 네임 + 프로필 사진 변경 부분
+            deleteUserReq = new DeleteUserReq(userIdx, deleteUserReq.getDeleteReason());
+            userService.deleteUser(deleteUserReq);
 
+            return new BaseResponse<>(SUCCESS_DELETE_USER);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

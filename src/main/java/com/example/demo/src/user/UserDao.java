@@ -84,6 +84,12 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 
+    public int deleteUser(DeleteUserReq deleteUserReq) {
+        String deleteUserNameQuery = "update User set status = 'Deleted', deleteReason = ? where userIdx = ?";
+        Object deleteUserNameParams = new Object[]{deleteUserReq.getDeleteReason(), deleteUserReq.getUserIdx()};
+        return this.jdbcTemplate.update(deleteUserNameQuery, deleteUserNameParams);
+    }
+
     public User getPwd(PostLoginReq postLoginReq){
         String getPwdQuery = "select userIdx, password, phoneNumber, nickname, profileImage from User where phoneNumber = ?";
         String getPwdParams = postLoginReq.getPhoneNumber();

@@ -128,7 +128,7 @@ public class UserController {
 
     /* 유저 탈퇴 API */
     @ResponseBody
-    @PatchMapping("/{userIdx}")
+    @DeleteMapping("/{userIdx}")
     public BaseResponse<String> deleteUser(@PathVariable("userIdx") int userIdx, @RequestBody DeleteUserReq deleteUserReq) {
         if (deleteUserReq.getDeleteReason() == null) {
             return new BaseResponse<>(EMPTY_DELETE_ACCOUNT_REASON);

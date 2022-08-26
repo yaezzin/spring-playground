@@ -22,7 +22,6 @@ public class UserProvider {
     private final UserDao userDao;
     private final JwtService jwtService;
 
-
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -41,15 +40,15 @@ public class UserProvider {
         }
     }
 
-    public List<GetUserRes> getUsersByEmail(String email) throws BaseException{
+    public List<GetUserRes> getUsersByNickname(String nickname) throws BaseException{
         try{
-            List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
+            List<GetUserRes> getUsersRes = userDao.getUsersByNickname(nickname);
             return getUsersRes;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
-                    }
+    }
 
 
     public GetUserRes getUser(int userIdx) throws BaseException {

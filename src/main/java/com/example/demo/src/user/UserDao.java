@@ -20,28 +20,30 @@ public class UserDao {
     }
 
     public List<GetUserRes> getUsers(){
-        String getUsersQuery = "select * from UserInfo";
+        String getUsersQuery = "select * from User";
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs,rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
-                        rs.getString("userName"),
-                        rs.getString("ID"),
-                        rs.getString("Email"),
-                        rs.getString("password"))
+                        rs.getString("status"),
+                        rs.getString("createdAt"),
+                        rs.getString("nickname"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("profileImage"))
                 );
     }
 
-    public List<GetUserRes> getUsersByEmail(String email){
-        String getUsersByEmailQuery = "select * from UserInfo where email =?";
-        String getUsersByEmailParams = email;
-        return this.jdbcTemplate.query(getUsersByEmailQuery,
+    public List<GetUserRes> getUsersByNickname(String nickname){
+        String getUsersByNicknameQuery = "select * from UserInfo where email =?";
+        String getUsersByNicknameParams = nickname;
+        return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
-                        rs.getString("userName"),
-                        rs.getString("ID"),
-                        rs.getString("Email"),
-                        rs.getString("password")),
-                getUsersByEmailParams);
+                        rs.getString("status"),
+                        rs.getString("createdAt"),
+                        rs.getString("nickname"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("profileImage")),
+                getUsersByNicknameParams);
     }
 
     public GetUserRes getUser(int userIdx){
@@ -50,13 +52,13 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
-                        rs.getString("userName"),
-                        rs.getString("ID"),
-                        rs.getString("Email"),
-                        rs.getString("password")),
+                        rs.getString("status"),
+                        rs.getString("createdAt"),
+                        rs.getString("nickname"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("profileImage")),
                 getUserParams);
     }
-    
 
     public int createUser(PostUserReq postUserReq){
         String createUserQuery = "insert into UserInfo (userName, ID, password, email) VALUES (?,?,?,?)";

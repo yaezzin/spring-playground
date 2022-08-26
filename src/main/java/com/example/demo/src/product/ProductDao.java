@@ -65,7 +65,7 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByTitle(String title) {
         String getProdsQuery = "select productIdx, title, price, repImage, regionGu, regionTown, count(W.wishIdx), " +
-                "case" +
+                "case\n" +
                 "when timestampdiff(MINUTE, Product.pulledAt, CURRENT_TIMESTAMP()) < 60\n" +
                 "    then concat('끌올시간 ',timestampdiff(MINUTE, Product.pulledAt, CURRENT_TIMESTAMP()), '분 전')\n" +
                 "when timestampdiff(HOUR, Product.pulledAt, CURRENT_TIMESTAMP()) < 24\n" +
@@ -106,7 +106,7 @@ public class ProductDao {
     }
 
     public List<GetProdDetailRes> getProduct(int productIdx) { //왜 여기서 리스트를 반환해야할까??
-        String getProdsDetailQuery = "select productIdx, title,description, price, count(W.wishIdx), veiwCount, canProposal \n" +
+        String getProdsDetailQuery = "select productIdx, title, description, price, count(W.wishIdx), viewCount, canProposal \n" +
                 "case\n" +
                 "when timestampdiff(MINUTE, P.createdAt, CURRENT_TIMESTAMP()) < 60\n" +
                 "    then concat(timestampdiff(MINUTE, P.createdAt, CURRENT_TIMESTAMP()), '분 전')\n" +

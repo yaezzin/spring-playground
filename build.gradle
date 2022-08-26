@@ -25,7 +25,8 @@ repositories {
 dependencies {
     implementation 'org.jetbrains:annotations:19.0.0'
 
-
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    compile('io.springfox:springfox-swagger-ui:3.0.0')
     // Spring Boot Starter
     testImplementation ('org.springframework.boot:spring-boot-starter-test')
 

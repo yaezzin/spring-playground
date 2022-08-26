@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetProdRes {
-    private int prodIdx;
+    private int productIdx;
     private String createdAt;
     private String title;
     private int price;

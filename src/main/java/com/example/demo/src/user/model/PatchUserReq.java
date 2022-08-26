@@ -9,5 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatchUserReq {
     private int userIdx;
-    private String userName;
+    private String nickname;
+    private String profileImage;
 }

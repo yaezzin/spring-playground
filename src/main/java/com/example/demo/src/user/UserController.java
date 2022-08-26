@@ -107,19 +107,18 @@ public class UserController {
         }
     }
 
+    /* 유저 정보 수정 API - 프로필 사진, 닉네임 */
     @ResponseBody
     @PatchMapping("/{userIdx}")
-    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+    public BaseResponse<String> modifyUser(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserReq patchUserReq){
         try {
-            //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
-            //userIdx와 접근한 유저가 같은지 확인
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            //같다면 유저네임 변경
-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
-            userService.modifyUserName(patchUserReq);
+            // 유저 네임 + 프로필 사진 변경 부분
+            patchUserReq = new PatchUserReq(userIdx, patchUserReq.getNickname(), patchUserReq.getProfileImage());
+            userService.modifyUser(patchUserReq);
 
             String result = "";
         return new BaseResponse<>(result);

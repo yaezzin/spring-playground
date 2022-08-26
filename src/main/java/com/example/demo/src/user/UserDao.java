@@ -33,7 +33,7 @@ public class UserDao {
     }
 
     public List<GetUserRes> getUsersByNickname(String nickname){
-        String getUsersByNicknameQuery = "select * from UserInfo where email =?";
+        String getUsersByNicknameQuery = "select * from User where nickname =?";
         String getUsersByNicknameParams = nickname;
         return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(
@@ -47,7 +47,7 @@ public class UserDao {
     }
 
     public GetUserRes getUser(int userIdx){
-        String getUserQuery = "select * from UserInfo where userIdx = ?";
+        String getUserQuery = "select * from User where userIdx = ?";
         int getUserParams = userIdx;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new GetUserRes(

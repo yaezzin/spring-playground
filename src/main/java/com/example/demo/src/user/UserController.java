@@ -53,12 +53,16 @@ public class UserController {
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
         try{
+            int userIdxByJwt = jwtService.getUserIdx();     // 1. dx를 사용하려면 jwt에서 idx를 추출
+            if (userIdx != userIdxByJwt) {                  // 2. userIdx 와 접근 유저가 같은지 확인
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            // 같으면 조회
             GetUserRes getUserRes = userProvider.getUser(userIdx);
             return new BaseResponse<>(getUserRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
-
     }
 
     @ResponseBody

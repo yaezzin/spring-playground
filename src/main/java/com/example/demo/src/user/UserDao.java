@@ -61,21 +61,20 @@ public class UserDao {
     }
 
     public int createUser(PostUserReq postUserReq){
-        String createUserQuery = "insert into UserInfo (userName, ID, password, email) VALUES (?,?,?,?)";
-        Object[] createUserParams = new Object[]{postUserReq.getUserName(), postUserReq.getId(), postUserReq.getPassword(), postUserReq.getEmail()};
+        String createUserQuery = "insert into User (nickname, phoneNumber, password, profileImage) VALUES (?,?,?,?)";
+        Object[] createUserParams = new Object[]{postUserReq.getNickname(), postUserReq.getPhoneNumber(), postUserReq.getPassword(), postUserReq.getProfileImage()};
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
 
-    public int checkEmail(String email){
-        String checkEmailQuery = "select exists(select email from UserInfo where email = ?)";
-        String checkEmailParams = email;
-        return this.jdbcTemplate.queryForObject(checkEmailQuery,
+    public int checkPhoneNumber(String phoneNubmer){
+        String checkPhoneNumberQuery = "select exists(select phoneNumber from User where phoneNumber = ?)";
+        String checkPhoneNumberParams = phoneNubmer;
+        return this.jdbcTemplate.queryForObject(checkPhoneNumberQuery,
                 int.class,
-                checkEmailParams);
-
+                checkPhoneNumberParams);
     }
 
     public int modifyUserName(PatchUserReq patchUserReq){

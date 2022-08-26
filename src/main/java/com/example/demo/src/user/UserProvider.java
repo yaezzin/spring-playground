@@ -50,7 +50,6 @@ public class UserProvider {
         }
     }
 
-
     public GetUserRes getUser(int userIdx) throws BaseException {
         try {
             GetUserRes getUserRes = userDao.getUser(userIdx);
@@ -60,9 +59,9 @@ public class UserProvider {
         }
     }
 
-    public int checkEmail(String email) throws BaseException{
+    public int checkPhoneNumber(String phoneNumber) throws BaseException{
         try{
-            return userDao.checkEmail(email);
+            return userDao.checkPhoneNumber(phoneNumber);
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

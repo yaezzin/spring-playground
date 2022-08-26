@@ -31,13 +31,11 @@ public class UserService {
 
     }
 
-    //POST
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
-        //중복
-        if(userProvider.checkEmail(postUserReq.getEmail()) ==1){
-            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+        // 핸드폰 중복 여부 확인 -> 1 이면 있다는 것
+        if(userProvider.checkPhoneNumber(postUserReq.getPhoneNumber()) == 1){
+            throw new BaseException(POST_USERS_EXISTS_PHONE_NUMBER);
         }
-
         String pwd;
         try{
             //암호화

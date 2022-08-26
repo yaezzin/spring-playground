@@ -13,7 +13,7 @@ import java.util.List;
 
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
+import static com.example.demo.utils.ValidationRegex.*;
 
 @RestController
 @RequestMapping("/app/users")
@@ -49,6 +49,7 @@ public class UserController {
         }
     }
 
+    /* userIdx로 회원 단건 조회 API */
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
@@ -65,16 +66,26 @@ public class UserController {
         }
     }
 
+    /* 회원 가입 API */
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postUserReq.getEmail() == null){
-            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        /* < 예외처리 >
+         * 1. 핸드폰 번호, 닉네임, 패스워드가 null이면 예외
+         * 2. 핸드폰 번호, 패스워드가 형식에 맞지 않으면 예외
+         */
+
+        if (postUserReq.getPhoneNumber() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_PHONE_NUMBER);
         }
-        //이메일 정규표현
-        if(!isRegexEmail(postUserReq.getEmail())){
-            return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+        if (!isRegexPhoneNumber(postUserReq.getPhoneNumber())) {
+            return new BaseResponse<>(POST_USERS_INVALID_PHONE_NUMBER);
+        }
+        if (postUserReq.getNickname() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
+        }
+        if (!isRegexPassword(postUserReq.getPassword())) {
+            return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
         }
         try{
             PostUserRes postUserRes = userService.createUser(postUserReq);

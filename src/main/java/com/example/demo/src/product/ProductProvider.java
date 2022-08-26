@@ -1,6 +1,7 @@
 package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.product.model.GetProdDetailRes;
 import com.example.demo.src.product.model.GetProdRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,16 @@ public class ProductProvider {
         try {
             List<GetProdRes> getProdRes = productDao.getProductsByTitle(title);
             return getProdRes;
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public List<GetProdDetailRes> getProduct(int productIdx) throws BaseException {
+        try {
+            List<GetProdDetailRes> getProdDetailRes = productDao.getProduct(productIdx);
+            return getProdDetailRes;
         } catch(Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

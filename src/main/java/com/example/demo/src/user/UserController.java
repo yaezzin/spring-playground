@@ -119,9 +119,8 @@ public class UserController {
             // 유저 네임 + 프로필 사진 변경 부분
             patchUserReq = new PatchUserReq(userIdx, patchUserReq.getNickname(), patchUserReq.getProfileImage());
             userService.modifyUser(patchUserReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_USER);
 
-            String result = "";
-        return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

@@ -12,6 +12,7 @@ public enum BaseResponseStatus {
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
     SUCCESS_DELETE_USER(true, 1001, "회원 탈퇴에 성공하였습니다."),
+    SUCCESS_MODIFY_USER(true, 1002, "회원 수정에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -58,7 +59,7 @@ public enum BaseResponseStatus {
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
 
     //[PATCH] /users/{userIdx}
-    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
+    MODIFY_FAIL_USER(false,4014,"유저네임 수정 실패"),
     DELETE_FAIL_USER(false, 4015, "유저 탈퇴 실패"),
 
 

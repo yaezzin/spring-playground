@@ -116,7 +116,15 @@ public class ProductController {
     /* 상품 끌올 */
     @ResponseBody
     @PatchMapping("{productIdx}/pull")
-    public BaseResponse<String> updatePulledAt(@PathVariable(productIdx) int productIdx)
+    public BaseResponse<String> updatePulledAt(@PathVariable("productIdx") int productIdx) {
+        try {
+            productService.updatePulledAt(productIdx);
+            return new BaseResponse<>(SUCCESS_PULL_PRODUCT);
+        } catch(BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     /* 상품 게시물 삭제 */
     @ResponseBody
@@ -124,7 +132,7 @@ public class ProductController {
     public BaseResponse<String> deleteProduct(@PathVariable("productIdx") int productIdx) {
         try {
             productService.deleteProduct(productIdx);
-            return new BaseResponse<>(BaseResponseStatus.SUCCESS_DELETE_PRODUCT);
+            return new BaseResponse<>(SUCCESS_DELETE_PRODUCT);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

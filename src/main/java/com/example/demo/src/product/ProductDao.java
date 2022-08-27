@@ -268,4 +268,9 @@ public class ProductDao {
         return deleteProductQuery1 & deleteProductQuery2;
     }
 
+    public int updatePulledAt(int productIdx) {
+        String updatePulledAtQuery = "update Product set pulledAt = CURRENT_TIMESTAMP where productIdx = ?";
+        int updatePulledAtParam = productIdx;
+        return this.jdbcTemplate.update(updatePulledAtQuery, updatePulledAtParam);
+    }
 }

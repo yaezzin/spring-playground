@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class ProductService {
@@ -35,6 +35,19 @@ public class ProductService {
              return result;
          } catch (Exception exception) {
            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public void deleteProduct(int productIdx) throws BaseException {
+        try {
+            int result = productDao.deleteProduct(productIdx);
+            if (result != 0) {
+                throw new BaseException(DELETE_FAIL_PRODUCT);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+
         }
     }
 }

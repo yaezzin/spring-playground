@@ -164,12 +164,7 @@ public class ProductDao {
     }
 
     public PostProdRes createProduct(PostProdReq postProdReq) {
-        //String getRegionIdxQuery = "select regionIdx from Region where userIdx = ? ";
-        //int getSellerIdx = postProdReq.getSellerIdx();
-        //int regionIdx = this.jdbcTemplate.queryForObject(getRegionIdxQuery, int.class, getSellerIdx);
-
         String createProductQuery = "insert into Product(title, description, canProposal, price, sellerIdx, categoryIdx, repImage) values(?,?,?,?,?,?,?)";
-
         Object[] createProductParams = new Object[] {
                 postProdReq.getTitle(),
                 postProdReq.getDescription(),
@@ -192,11 +187,13 @@ public class ProductDao {
             }
         }
         return new PostProdRes("상품 등록을 성공하였습니다.");
-        //String createProductImageQuery = "insert into ProductImage(productImage, productIdx) VALUES (?,?)";
-        //Object[] createProductImageParams = new Object[]{postProdReq.getProductImage(), lastProductIdx};
-        //this.jdbcTemplate.update(createProductImageQuery, createProductImageParams);
-        //String lastInsertImageIdxQuery = "select last_insert_id()";
-        //return this.jdbcTemplate.queryForObject(lastInsertImageIdxQuery, int.class);
+    }
+
+    public int deleteProduct(int productIdx) {
+        int deleteProductParams = productIdx;
+        int deleteProductQuery1 = this.jdbcTemplate.update("delete from ProductImage where productIdx = ?", deleteProductParams);
+        int deleteProductQuery2 = this.jdbcTemplate.update("delete from Product where productIdx = ?", deleteProductParams);
+        return deleteProductQuery1 & deleteProductQuery2;
     }
 
 }

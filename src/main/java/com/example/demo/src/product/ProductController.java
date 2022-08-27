@@ -2,6 +2,7 @@ package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.product.model.GetProdDetailRes;
 import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.src.product.model.PostProdReq;
@@ -67,4 +68,15 @@ public class ProductController {
         }
     }
 
+    /* 상품 게시물 삭제 */
+    @ResponseBody
+    @DeleteMapping("/{productIdx}")
+    public BaseResponse<String> deleteProduct(@PathVariable("productIdx") int productIdx) {
+        try {
+            productService.deleteProduct(productIdx);
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS_DELETE_PRODUCT);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

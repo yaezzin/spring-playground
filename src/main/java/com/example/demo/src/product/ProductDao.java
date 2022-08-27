@@ -199,6 +199,12 @@ public class ProductDao {
         return this.jdbcTemplate.update(modifyProductInfoQuery, modifyProductInfoParams);
     }
 
+    public int updateViewCount(int productIdx) {
+        String updateViewCountQuery = "update Product set viewCount = viewCount + 1 where productIdx = ?";
+        int updateViewCountParams = productIdx;
+        return this.jdbcTemplate.update(updateViewCountQuery, updateViewCountParams);
+    }
+
     public int deleteProduct(int productIdx) {
         int deleteProductParams = productIdx;
         int deleteProductQuery1 = this.jdbcTemplate.update("delete from ProductImage where productIdx = ?", deleteProductParams);

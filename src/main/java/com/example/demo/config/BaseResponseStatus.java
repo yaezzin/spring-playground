@@ -17,6 +17,7 @@ public enum BaseResponseStatus {
 
     SUCCESS_MODIFY_USER(true, 1003, "회원 수정에 성공하였습니다."),
     SUCCESS_MODIFY_PRODUCT(true, 1004, "상품 수정에 성공하였습니다."),
+    SUCCESS_UPDATE_VIEW_COUNT(true, 1005, "조회수 증가에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -64,9 +65,12 @@ public enum BaseResponseStatus {
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USER(false,4014,"유저네임 수정 실패"),
-    MODIFY_FAIL_PRODUCT(false, 4017, "상품 수정 실패"),
     DELETE_FAIL_USER(false, 4015, "유저 탈퇴 실패"),
-    DELETE_FAIL_PRODUCT(false, 4016, "상품 삭제 실패"),
+
+    MODIFY_FAIL_PRODUCT(false, 4016, "상품 수정 실패"),
+    DELETE_FAIL_PRODUCT(false, 40117, "상품 삭제 실패"),
+
+    UPDATE_FAIL_VIEW_COUNT(false, 4018, "상품 게시글의 조회수 증가에 실패하였습니다."),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");

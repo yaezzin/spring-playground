@@ -62,4 +62,16 @@ public class ProductService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional
+    public void updateViewCount(int productIdx) throws BaseException {
+        try {
+            int result = productDao.updateViewCount(productIdx);
+            if (result == 0) {
+                throw new BaseException(UPDATE_FAIL_VIEW_COUNT);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

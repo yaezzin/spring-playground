@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.demo.config.BaseResponseStatus.SUCCESS_UPDATE_VIEW_COUNT;
+
 @RestController
 @RequestMapping("/app/products")
 public class ProductController {
@@ -79,6 +81,19 @@ public class ProductController {
             );
             productService.modifyProductInfo(patchProdReq);
             return new BaseResponse<>(BaseResponseStatus.SUCCESS_MODIFY_PRODUCT);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 조회수 증가 */
+    @ResponseBody
+    @PatchMapping("/{productIdx}/viewCount")
+    public BaseResponse<String> updateViewCount(@PathVariable("productIdx") int productIdx) {
+        try {
+            productService.updateViewCount(productIdx);
+            return new BaseResponse<>(SUCCESS_UPDATE_VIEW_COUNT);
         } catch (BaseException exception) {
             exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));

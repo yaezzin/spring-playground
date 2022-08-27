@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -50,6 +51,18 @@ public class ProductController {
             List<GetProdDetailRes> getProdRes = productProvider.getProduct(productIdx);
             return new BaseResponse<>(getProdRes);
         } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 상품 게시물 조회 by 카테고리 */
+    @ResponseBody
+    @GetMapping("/category")
+    public BaseResponse<List<GetProdRes>> getProductsByCategory(@RequestParam int categoryIdx) {
+        try {
+            List<GetProdRes> getProdResByCategory = productProvider.getProductsByCategory(categoryIdx);
+            return new BaseResponse<>(getProdResByCategory);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -99,6 +112,11 @@ public class ProductController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 상품 끌올 */
+    @ResponseBody
+    @PatchMapping("{productIdx}/pull")
+    public BaseResponse<String> updatePulledAt(@PathVariable(productIdx) int productIdx)
 
     /* 상품 게시물 삭제 */
     @ResponseBody

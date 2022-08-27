@@ -109,6 +109,50 @@ public class ProductDao {
                 getProductsByTitleParams);
     }
 
+    public List<GetProdRes> getProductsByCategory(int categoryIdx) {
+        String getProdsByCategoryQuery =
+                "select productIdx,\n" +
+                "      case when timestampdiff(second , P.updatedAt, current_timestamp) <60\n" +
+                "           then concat(timestampdiff(second, P.updatedAt, current_timestamp),' 초 전')\n" +
+                "           when timestampdiff(minute , P.updatedAt, current_timestamp) <60\n" +
+                "           then concat(timestampdiff(minute, P.updatedAt, current_timestamp),' 분 전')\n" +
+                "           when timestampdiff(hour , P.updatedAt, current_timestamp) <24\n" +
+                "           then concat(timestampdiff(hour, P.updatedAt, current_timestamp),' 시간 전')\n" +
+                "       end as createdAt,\n" +
+                "       title,\n" +
+                "       price,\n" +
+                "       case when timestampdiff(second , P.updatedAt, current_timestamp) <60\n" +
+                "           then concat(timestampdiff(second, P.updatedAt, current_timestamp),' 초 전')\n" +
+                "           when timestampdiff(minute , P.updatedAt, current_timestamp) <60\n" +
+                "           then concat(timestampdiff(minute, P.updatedAt, current_timestamp),' 분 전')\n" +
+                "           when timestampdiff(hour , P.updatedAt, current_timestamp) <24\n" +
+                "           then concat(timestampdiff(hour, P.updatedAt, current_timestamp),' 시간 전')\n" +
+                "       end as pulledAt,\n" +
+                "       repImage,\n" +
+                "       regionGu,\n" +
+                "       regionTown,\n" +
+                "       (select count(*) from Wish W where W.productIdx = P.productIdx) as wishCount\n" +
+                "from Product P\n" +
+                "    left join User U          on P.sellerIdx = U.userIdx \n" +
+                "    left join UserRegion UG   on P.sellerIdx = UG.userIdx \n" +
+                "    left join Region R        on R.regionIdx = UG.regionIdx\n" +
+                "Where U.status = 'Y' and P.status = 'Y' and categoryIdx = ?";
+
+        int getProductsByCategoryParams = categoryIdx;
+        return this.jdbcTemplate.query(getProdsByCategoryQuery,
+                (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
+                        rs.getString("createdAt"),
+                        rs.getString("title"),
+                        rs.getInt("price"),
+                        rs.getString("pulledAt"),
+                        rs.getString("repImage"),
+                        rs.getString("regionGu"),
+                        rs.getString("regionTown"),
+                        rs.getInt("wishCount")),
+                getProductsByCategoryParams);
+    }
+
     public List<GetProdDetailRes> getProduct(int productIdx) { //왜 여기서 리스트를 반환해야할까??
         String getProdsDetailQuery =
                 "select productIdx,\n" +

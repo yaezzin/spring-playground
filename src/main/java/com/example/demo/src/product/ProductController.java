@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.demo.config.BaseResponseStatus.SUCCESS_CREATE_WISH;
 import static com.example.demo.config.BaseResponseStatus.SUCCESS_UPDATE_VIEW_COUNT;
 
 @RestController
@@ -61,6 +62,19 @@ public class ProductController {
         try {
             PostProdRes postProductRes = productService.createProduct(postProdReq);
             return new BaseResponse<>(postProductRes);
+        } catch(BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 상품 찜 설정 */
+    @ResponseBody
+    @PostMapping("/wish")
+    public BaseResponse<String> createWish(@RequestBody PostWishReq postWishReq) {
+        try {
+            productService.createWish(postWishReq);
+            return new BaseResponse<>(SUCCESS_CREATE_WISH);
         } catch(BaseException exception) {
             exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));

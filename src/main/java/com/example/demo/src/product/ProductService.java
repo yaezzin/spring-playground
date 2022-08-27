@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.product.model.PatchProdReq;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
+import com.example.demo.src.product.model.PostWishReq;
 import com.example.demo.src.user.UserDao;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.utils.JwtService;
@@ -39,17 +40,14 @@ public class ProductService {
         }
     }
 
-    @Transactional
-    public void deleteProduct(int productIdx) throws BaseException {
+   @Transactional
+   public void createWish(PostWishReq postWishReq) throws BaseException {
         try {
-            int result = productDao.deleteProduct(productIdx);
-            if (result == 0) {
-                throw new BaseException(DELETE_FAIL_PRODUCT);
-            }
+            productDao.createWish(postWishReq);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
-    }
+   }
 
     @Transactional
     public void modifyProductInfo(PatchProdReq patchProdReq) throws BaseException {
@@ -69,6 +67,18 @@ public class ProductService {
             int result = productDao.updateViewCount(productIdx);
             if (result == 0) {
                 throw new BaseException(UPDATE_FAIL_VIEW_COUNT);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public void deleteProduct(int productIdx) throws BaseException {
+        try {
+            int result = productDao.deleteProduct(productIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_PRODUCT);
             }
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

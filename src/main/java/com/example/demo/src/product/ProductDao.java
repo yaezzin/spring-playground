@@ -186,6 +186,12 @@ public class ProductDao {
         return new PostProdRes("상품 등록을 성공하였습니다.");
     }
 
+    public int createWish(PostWishReq postWishReq) {
+        String createWishQuery = "insert into Wish(productIdx, userIdx) values(?,?)";
+        Object[] createWishParams = new Object[] {postWishReq.getProductIdx(), postWishReq.getUserIdx()};
+        return this.jdbcTemplate.update(createWishQuery, createWishParams);
+    }
+
     public int modifyProductInfo(PatchProdReq patchProdReq) {
         String modifyProductInfoQuery = "update Product set title =?, description =?, price =?, canProposal=?, categoryIdx =? where productIdx = ? ";
         Object[] modifyProductInfoParams = new Object[]{

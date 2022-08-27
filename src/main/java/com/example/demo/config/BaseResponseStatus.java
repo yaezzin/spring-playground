@@ -18,7 +18,7 @@ public enum BaseResponseStatus {
     SUCCESS_MODIFY_USER(true, 1003, "회원 수정에 성공하였습니다."),
     SUCCESS_MODIFY_PRODUCT(true, 1004, "상품 수정에 성공하였습니다."),
     SUCCESS_UPDATE_VIEW_COUNT(true, 1005, "조회수 증가에 성공하였습니다."),
-
+    SUCCESS_CREATE_WISH(true, 1006, "상품 게시물 좋아요에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */

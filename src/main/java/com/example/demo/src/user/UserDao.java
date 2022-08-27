@@ -20,7 +20,7 @@ public class UserDao {
     }
 
     public List<GetUserRes> getUsers(){
-        String getUsersQuery = "select * from User";
+        String getUsersQuery = "select userIdx, status, createdAt, nickname, phoneNumber, profileImage from User";
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs,rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
@@ -33,7 +33,7 @@ public class UserDao {
     }
 
     public List<GetUserRes> getUsersByNickname(String nickname){
-        String getUsersByNicknameQuery = "select * from User where nickname = ?";
+        String getUsersByNicknameQuery = "select userIdx, status, createdAt, nickname, phoneNumber, profileImage from User where nickname =?";
         String getUsersByNicknameParams = nickname;
         return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(
@@ -65,13 +65,13 @@ public class UserDao {
         Object[] createUserParams = new Object[]{postUserReq.getNickname(), postUserReq.getPhoneNumber(), postUserReq.getPassword(), postUserReq.getProfileImage()};
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
-        String lastInserIdQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
-    public int checkPhoneNumber(String phoneNubmer){
+    public int checkPhoneNumber(String phoneNumber){
         String checkPhoneNumberQuery = "select exists(select phoneNumber from User where phoneNumber = ?)";
-        String checkPhoneNumberParams = phoneNubmer;
+        String checkPhoneNumberParams = phoneNumber;
         return this.jdbcTemplate.queryForObject(checkPhoneNumberQuery,
                 int.class,
                 checkPhoneNumberParams);

@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     private final JwtService jwtService;
 
-    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
+    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService) {
         this.userProvider = userProvider;
         this.userService = userService;
         this.jwtService = jwtService;
@@ -37,14 +37,15 @@ public class UserController {
     @ResponseBody
     @GetMapping("")
     public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String nickname) {
-        try{
-            if(nickname == null){
+        try {
+            if (nickname == null) {
                 List<GetUserRes> getUsersRes = userProvider.getUsers();
                 return new BaseResponse<>(getUsersRes);
             }
             List<GetUserRes> getUsersRes = userProvider.getUsersByNickname(nickname);
             return new BaseResponse<>(getUsersRes);
-        } catch(BaseException exception){
+        } catch (BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -53,7 +54,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
-        try{
+        try {
             int userIdxByJwt = jwtService.getUserIdx();     // 1. dx를 사용하려면 jwt에서 idx를 추출
             if (userIdx != userIdxByJwt) {                  // 2. userIdx 와 접근 유저가 같은지 확인
                 return new BaseResponse<>(INVALID_USER_JWT);
@@ -61,7 +62,8 @@ public class UserController {
             // 같으면 조회
             GetUserRes getUserRes = userProvider.getUser(userIdx);
             return new BaseResponse<>(getUserRes);
-        } catch(BaseException exception){
+        } catch (BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -87,10 +89,11 @@ public class UserController {
         if (!isRegexPassword(postUserReq.getPassword())) {
             return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
         }
-        try{
+        try {
             PostUserRes postUserRes = userService.createUser(postUserReq);
             return new BaseResponse<>(postUserRes);
-        } catch(BaseException exception){
+        } catch (BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -98,11 +101,12 @@ public class UserController {
     /* 로그인 API */
     @ResponseBody
     @PostMapping("/login")
-    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
-        try{
+    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq) {
+        try {
             PostLoginRes postLoginRes = userProvider.login(postLoginReq);
             return new BaseResponse<>(postLoginRes);
-        } catch (BaseException exception){
+        } catch (BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>(exception.getStatus());
         }
     }
@@ -113,7 +117,7 @@ public class UserController {
     public BaseResponse<String> modifyUser(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserReq patchUserReq) {
         try {
             int userIdxByJwt = jwtService.getUserIdx();
-            if(userIdx != userIdxByJwt){
+            if (userIdx != userIdxByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             // 유저 네임 + 프로필 사진 변경 부분
@@ -122,6 +126,7 @@ public class UserController {
             return new BaseResponse<>(SUCCESS_MODIFY_USER);
 
         } catch (BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -135,7 +140,7 @@ public class UserController {
         }
         try {
             int userIdxByJwt = jwtService.getUserIdx();
-            if(userIdx != userIdxByJwt){
+            if (userIdx != userIdxByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             // 유저 네임 + 프로필 사진 변경 부분
@@ -144,6 +149,7 @@ public class UserController {
 
             return new BaseResponse<>(SUCCESS_DELETE_USER);
         } catch (BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }

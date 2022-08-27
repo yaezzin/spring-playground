@@ -18,6 +18,7 @@ public enum BaseResponseStatus {
 
     SUCCESS_MODIFY_USER(true, 1003, "회원 수정에 성공하였습니다."),
     SUCCESS_MODIFY_PRODUCT(true, 1004, "상품 수정에 성공하였습니다."),
+    SUCCESS_MODIFY_STATUS(true, 1009, "상품 상태 수정에 성공하였습니다."),
     SUCCESS_UPDATE_VIEW_COUNT(true, 1005, "조회수 증가에 성공하였습니다."),
     SUCCESS_CREATE_WISH(true, 1006, "상품 게시물 좋아요에 성공하였습니다."),
     SUCCESS_DELETE_WISH(true, 1007, "상품 게시물 좋아요 해제에 성공하였습니다."),
@@ -77,6 +78,7 @@ public enum BaseResponseStatus {
 
     UPDATE_FAIL_VIEW_COUNT(false, 4018, "상품 게시글의 조회수 증가에 실패하였습니다."),
     UPDATE_FAIL_PULL(false, 4019, "상품 끌올에 실패하였습니다."),
+    UPDATE_FAIL_STATUS(false, 4020, "상품 상태 업데이트에 실패하였습니다."),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");

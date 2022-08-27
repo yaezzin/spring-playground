@@ -163,4 +163,17 @@ public class ProductController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 상품 상태 업데이트 -> N : 거래 완료 */
+    @ResponseBody
+    @PatchMapping("/{productIdx}/status")
+    public BaseResponse<String> updateStatus(@PathVariable("productIdx") int productIdx, @RequestBody PatchStatusReq patchStatusReq) {
+        try {
+            productService.updateStatus(patchStatusReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_STATUS);
+        } catch(BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

@@ -273,4 +273,13 @@ public class ProductDao {
         int updatePulledAtParam = productIdx;
         return this.jdbcTemplate.update(updatePulledAtQuery, updatePulledAtParam);
     }
+
+    public int updateStatus(PatchStatusReq patchStatusReq) {
+        String updateStatusQuery = "update Product set status = ? where productIdx = ?";
+        Object[] updateStatusParams = new Object[] {
+                patchStatusReq.getStatus(),
+                patchStatusReq.getProductIdx()
+        };
+        return this.jdbcTemplate.update(updateStatusQuery, updateStatusParams);
+    }
 }

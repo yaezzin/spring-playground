@@ -68,6 +68,18 @@ public class ProductService {
     }
 
     @Transactional
+    public void updateStatus(PatchStatusReq patchStatusReq) throws BaseException {
+        try {
+            int result = productDao.updateStatus(patchStatusReq);
+            if (result == 0) {
+                throw new BaseException(UPDATE_FAIL_STATUS);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
     public void updateViewCount(int productIdx) throws BaseException {
         try {
             int result = productDao.updateViewCount(productIdx);

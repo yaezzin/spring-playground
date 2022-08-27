@@ -1,6 +1,7 @@
 package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.product.model.PatchProdReq;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
 import com.example.demo.src.user.UserDao;
@@ -42,12 +43,23 @@ public class ProductService {
     public void deleteProduct(int productIdx) throws BaseException {
         try {
             int result = productDao.deleteProduct(productIdx);
-            if (result != 0) {
+            if (result == 0) {
                 throw new BaseException(DELETE_FAIL_PRODUCT);
             }
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
+    @Transactional
+    public void modifyProductInfo(PatchProdReq patchProdReq) throws BaseException {
+        try {
+            int result = productDao.modifyProductInfo(patchProdReq);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_PRODUCT);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 }

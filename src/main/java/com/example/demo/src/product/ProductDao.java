@@ -1,9 +1,6 @@
 package com.example.demo.src.product;
 
-import com.example.demo.src.product.model.GetProdDetailRes;
-import com.example.demo.src.product.model.GetProdRes;
-import com.example.demo.src.product.model.PostProdReq;
-import com.example.demo.src.product.model.PostProdRes;
+import com.example.demo.src.product.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -187,6 +184,19 @@ public class ProductDao {
             }
         }
         return new PostProdRes("상품 등록을 성공하였습니다.");
+    }
+
+    public int modifyProductInfo(PatchProdReq patchProdReq) {
+        String modifyProductInfoQuery = "update Product set title =?, description =?, price =?, canProposal=?, categoryIdx =? where productIdx = ? ";
+        Object[] modifyProductInfoParams = new Object[]{
+                patchProdReq.getTitle(),
+                patchProdReq.getDescription(),
+                patchProdReq.getPrice(),
+                patchProdReq.getCanProposal(),
+                patchProdReq.getCategoryIdx(),
+                patchProdReq.getProductIdx()
+        };
+        return this.jdbcTemplate.update(modifyProductInfoQuery, modifyProductInfoParams);
     }
 
     public int deleteProduct(int productIdx) {

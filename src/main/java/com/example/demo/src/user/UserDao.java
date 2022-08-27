@@ -86,7 +86,7 @@ public class UserDao {
 
     public int deleteUser(DeleteUserReq deleteUserReq) {
         String deleteUserNameQuery = "update User set status = 'Deleted', deleteReason = ? where userIdx = ?";
-        Object deleteUserNameParams = new Object[]{deleteUserReq.getDeleteReason(), deleteUserReq.getUserIdx()};
+        Object[] deleteUserNameParams = new Object[]{deleteUserReq.getDeleteReason(), deleteUserReq.getUserIdx()};
         return this.jdbcTemplate.update(deleteUserNameQuery, deleteUserNameParams);
     }
 
@@ -104,5 +104,14 @@ public class UserDao {
                 ),
                 getPwdParams
                 );
+    }
+
+    public int createUserBadge(PostBadgeReq postBadgeReq) {
+        String createUserBadgeQuery = "insert into Badge(badgeCategoryIdx, userIdx) values(?,?)";
+        Object[] createUserBadgeParam = new Object[]{postBadgeReq.getCategoryIdx(), postBadgeReq.getUserIdx()};
+        this.jdbcTemplate.update(createUserBadgeQuery, createUserBadgeParam);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 }

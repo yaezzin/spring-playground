@@ -76,4 +76,15 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void createUserBadge(PostBadgeReq postBadgeReq) throws BaseException{
+        try {
+            int result = userDao.createUserBadge(postBadgeReq);
+            if (result == 0) {
+                throw new BaseException(CREATE_FAIL_BADGE);
+            }
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

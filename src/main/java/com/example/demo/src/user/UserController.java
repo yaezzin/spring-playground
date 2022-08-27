@@ -153,4 +153,22 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    @ResponseBody
+    @PostMapping("/{userIdx}/badges")
+    public BaseResponse<String> createUserBadge(@PathVariable("userIdx") int userIdx, @RequestBody PostBadgeReq postBadgeReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.createUserBadge(postBadgeReq);
+            return new BaseResponse<>(SUCCESS_CREATE_BADGE);
+
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

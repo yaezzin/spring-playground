@@ -33,7 +33,7 @@ public class UserDao {
     }
 
     public List<GetUserRes> getUsersByNickname(String nickname){
-        String getUsersByNicknameQuery = "select * from User where nickname =?";
+        String getUsersByNicknameQuery = "select * from User where nickname = ?";
         String getUsersByNicknameParams = nickname;
         return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(

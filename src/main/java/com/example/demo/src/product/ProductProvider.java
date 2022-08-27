@@ -48,12 +48,8 @@ public class ProductProvider {
 
     @Transactional
     public List<GetProdDetailRes> getProduct(int productIdx) throws BaseException {
-        try {
-            List<GetProdDetailRes> getProdDetailRes = productDao.getProduct(productIdx);
-            return getProdDetailRes;
-        } catch(Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+        List<GetProdDetailRes> getProdDetailRes = productDao.getProduct(productIdx);
+        return getProdDetailRes;
     }
 
 }

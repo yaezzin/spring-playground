@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetProdDetailRes {
-
     private int productIdx;
     private String createdAt;
     private String title;
@@ -18,11 +17,11 @@ public class GetProdDetailRes {
     private int wishCount;
     private int viewCount;
     private String canProposal; // 제안 가능여부
-    private int userIdx;
+    private int sellerIdx;
     private String profileImage;
     private String nickname;
-    private String regionNameGu;
-    private String regionNameTown;
+    private String regionGu;
+    private String regionTown;
     private int mannerTemp;
 
 }

@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PostProdRes {
-    private int productIdx;
+    private String result;
+    //private int productIdx;
 }

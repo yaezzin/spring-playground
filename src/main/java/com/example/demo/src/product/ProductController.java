@@ -29,17 +29,17 @@ public class ProductController {
     /* 전체 상품 조회 - 홈화면 */
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetProdRes>> getProducts(@RequestParam String title) {
+    public BaseResponse<List<GetProdRes>> getProducts(@RequestParam(required = false) String title) throws BaseException {
         try {
             if (title == null) {
                 List<GetProdRes> getProdRes = productProvider.getProducts();
                 return new BaseResponse<>(getProdRes);
-            }
-            List<GetProdRes> getProdRes = productProvider.getProductsByTitle(title);
-            return new BaseResponse<>(getProdRes);
+           }
+           List<GetProdRes> getProdRes = productProvider.getProductsByTitle(title);
+           return new BaseResponse<>(getProdRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
-        }
+       }
     }
 
     /* 상품 상세 조회 */
@@ -62,6 +62,7 @@ public class ProductController {
             PostProdRes postProductRes = productService.createProduct(postProdReq);
             return new BaseResponse<>(postProductRes);
         } catch(BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }

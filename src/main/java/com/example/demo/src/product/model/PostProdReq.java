@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,8 +15,9 @@ public class PostProdReq {
     private String title;
     private String description;
     private String canProposal;
-    private String productImage;
     private int price;
     private int categoryIdx;
-    private int sellerIdx; // userIdx
+    private int sellerIdx;
+    private String repImage;
+    private List<String> productImage;
 }

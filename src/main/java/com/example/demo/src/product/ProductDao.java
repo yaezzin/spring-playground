@@ -192,6 +192,12 @@ public class ProductDao {
         return this.jdbcTemplate.update(createWishQuery, createWishParams);
     }
 
+    public int deleteWish(PostWishReq postWishReq) {
+        String deleteWishQuery = "delete from Wish where productIdx =? and userIdx =?";
+        Object[] deleteWishParams = new Object[] {postWishReq.getProductIdx(), postWishReq.getUserIdx()};
+        return this.jdbcTemplate.update(deleteWishQuery, deleteWishParams);
+    }
+
     public int modifyProductInfo(PatchProdReq patchProdReq) {
         String modifyProductInfoQuery = "update Product set title =?, description =?, price =?, canProposal=?, categoryIdx =? where productIdx = ? ";
         Object[] modifyProductInfoParams = new Object[]{

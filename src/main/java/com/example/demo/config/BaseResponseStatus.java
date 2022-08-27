@@ -7,6 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public enum BaseResponseStatus {
+
     /**
      * 1000 : 요청 성공
      */
@@ -19,6 +20,9 @@ public enum BaseResponseStatus {
     SUCCESS_MODIFY_PRODUCT(true, 1004, "상품 수정에 성공하였습니다."),
     SUCCESS_UPDATE_VIEW_COUNT(true, 1005, "조회수 증가에 성공하였습니다."),
     SUCCESS_CREATE_WISH(true, 1006, "상품 게시물 좋아요에 성공하였습니다."),
+    SUCCESS_DELETE_WISH(true, 1007, "상품 게시물 좋아요 해제에 성공하였습니다."),
+
+
     /**
      * 2000 : Request 오류
      */

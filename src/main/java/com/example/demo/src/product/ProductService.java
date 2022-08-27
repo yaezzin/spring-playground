@@ -49,6 +49,15 @@ public class ProductService {
         }
    }
 
+   @Transactional
+   public void deleteWish(PostWishReq postWishReq) throws BaseException {
+        try {
+            productDao.deleteWish(postWishReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+   }
+
     @Transactional
     public void modifyProductInfo(PatchProdReq patchProdReq) throws BaseException {
         try {

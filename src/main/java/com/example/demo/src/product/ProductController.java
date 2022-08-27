@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_CREATE_WISH;
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_UPDATE_VIEW_COUNT;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/app/products")
@@ -68,19 +67,6 @@ public class ProductController {
         }
     }
 
-    /* 상품 찜 설정 */
-    @ResponseBody
-    @PostMapping("/wish")
-    public BaseResponse<String> createWish(@RequestBody PostWishReq postWishReq) {
-        try {
-            productService.createWish(postWishReq);
-            return new BaseResponse<>(SUCCESS_CREATE_WISH);
-        } catch(BaseException exception) {
-            exception.printStackTrace();
-            return new BaseResponse<>((exception.getStatus()));
-        }
-    }
-
     /* 상품 게시물 수정 */
     @ResponseBody
     @PatchMapping("/{productIdx}")
@@ -122,6 +108,32 @@ public class ProductController {
             productService.deleteProduct(productIdx);
             return new BaseResponse<>(BaseResponseStatus.SUCCESS_DELETE_PRODUCT);
         } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 상품 찜 설정 */
+    @ResponseBody
+    @PostMapping("/wish")
+    public BaseResponse<String> createWish(@RequestBody PostWishReq postWishReq) {
+        try {
+            productService.createWish(postWishReq);
+            return new BaseResponse<>(SUCCESS_CREATE_WISH);
+        } catch(BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 상품 찜 해제 */
+    @ResponseBody
+    @DeleteMapping("/wish")
+    public BaseResponse<String> deleteWish(@RequestBody PostWishReq postWishReq) {
+        try {
+            productService.deleteWish(postWishReq);
+            return new BaseResponse<>(SUCCESS_DELETE_WISH);
+        }  catch(BaseException exception) {
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }

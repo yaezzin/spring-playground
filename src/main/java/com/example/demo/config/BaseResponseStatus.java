@@ -11,6 +11,7 @@ public enum BaseResponseStatus {
     /**
      * 1000 : 요청 성공
      */
+
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
 
     SUCCESS_DELETE_USER(true, 1001, "회원 탈퇴에 성공하였습니다."),
@@ -24,10 +25,12 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_WISH(true, 1007, "상품 게시물 좋아요 해제에 성공하였습니다."),
     SUCCESS_PULL_PRODUCT(true, 1008, "상품 끌올에 성공하였습니다."),
     SUCCESS_CREATE_BADGE(true, 1009, "유저 활동 배지 생성에 성공하였습니다."),
+    SUCCESS_CREATE_CHAT(true, 1010, "채팅 생성에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
      */
+
     // Common
     REQUEST_ERROR(false, 2000, "입력값을 확인해주세요."),
     EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),

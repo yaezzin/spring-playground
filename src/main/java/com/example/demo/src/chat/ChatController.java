@@ -3,6 +3,7 @@ package com.example.demo.src.chat;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.chat.model.GetChatDetailRes;
+import com.example.demo.src.chat.model.GetChatRes;
 import com.example.demo.src.chat.model.PostChatReq;
 import com.example.demo.src.product.ProductProvider;
 import com.example.demo.src.product.ProductService;
@@ -55,8 +56,8 @@ public class ChatController {
     @GetMapping("/{chatRoomIdx}")
     public BaseResponse<List<GetChatDetailRes>> getChatRoom(@PathVariable("chatRoomIdx") int chatRoomIdx) throws BaseException {
         try {
-            List<GetChatDetailRes> getChatDetailResList = chatProvider.getChatRoom(chatRoomIdx);
-            return new BaseResponse<>(getChatDetailResList);
+            List<GetChatDetailRes> getChatDetailRes = chatProvider.getChatRoom(chatRoomIdx);
+            return new BaseResponse<>(getChatDetailRes);
 
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -64,5 +65,15 @@ public class ChatController {
     }
 
     /* 채팅방 전체 조회 */
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetChatRes>> getChatRooms() {
+        try {
+            List<GetChatRes> getChatResList = chatProvider.getChatRooms();
+            return new BaseResponse<>(getChatResList);
 
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.src.chat;
 
 import com.example.demo.src.chat.model.GetChatDetailRes;
+import com.example.demo.src.chat.model.GetChatRes;
 import com.example.demo.src.chat.model.PostChatReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -61,5 +62,35 @@ public class ChatDao {
                         rs.getString("canProposal"),
                         rs.getString("message")),
                 getChatRoomParam);
+    }
+
+    public List<GetChatRes> getChatRooms() {
+        String getChatRoomsQuery =
+                "select  CR.chatRoomIdx, \n" +
+                "        U.nickname,     \n" +
+                "        R.regionTown,   \n" +
+                "        U.profileImage, \n" +
+                "        CM.message, CM.createdAt,\n" +
+                "        P.productIdx, PI.productImage\n" +
+                "from ChatRoom CR\n" +
+                "    join Product P       on P.productIdx = CR.productIdx\n" +
+                "    join ProductImage PI on PI.productIdx = CR.productIdx\n" +
+                "    join ChatMessage CM  on CM.chatRoomIdx = CR.chatRoomIdx\n" +
+                "    join UserRegion UG   on P.sellerIdx = UG.userIdx\n" +
+                "    join Region R        on R.regionIdx = UG.regionIdx\n" +
+                "    join User U          on U.userIdx = CR.receiverIdx";
+
+        return this.jdbcTemplate.query(getChatRoomsQuery,
+                (rs, rowNum) -> new GetChatRes(
+                        rs.getInt("chatRoomIdx"),
+                        rs.getString("nickname"),
+                        rs.getString("profileImage"),
+                        rs.getString("message"),
+                        rs.getString("createdAt"),
+                        rs.getInt("productIdx"),
+                        rs.getString("productImage"),
+                        rs.getString("regionTown")
+                )
+        );
     }
 }

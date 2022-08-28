@@ -114,4 +114,19 @@ public class UserDao {
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
+
+    public List<GetBadgeRes> getUserBadges(int userIdx) {
+        String getBadgeQuery =
+                "select B.userIdx, BC.badgeName\n" +
+                "from Badge B\n" +
+                "    join BadgeCategory BC on B.badgeCategoryIdx = BC.badgeCategoryIdx\n" +
+                "where userIdx = ?";
+
+        int getBadgeParam = userIdx;
+        return this.jdbcTemplate.query(getBadgeQuery,
+                (rs, rowNum) -> new GetBadgeRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("badgeName")),
+                getBadgeParam);
+    }
 }

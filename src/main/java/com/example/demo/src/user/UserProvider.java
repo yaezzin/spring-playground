@@ -84,7 +84,15 @@ public class UserProvider {
         else{
             throw new BaseException(FAILED_TO_LOGIN);
         }
+    }
 
+    public List<GetBadgeRes> getUserBadges(int userIdx) throws BaseException {
+        try {
+            List<GetBadgeRes> getBadgeRes = userDao.getUserBadges(userIdx);
+            return getBadgeRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
 }

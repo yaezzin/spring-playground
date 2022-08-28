@@ -171,4 +171,21 @@ public class UserController {
         }
     }
 
+    @ResponseBody
+    @GetMapping("/{userIdx}/badges")
+    public BaseResponse<List<GetBadgeRes>> getUserBadges(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetBadgeRes> getBadgeRes = userProvider.getUserBadges(userIdx);
+            return new BaseResponse<>(getBadgeRes);
+
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

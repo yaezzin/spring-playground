@@ -2,10 +2,7 @@ package com.example.demo.src.board;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.board.model.GetBoardDetailRes;
-import com.example.demo.src.board.model.GetBoardRes;
-import com.example.demo.src.board.model.PostBoardReq;
-import com.example.demo.src.board.model.PostBoardRes;
+import com.example.demo.src.board.model.*;
 import com.example.demo.utils.JwtService;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -14,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.demo.config.BaseResponseStatus.SUCCESS_MODIFY_BOARD;
 
 @RestController
 @RequestMapping("/app/boards")
@@ -69,6 +68,23 @@ public class BoardController {
             List<GetBoardDetailRes> getBoardDetailRes = boardProvider.getBoard(boardIdx);
             return new BaseResponse<>(getBoardDetailRes);
         } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 동네 생활 게시글 수정 */
+    @ResponseBody
+    @PatchMapping("/{boardIdx}")
+    public BaseResponse<String> modifyBoard(@PathVariable("boardIdx") int boardIdx, @RequestBody PatchBoardReq patchBoardReq) {
+        try {
+            patchBoardReq = new PatchBoardReq(
+                    patchBoardReq.getCategoryIdx(),
+                    patchBoardReq.getContent(),
+                    boardIdx
+            );
+            boardService.modifyBoard(patchBoardReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_BOARD);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

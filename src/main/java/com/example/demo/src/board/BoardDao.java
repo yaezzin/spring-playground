@@ -1,9 +1,6 @@
 package com.example.demo.src.board;
 
-import com.example.demo.src.board.model.GetBoardDetailRes;
-import com.example.demo.src.board.model.GetBoardRes;
-import com.example.demo.src.board.model.PostBoardReq;
-import com.example.demo.src.board.model.PostBoardRes;
+import com.example.demo.src.board.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -106,5 +103,15 @@ public class BoardDao {
                         rs.getString("categoryName")
             ), getBoardDetailParam
         );
+    }
+
+    public int modifyBoard(PatchBoardReq patchBoardReq) {
+        String patchBoardQuery = "update Board set categoryIdx = ?, content = ? where boardIdx = ?";
+        Object[] patchBoardParams = new Object[]{
+                patchBoardReq.getCategoryIdx(),
+                patchBoardReq.getContent(),
+                patchBoardReq.getBoardIdx()
+        };
+        return this.jdbcTemplate.update(patchBoardQuery, patchBoardParams);
     }
 }

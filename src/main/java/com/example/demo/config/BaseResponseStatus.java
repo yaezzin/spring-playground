@@ -26,6 +26,8 @@ public enum BaseResponseStatus {
     SUCCESS_PULL_PRODUCT(true, 1008, "상품 끌올에 성공하였습니다."),
     SUCCESS_CREATE_BADGE(true, 1009, "유저 활동 배지 생성에 성공하였습니다."),
     SUCCESS_CREATE_CHAT(true, 1010, "채팅 생성에 성공하였습니다."),
+    SUCCESS_MODIFY_BOARD(true, 1011, "동네 생활 게시글 수정에 성공하였습니다."),
+
 
     /**
      * 2000 : Request 오류
@@ -78,10 +80,11 @@ public enum BaseResponseStatus {
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USER(false,4014,"유저네임 수정 실패"),
     MODIFY_FAIL_PRODUCT(false, 4016, "상품 수정 실패"),
+    MODIFY_FAIL_BOARD(false, 4023, "동네 생활 게시글 수정 실패"),
 
     //[DELETE]
     DELETE_FAIL_USER(false, 4015, "유저 탈퇴 실패"),
-    DELETE_FAIL_PRODUCT(false, 40117, "상품 삭제 실패"),
+    DELETE_FAIL_PRODUCT(false, 4017, "상품 삭제 실패"),
 
     //[UPDATE]
     UPDATE_FAIL_VIEW_COUNT(false, 4018, "상품 게시글의 조회수 증가에 실패하였습니다."),

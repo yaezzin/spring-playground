@@ -1,5 +1,6 @@
 package com.example.demo.src.mypage;
 
+import com.example.demo.src.mypage.model.GetMyProdRes;
 import com.example.demo.src.mypage.model.GetWishRes;
 import com.example.demo.src.user.model.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,35 @@ public class MyPageDao {
         return this.jdbcTemplate.query(getUserWishQuery,
                 (rs,rowNum) -> new GetWishRes(
                         rs.getString("title"),
-                        rs.getString("price"),
+                        rs.getInt("price"),
                         rs.getString("repImage"),
                         rs.getString("regionTown"),
                         rs.getString("wishCount")
                 ), getUserWishParam
+        );
+    }
+
+    public List<GetMyProdRes> getUserProducts(int userIdx) {
+        String getUserProductsQuery =
+                "select P.productIdx, P.title, P.price, P.repImage, P.createdAt, R.regionTown, \n" +
+                "    (select count(*) from ChatRoom C where C.productIdx = P.productIdx) as chatCount\n" +
+                "from Product P\n" +
+                "    left join User U           on U.userIdx = P.sellerIdx\n" +
+                "    left join UserRegion UG    on P.sellerIdx = UG.userIdx\n" +
+                "    left join Region R         on R.regionIdx = UG.regionIdx\n" +
+                "where U.userIdx = ?";
+        int getUserProductsParam = userIdx;
+
+        return this.jdbcTemplate.query(getUserProductsQuery,
+                (rs,rowNum) -> new GetMyProdRes(
+                        rs.getInt("productIdx"),
+                        rs.getString("title"),
+                        rs.getInt("price"),
+                        rs.getString("repImage"),
+                        rs.getString("createdAt"),
+                        rs.getString("regionTown"),
+                        rs.getInt("chatCount")
+                ), getUserProductsParam
         );
     }
 }

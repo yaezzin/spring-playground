@@ -7,10 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetWishRes {
+public class GetMyProdRes {
+    private int productIdx;
     private String title;
     private int price;
+    private String createdAt;
     private String repImage;
     private String regionTown;
-    private String wishCount;
+    private int chatCount;
 }

@@ -2,16 +2,14 @@ package com.example.demo.src.mypage;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.mypage.model.GetMyProdRes;
 import com.example.demo.src.mypage.model.GetWishRes;
 import com.example.demo.src.user.model.GetBadgeRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,4 +49,20 @@ public class MyPageController {
         }
     }
 
+    /* 마이페이지 - 유저가 작성한 상품 게시물 조회 */
+    @ResponseBody
+    @GetMapping("/{userIdx}/products")
+    public BaseResponse<List<GetMyProdRes>> getUserProducts(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetMyProdRes> getMyProdRes = myPageProvider.getUserProducts(userIdx);
+            return new BaseResponse<>(getMyProdRes);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

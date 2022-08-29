@@ -1,6 +1,7 @@
 package com.example.demo.src.mypage;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.mypage.model.GetMyProdRes;
 import com.example.demo.src.mypage.model.GetWishRes;
 import com.example.demo.src.user.UserDao;
 import com.example.demo.src.user.model.GetBadgeRes;
@@ -32,6 +33,15 @@ public class MyPageProvider {
         try {
             List<GetWishRes> getWishRes = myPageDao.getUserWish(userIdx);
             return getWishRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetMyProdRes> getUserProducts(int userIdx) throws BaseException {
+        try {
+            List<GetMyProdRes> getMyProdRes = myPageDao.getUserProducts(userIdx);
+            return getMyProdRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

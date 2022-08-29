@@ -154,6 +154,7 @@ public class UserController {
         }
     }
 
+    /* 유저 활동 배지 생성*/
     @ResponseBody
     @PostMapping("/{userIdx}/badges")
     public BaseResponse<String> createUserBadge(@PathVariable("userIdx") int userIdx, @RequestBody PostBadgeReq postBadgeReq) {
@@ -171,6 +172,7 @@ public class UserController {
         }
     }
 
+    /* 유저 활동 배지 조회*/
     @ResponseBody
     @GetMapping("/{userIdx}/badges")
     public BaseResponse<List<GetBadgeRes>> getUserBadges(@PathVariable("userIdx") int userIdx) {
@@ -187,5 +189,4 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
 }

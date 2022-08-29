@@ -2,6 +2,7 @@ package com.example.demo.src.board;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.board.model.GetBoardDetailRes;
 import com.example.demo.src.board.model.GetBoardRes;
 import com.example.demo.src.board.model.PostBoardReq;
 import com.example.demo.src.board.model.PostBoardRes;
@@ -56,6 +57,18 @@ public class BoardController {
             return new BaseResponse<>(getBoardResList);
 
         } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 동네 생활 게시글 세부 조회 */
+    @ResponseBody
+    @GetMapping("/{boardIdx}")
+    public BaseResponse<List<GetBoardDetailRes>> getBoard(@PathVariable("boardIdx") int boardIdx) {
+        try {
+            List<GetBoardDetailRes> getBoardDetailRes = boardProvider.getBoard(boardIdx);
+            return new BaseResponse<>(getBoardDetailRes);
+        } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

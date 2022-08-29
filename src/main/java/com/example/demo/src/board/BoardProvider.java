@@ -1,6 +1,7 @@
 package com.example.demo.src.board;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.board.model.GetBoardDetailRes;
 import com.example.demo.src.board.model.GetBoardRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,4 +45,13 @@ public class BoardProvider {
         //}
     }
 
+    @Transactional
+    public List<GetBoardDetailRes> getBoard(int boardIdx) throws BaseException {
+        try {
+            List<GetBoardDetailRes> getBoardDetailRes = boardDao.getBoard(boardIdx);
+            return getBoardDetailRes;
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

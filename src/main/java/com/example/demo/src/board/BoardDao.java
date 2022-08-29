@@ -1,5 +1,6 @@
 package com.example.demo.src.board;
 
+import com.example.demo.src.board.model.GetBoardDetailRes;
 import com.example.demo.src.board.model.GetBoardRes;
 import com.example.demo.src.board.model.PostBoardReq;
 import com.example.demo.src.board.model.PostBoardRes;
@@ -76,6 +77,34 @@ public class BoardDao {
                         rs.getString("regionTown"),
                         rs.getString("categoryName")
                 ), getBoardsByKeywordParam
+        );
+    }
+
+    public List<GetBoardDetailRes> getBoard(int boardIdx) {
+        String getBoardDetailQuery =
+                "select boardIdx,\n" +
+                        "B.createdAt, B.content,\n" +
+                        "U.nickname, U.profileImage, U.authCount,\n" +
+                        "R.regionTown, BC.categoryName\n" +
+                "from Board B\n" +
+                "    left join User U            on U.userIdx = B.userIdx\n" +
+                "    left join UserRegion UG     on B.userIdx = UG.userIdx \n" +
+                "    left join Region R          on R.regionIdx = UG.regionIdx\n" +
+                "    left join BoardCategory BC  on B.categoryIdx = BC.boardCategoryIdx\n" +
+                "where U.status = 'Y' and B.status = 'Y' and boardIdx = ?";
+        int getBoardDetailParam = boardIdx;
+
+        return this.jdbcTemplate.query(getBoardDetailQuery,
+                (rs, rowNum) -> new GetBoardDetailRes(
+                        rs.getInt("boardIdx"),
+                        rs.getString("createdAt"),
+                        rs.getString("content"),
+                        rs.getString("nickname"),
+                        rs.getString("profileImage"),
+                        rs.getInt("authCount"),
+                        rs.getString("regionTown"),
+                        rs.getString("categoryName")
+            ), getBoardDetailParam
         );
     }
 }

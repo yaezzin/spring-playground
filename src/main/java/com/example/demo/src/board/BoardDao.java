@@ -102,6 +102,19 @@ public class BoardDao {
 
     public List<GetBoardDetailRes> getBoard(int boardIdx) {
         String getBoardDetailQuery =
+                "select B.boardIdx, B.createdAt, B.content, U.nickname, U.profileImage, U.authCount,\n" +
+                        "R.regionTown, BC.categoryName, BI.boardImage, C.comment as comment\n" +
+                "from Board B\n" +
+                "    left join User U            on U.userIdx = B.userIdx\n" +
+                "    left join UserRegion UG     on B.userIdx = UG.userIdx \n" +
+                "    left join Region R          on R.regionIdx = UG.regionIdx\n" +
+                "    left join BoardImage BI     on B.boardIdx = BI.boardIdx\n" +
+                "    left join BoardCategory BC  on B.categoryIdx = BC.boardCategoryIdx\n" +
+                "    left join Comment C         on C.boardIdx = B.boardIdx\n" +
+                "where U.status = 'Y' and B.status = 'Y' and B.boardIdx = ?";
+
+
+                /*
                 "select B.boardIdx,\n" +
                         "B.createdAt, B.content,\n" +
                         "U.nickname, U.profileImage, U.authCount,\n" +
@@ -112,7 +125,7 @@ public class BoardDao {
                 "    left join Region R          on R.regionIdx = UG.regionIdx\n" +
                 "    left join BoardImage BI     on B.boardIdx = BI.boardIdx\n" +
                 "    left join BoardCategory BC  on B.categoryIdx = BC.boardCategoryIdx\n" +
-                "where U.status = 'Y' and B.status = 'Y' and B.boardIdx = ?";
+                "where U.status = 'Y' and B.status = 'Y' and B.boardIdx = ?"; */
         int getBoardDetailParam = boardIdx;
 
         return this.jdbcTemplate.query(getBoardDetailQuery,
@@ -125,7 +138,8 @@ public class BoardDao {
                         rs.getInt("authCount"),
                         rs.getString("regionTown"),
                         rs.getString("categoryName"),
-                        rs.getString("boardImage")
+                        rs.getString("boardImage"),
+                        rs.getString("comment")
             ), getBoardDetailParam
         );
     }
@@ -145,5 +159,16 @@ public class BoardDao {
         int deleteBoardQuery1 = this.jdbcTemplate.update("delete from BoardImage where boardIdx = ?", deleteBoardParams);
         int deleteBoardQuery2 = this.jdbcTemplate.update("delete from Board where boardIdx = ?", deleteBoardParams);
         return deleteBoardQuery1 & deleteBoardQuery2;
+    }
+
+    public List<GetBoardDetailRes> createComment(PostCommentReq postCommentReq, int boardIdx, int userIdx) {
+        Object[] createCommentParams = new Object[] {
+                postCommentReq.getComment(),
+                boardIdx,
+                userIdx
+        };
+        this.jdbcTemplate.update("insert Comment(comment, boardIdx, userIdx) values(?,?,?)", createCommentParams);
+        List<GetBoardDetailRes> getBoardResWishComment = getBoard(boardIdx);
+        return getBoardResWishComment;
     }
 }

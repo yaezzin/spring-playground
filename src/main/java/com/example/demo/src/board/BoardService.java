@@ -2,14 +2,14 @@ package com.example.demo.src.board;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.board.model.PatchBoardReq;
-import com.example.demo.src.board.model.PostBoardReq;
-import com.example.demo.src.board.model.PostBoardRes;
+import com.example.demo.src.board.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -58,5 +58,17 @@ public class BoardService {
         } catch(Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    @Transactional
+    public List<GetBoardDetailRes> createComment(PostCommentReq postCommentReq, int boardIdx, int userIdx) throws BaseException {
+        //try {
+            List<GetBoardDetailRes> getBoardRes = boardDao.createComment(postCommentReq, boardIdx, userIdx);
+            return getBoardRes;
+
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
+
     }
 }

@@ -3,6 +3,7 @@ package com.example.demo.src.board;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.board.model.*;
+import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.utils.JwtService;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -113,5 +114,22 @@ public class BoardController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 동네 생활 댓글 생성 */
+    @ResponseBody
+    @PostMapping("/{boardIdx}/comments")
+    public BaseResponse<List<GetBoardDetailRes>> createComment(@PathVariable("boardIdx") int boardIdx, @RequestBody PostCommentReq postCommentReq) {
+        try{
+            int userIdx = jwtService.getUserIdx();
+            List<GetBoardDetailRes> getBoardRes = boardService.createComment(postCommentReq, boardIdx, userIdx);
+            return new BaseResponse<>(getBoardRes);
+
+        } catch(BaseException exception){
+            exception.printStackTrace();
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+
 
 }

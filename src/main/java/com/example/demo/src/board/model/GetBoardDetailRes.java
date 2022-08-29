@@ -18,5 +18,6 @@ public class GetBoardDetailRes {
     private String regionTown;
     private String categoryName;
     private String boardImage;
+    private String comment;
 
 }

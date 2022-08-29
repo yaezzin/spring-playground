@@ -77,6 +77,29 @@ public class BoardDao {
         );
     }
 
+    public List<GetBoardRes> getBoardsByCategory(int boardCategoryIdx) {
+        String getBoardsByKeywordQuery =
+                "select boardIdx, B.createdAt, B.content, U.nickname, R.regionTown, BC.categoryName\n" +
+                        "from Board B\n" +
+                        "    left join User U           on U.userIdx = B.userIdx\n" +
+                        "    left join UserRegion UG    on B.userIdx = UG.userIdx \n" +
+                        "    left join Region R         on R.regionIdx = UG.regionIdx\n" +
+                        "    left join BoardCategory BC on B.categoryIdx = BC.boardCategoryIdx\n" +
+                        "where U.status = 'Y' and B.status = 'Y' and boardCategoryIdx = ?\n";
+
+        int getBoardsByKeywordParam = boardCategoryIdx;
+        return this.jdbcTemplate.query(getBoardsByKeywordQuery,
+                (rs, rowNum) -> new GetBoardRes(
+                        rs.getInt("boardIdx"),
+                        rs.getString("createdAt"),
+                        rs.getString("content"),
+                        rs.getString("nickname"),
+                        rs.getString("regionTown"),
+                        rs.getString("categoryName")
+                ), getBoardsByKeywordParam
+        );
+    }
+
     public List<GetBoardDetailRes> getBoard(int boardIdx) {
         String getBoardDetailQuery =
                 "select B.boardIdx,\n" +

@@ -61,6 +61,18 @@ public class BoardController {
         }
     }
 
+    /* 동네 생활 게시글 리스트 조회 by 카테고리 */
+    @ResponseBody
+    @GetMapping("/category")
+    public BaseResponse<List<GetBoardRes>> getBoardsByCategory(@RequestParam int boardCategoryIdx) {
+        try {
+            List<GetBoardRes> getBoardResListByCategory = boardProvider.getBoardsByCategory(boardCategoryIdx);
+            return new BaseResponse<>(getBoardResListByCategory);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     /* 동네 생활 게시글 세부 조회 */
     @ResponseBody
     @GetMapping("/{boardIdx}")

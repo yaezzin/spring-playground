@@ -54,4 +54,13 @@ public class BoardProvider {
         //    throw new BaseException(DATABASE_ERROR);
         //}
     }
+
+    public List<GetBoardRes> getBoardsByCategory(int boardCategoryIdx) throws BaseException {
+        try {
+            List<GetBoardRes> getBoardRes = boardDao.getBoardsByCategory(boardCategoryIdx);
+            return getBoardRes;
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

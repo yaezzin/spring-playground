@@ -79,16 +79,17 @@ public class BoardDao {
 
     public List<GetBoardDetailRes> getBoard(int boardIdx) {
         String getBoardDetailQuery =
-                "select boardIdx,\n" +
+                "select B.boardIdx,\n" +
                         "B.createdAt, B.content,\n" +
                         "U.nickname, U.profileImage, U.authCount,\n" +
-                        "R.regionTown, BC.categoryName\n" +
+                        "R.regionTown, BC.categoryName, BI.boardImage\n" +
                 "from Board B\n" +
                 "    left join User U            on U.userIdx = B.userIdx\n" +
                 "    left join UserRegion UG     on B.userIdx = UG.userIdx \n" +
                 "    left join Region R          on R.regionIdx = UG.regionIdx\n" +
+                "    left join BoardImage BI     on B.boardIdx = BI.boardIdx\n" +
                 "    left join BoardCategory BC  on B.categoryIdx = BC.boardCategoryIdx\n" +
-                "where U.status = 'Y' and B.status = 'Y' and boardIdx = ?";
+                "where U.status = 'Y' and B.status = 'Y' and B.boardIdx = ?";
         int getBoardDetailParam = boardIdx;
 
         return this.jdbcTemplate.query(getBoardDetailQuery,
@@ -100,7 +101,8 @@ public class BoardDao {
                         rs.getString("profileImage"),
                         rs.getInt("authCount"),
                         rs.getString("regionTown"),
-                        rs.getString("categoryName")
+                        rs.getString("categoryName"),
+                        rs.getString("boardImage")
             ), getBoardDetailParam
         );
     }

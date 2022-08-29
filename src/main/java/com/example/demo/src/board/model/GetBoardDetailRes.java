@@ -17,5 +17,6 @@ public class GetBoardDetailRes {
     private int authCount;
     private String regionTown;
     private String categoryName;
+    private String boardImage;
 
 }

@@ -47,11 +47,11 @@ public class BoardProvider {
 
     @Transactional
     public List<GetBoardDetailRes> getBoard(int boardIdx) throws BaseException {
-        try {
+        //try {
             List<GetBoardDetailRes> getBoardDetailRes = boardDao.getBoard(boardIdx);
             return getBoardDetailRes;
-        } catch(Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+        //} catch(Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 }

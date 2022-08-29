@@ -62,13 +62,22 @@ public class BoardService {
 
     @Transactional
     public List<GetBoardDetailRes> createComment(PostCommentReq postCommentReq, int boardIdx, int userIdx) throws BaseException {
-        //try {
+        try {
             List<GetBoardDetailRes> getBoardRes = boardDao.createComment(postCommentReq, boardIdx, userIdx);
             return getBoardRes;
 
-        //} catch (Exception exception) {
-        //    throw new BaseException(DATABASE_ERROR);
-        //}
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
+    public List<GetBoardDetailRes> modifyComment(String comment, int commentIdx, int boardIdx) throws BaseException {
+        try {
+            List<GetBoardDetailRes> getBoardRes = boardDao.modifyComment(comment, commentIdx, boardIdx);
+            return getBoardRes;
+
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

@@ -81,7 +81,7 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USER(false,4014,"유저네임 수정 실패"),
     MODIFY_FAIL_PRODUCT(false, 4016, "상품 수정 실패"),
     MODIFY_FAIL_BOARD(false, 4023, "동네 생활 게시글 수정 실패"),
-
+    MODIFY_FAIL_COMMENT(false, 4024, "댓글 수정 실패" ),
     //[DELETE]
     DELETE_FAIL_USER(false, 4015, "유저 탈퇴 실패"),
     DELETE_FAIL_PRODUCT(false, 4017, "상품 삭제 실패"),

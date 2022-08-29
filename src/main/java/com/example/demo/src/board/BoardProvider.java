@@ -37,22 +37,22 @@ public class BoardProvider {
 
     @Transactional
     public List<GetBoardRes> getBoardsByKeyword(String search) throws BaseException {
-        //try {
+        try {
             List<GetBoardRes> getBoardRes = boardDao.getBoardsByKeyword(search);
             return getBoardRes;
-        //} catch(Exception exception) {
-        //    throw new BaseException(DATABASE_ERROR);
-        //}
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
     @Transactional
     public List<GetBoardDetailRes> getBoard(int boardIdx) throws BaseException {
-        //try {
+        try {
             List<GetBoardDetailRes> getBoardDetailRes = boardDao.getBoard(boardIdx);
             return getBoardDetailRes;
-        //} catch(Exception exception) {
-        //    throw new BaseException(DATABASE_ERROR);
-        //}
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
     public List<GetBoardRes> getBoardsByCategory(int boardCategoryIdx) throws BaseException {
@@ -60,6 +60,24 @@ public class BoardProvider {
             List<GetBoardRes> getBoardRes = boardDao.getBoardsByCategory(boardCategoryIdx);
             return getBoardRes;
         } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int getCommentUserIdx(int commentIdx) throws BaseException {
+        try {
+            int userIdx = boardDao.getCommentUserIdx(commentIdx);
+            return userIdx;
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int getCommentBoardIdx(int commentIdx) throws BaseException {
+        try {
+            int boardIdx = boardDao.getCommentBoardIdx(commentIdx);
+            return boardIdx;
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

@@ -171,4 +171,19 @@ public class BoardDao {
         List<GetBoardDetailRes> getBoardResWishComment = getBoard(boardIdx);
         return getBoardResWishComment;
     }
+
+    public int getCommentUserIdx(int commentIdx) {
+        return this.jdbcTemplate.queryForObject("select userIdx from Comment where commentIdx = ?", Integer.class, commentIdx);
+    }
+
+    public int getCommentBoardIdx(int commentIdx) {
+        return this.jdbcTemplate.queryForObject("select boardIdx from Comment where commentIdx = ?",Integer.class, commentIdx);
+    }
+
+    public List<GetBoardDetailRes> modifyComment(String comment, int commentIdx, int boardIdx) {
+        Object[] modifyCommentParams = new Object[]{commentIdx, comment, boardIdx};
+        this.jdbcTemplate.update("update Comment set comment = ? where commentIdx = ? and boardIdx = ?", modifyCommentParams);
+        List<GetBoardDetailRes> getBoardComment = getBoard(boardIdx);
+        return getBoardComment;
+    }
 }

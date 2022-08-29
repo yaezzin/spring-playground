@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_DELETE_BOARD;
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_MODIFY_BOARD;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/app/boards")
@@ -130,6 +129,34 @@ public class BoardController {
         }
     }
 
+    /* 동네 생활 댓글 수정 */
+    @ResponseBody
+    @PatchMapping("/{boardIdx}/comments")
+    public BaseResponse<List<GetBoardDetailRes>> modifyComment(@PathVariable("boardIdx") int boardIdx, @RequestBody PatchCommentReq patchCommentReq) {
+        try{
+            int userIdxByJwt = jwtService.getUserIdx();
+            int commentIdx = patchCommentReq.getCommentIdx();
+
+            // 댓글을 생성한 유저와 로그인한 유저가 같은지 확인
+            int userIdx = boardProvider.getCommentUserIdx(commentIdx);
+            if (userIdxByJwt != userIdx) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            // 댓글과 게시물의 ID가 같은지 확인
+            int boardCommentIdx = boardProvider.getCommentBoardIdx(commentIdx);
+            if (boardCommentIdx != boardIdx) {
+                return new BaseResponse<>(MODIFY_FAIL_COMMENT);
+            }
+
+            List<GetBoardDetailRes> getBoardRes = boardService.modifyComment(patchCommentReq.getComment(), commentIdx, boardIdx);
+            return new BaseResponse<>(getBoardRes);
+
+        } catch(BaseException exception){
+            exception.printStackTrace();
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 
 
 }

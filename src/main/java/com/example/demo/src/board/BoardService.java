@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.MODIFY_FAIL_BOARD;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class BoardService {
@@ -43,6 +42,18 @@ public class BoardService {
             int patchBoardRes = boardDao.modifyBoard(patchBoardReq);
             if (patchBoardRes == 0) {
                 throw new BaseException(MODIFY_FAIL_BOARD);
+            }
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public void deleteBoard(int boardIdx) throws BaseException {
+        try {
+            int deleteBoardRes = boardDao.deleteBoard(boardIdx);
+            if (deleteBoardRes == 0) {
+                throw new BaseException(DELETE_FAIL_BOARD);
             }
         } catch(Exception exception) {
             throw new BaseException(DATABASE_ERROR);

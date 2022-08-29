@@ -114,4 +114,11 @@ public class BoardDao {
         };
         return this.jdbcTemplate.update(patchBoardQuery, patchBoardParams);
     }
+
+    public int deleteBoard(int boardIdx) {
+        Object[] deleteBoardParams = new Object[]{boardIdx};
+        int deleteBoardQuery1 = this.jdbcTemplate.update("delete from BoardImage where boardIdx = ?", deleteBoardParams);
+        int deleteBoardQuery2 = this.jdbcTemplate.update("delete from Board where boardIdx = ?", deleteBoardParams);
+        return deleteBoardQuery1 & deleteBoardQuery2;
+    }
 }

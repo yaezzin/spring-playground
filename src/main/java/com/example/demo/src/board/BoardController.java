@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.demo.config.BaseResponseStatus.SUCCESS_DELETE_BOARD;
 import static com.example.demo.config.BaseResponseStatus.SUCCESS_MODIFY_BOARD;
 
 @RestController
@@ -88,4 +89,17 @@ public class BoardController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 동네 생활 게시글 삭제 */
+    @ResponseBody
+    @DeleteMapping("/{boardIdx}")
+    public BaseResponse<String> deleteBoard(@PathVariable("boardIdx") int boardIdx) {
+        try {
+            boardService.deleteBoard(boardIdx);
+            return new BaseResponse<>(SUCCESS_DELETE_BOARD);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

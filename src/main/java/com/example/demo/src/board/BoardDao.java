@@ -186,4 +186,9 @@ public class BoardDao {
         List<GetBoardDetailRes> getBoardComment = getBoard(boardIdx);
         return getBoardComment;
     }
+
+    public void deleteComment(DeleteCommentReq deleteCommentReq) {
+        Object[] deleteCommentParams = new Object[]{deleteCommentReq.getCommentIdx()};
+        this.jdbcTemplate.update("delete from Comment where commentIdx =?", deleteCommentParams);
+    }
 }

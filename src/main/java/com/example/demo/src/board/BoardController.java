@@ -129,6 +129,18 @@ public class BoardController {
         }
     }
 
+    @ResponseBody
+    @DeleteMapping("/{boardIdx}/comments")
+    public BaseResponse<String> deleteComment(@PathVariable("boardIdx") int boardIdx, @RequestBody DeleteCommentReq deleteCommentReq) {
+        try {
+            boardService.deleteComment(deleteCommentReq);
+            return new BaseResponse<>(SUCCESS_DELETE_COMMENT);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
     /* 동네 생활 댓글 수정 */
     @ResponseBody
     @PatchMapping("/{boardIdx}/comments")

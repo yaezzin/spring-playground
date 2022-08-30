@@ -28,6 +28,7 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_PRODUCT(true, 1011, "상품 삭제에 성공하였습니다"),
     SUCCESS_DELETE_BOARD(true, 1012, "동네 생활 게시글 삭제에 성공하였습니다." ),
     SUCCESS_DELETE_WISH(true, 1013, "상품 게시물 좋아요 해제에 성공하였습니다."),
+    SUCCESS_DELETE_COMMENT(true, 1014, "동네 생활 게시글의 댓글 삭제에 성공하였습니다."),
 
 
     /**

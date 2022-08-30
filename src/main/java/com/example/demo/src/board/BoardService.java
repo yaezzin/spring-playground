@@ -80,4 +80,12 @@ public class BoardService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void deleteComment(DeleteCommentReq deleteCommentReq) throws BaseException {
+       // try {
+            boardDao.deleteComment(deleteCommentReq);
+       // } catch (Exception exception) {
+       //     throw new BaseException(DATABASE_ERROR);
+       // }
+    }
 }

@@ -9,6 +9,8 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -187,6 +189,24 @@ public class UserController {
         } catch (BaseException exception) {
             exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 소셜 로그인 */
+    @ResponseBody
+    @GetMapping("/kakao")
+    public void kakaoCallback(@RequestParam String code, HttpSession session) throws BaseException {
+        System.out.println(code);
+        String access_Token = userProvider.getAccessToken(code);
+        System.out.println("controller access_token : " + access_Token);
+
+        HashMap<String, Object> userInfo = userProvider.getUserInfo(access_Token);
+        System.out.println("login Controller : " + userInfo);
+
+        //    클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
+        if (userInfo.get("email") != null) {
+            session.setAttribute("userId", userInfo.get("email"));
+            session.setAttribute("access_Token", access_Token);
         }
     }
 }

@@ -13,21 +13,22 @@ public enum BaseResponseStatus {
      */
 
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
+    SUCCESS_CREATE_WISH(true, 1001, "상품 게시물 좋아요에 성공하였습니다."),
+    SUCCESS_CREATE_BADGE(true, 1002, "유저 활동 배지 생성에 성공하였습니다."),
+    SUCCESS_CREATE_CHAT(true, 1003, "채팅 생성에 성공하였습니다."),
 
-    SUCCESS_DELETE_USER(true, 1001, "회원 탈퇴에 성공하였습니다."),
-    SUCCESS_DELETE_PRODUCT(true, 1002, "상품 삭제에 성공하였습니다"),
-
-    SUCCESS_MODIFY_USER(true, 1003, "회원 수정에 성공하였습니다."),
-    SUCCESS_MODIFY_PRODUCT(true, 1004, "상품 수정에 성공하였습니다."),
-    SUCCESS_MODIFY_STATUS(true, 1009, "상품 상태 수정에 성공하였습니다."),
-    SUCCESS_UPDATE_VIEW_COUNT(true, 1005, "조회수 증가에 성공하였습니다."),
-    SUCCESS_CREATE_WISH(true, 1006, "상품 게시물 좋아요에 성공하였습니다."),
-    SUCCESS_DELETE_WISH(true, 1007, "상품 게시물 좋아요 해제에 성공하였습니다."),
+    SUCCESS_MODIFY_USER(true, 1004, "회원 수정에 성공하였습니다."),
+    SUCCESS_MODIFY_PRODUCT(true, 1005, "상품 수정에 성공하였습니다."),
+    SUCCESS_MODIFY_STATUS(true, 1006, "상품 상태 수정에 성공하였습니다."),
+    SUCCESS_UPDATE_VIEW_COUNT(true, 1007, "조회수 증가에 성공하였습니다."),
     SUCCESS_PULL_PRODUCT(true, 1008, "상품 끌올에 성공하였습니다."),
-    SUCCESS_CREATE_BADGE(true, 1009, "유저 활동 배지 생성에 성공하였습니다."),
-    SUCCESS_CREATE_CHAT(true, 1010, "채팅 생성에 성공하였습니다."),
-    SUCCESS_MODIFY_BOARD(true, 1011, "동네 생활 게시글 수정에 성공하였습니다."),
+    SUCCESS_MODIFY_BOARD(true, 1009, "동네 생활 게시글 수정에 성공하였습니다."),
+
+    SUCCESS_DELETE_USER(true, 1010, "회원 탈퇴에 성공하였습니다."),
+    SUCCESS_DELETE_PRODUCT(true, 1011, "상품 삭제에 성공하였습니다"),
     SUCCESS_DELETE_BOARD(true, 1012, "동네 생활 게시글 삭제에 성공하였습니다." ),
+    SUCCESS_DELETE_WISH(true, 1013, "상품 게시물 좋아요 해제에 성공하였습니다."),
+
 
     /**
      * 2000 : Request 오류
@@ -40,20 +41,20 @@ public enum BaseResponseStatus {
     INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
 
     // users
-    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    USERS_EMPTY_USER_ID(false, 2004, "유저 아이디 값을 확인해주세요."),
 
     /* [POST] /users */
     // 1. phoneNumber
-    POST_USERS_EMPTY_PHONE_NUMBER(false, 2015, "핸드폰 번호을 입력해주세요."),
-    POST_USERS_INVALID_PHONE_NUMBER(false, 2016, "핸드폰 번호 형식을 확인해주세요."),
-    POST_USERS_EXISTS_PHONE_NUMBER(false,2017,"중복된 핸드폰 번호입니다."),
+    POST_USERS_EMPTY_PHONE_NUMBER(false, 2010, "핸드폰 번호를 입력해주세요."),
+    POST_USERS_INVALID_PHONE_NUMBER(false, 2011, "핸드폰 번호 형식을 확인해주세요."),
+    POST_USERS_EXISTS_PHONE_NUMBER(false,2012,"중복된 핸드폰 번호입니다."),
     // 2. nickname
-    POST_USERS_EMPTY_NICKNAME(false, 2015, "넥네임을 입력해주세요."),
+    POST_USERS_EMPTY_NICKNAME(false, 2013, "넥네임을 입력해주세요."),
     // 3. password
-    POST_USERS_EMPTY_PASSWORD(false, 2015, "패스워드를 입력해주세요.."),
-    POST_USERS_INVALID_PASSWORD(false, 2016, "패스워드 형식을 확인해주세요."),
+    POST_USERS_EMPTY_PASSWORD(false, 2014, "패스워드를 입력해주세요."),
+    POST_USERS_INVALID_PASSWORD(false, 2015, "패스워드 형식을 확인해주세요."),
     // 4. 탈퇴 사유
-    EMPTY_DELETE_ACCOUNT_REASON(false, 2017, "탈퇴 사유를 입력해주세요"),
+    EMPTY_DELETE_ACCOUNT_REASON(false, 2016, "탈퇴 사유를 입력해주세요"),
 
 
     /**
@@ -79,18 +80,19 @@ public enum BaseResponseStatus {
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USER(false,4014,"유저네임 수정 실패"),
-    MODIFY_FAIL_PRODUCT(false, 4016, "상품 수정 실패"),
-    MODIFY_FAIL_BOARD(false, 4023, "동네 생활 게시글 수정 실패"),
-    MODIFY_FAIL_COMMENT(false, 4024, "댓글 수정 실패" ),
+    MODIFY_FAIL_PRODUCT(false, 4015, "상품 수정 실패"),
+    MODIFY_FAIL_BOARD(false, 4016, "동네 생활 게시글 수정 실패"),
+    MODIFY_FAIL_COMMENT(false, 4017, "댓글 수정 실패" ),
+
     //[DELETE]
-    DELETE_FAIL_USER(false, 4015, "유저 탈퇴 실패"),
-    DELETE_FAIL_PRODUCT(false, 4017, "상품 삭제 실패"),
-    DELETE_FAIL_BOARD(false, 4024, "동네 생활 게시글 삭제 실패"),
+    DELETE_FAIL_USER(false, 4020, "유저 탈퇴 실패"),
+    DELETE_FAIL_PRODUCT(false, 4021, "상품 삭제 실패"),
+    DELETE_FAIL_BOARD(false, 4022, "동네 생활 게시글 삭제 실패"),
 
     //[UPDATE]
-    UPDATE_FAIL_VIEW_COUNT(false, 4018, "상품 게시글의 조회수 증가에 실패하였습니다."),
-    UPDATE_FAIL_PULL(false, 4019, "상품 끌올에 실패하였습니다."),
-    UPDATE_FAIL_STATUS(false, 4020, "상품 상태 업데이트에 실패하였습니다."),
+    UPDATE_FAIL_VIEW_COUNT(false, 4030, "상품 게시글의 조회수 증가에 실패하였습니다."),
+    UPDATE_FAIL_PULL(false, 4031, "상품 끌올에 실패하였습니다."),
+    UPDATE_FAIL_STATUS(false, 4032, "상품 상태 업데이트에 실패하였습니다."),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");

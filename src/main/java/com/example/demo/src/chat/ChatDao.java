@@ -34,18 +34,18 @@ public class ChatDao {
 
     public List<GetChatDetailRes> getChatRoom(int chatRoomIdx) {
         String getChatRoomQuery =
-                "select  CR.chatRoomIdx, \n" +
-                "        U1.nickname as senderNickname, \n" +
-                "        U2.nickname as recieverNickname, \n" +
-                "        U2.mannerTemp, U2.profileImage, CM.message, CM.createdAt,\n" +
-                "        P.title, P.price, P.canProposal, PI.productImage\n" +
+                "select  CR.chatRoomIdx,\n" +
+                "    U1.nickname as senderNickname, \n" +
+                "    U2.nickname as recieverNickname,\n" +
+                "    U2.mannerTemp, U2.profileImage,\n" +
+                "    P.title, P.price, P.canProposal,\n" +
+                "    CM.message, CM.createdAt\n" +
                 "from ChatRoom CR\n" +
                 "    join User U1         on U1.userIdx = CR.senderIdx\n" +
                 "    join User U2         on U2.userIdx = CR.receiverIdx\n" +
                 "    join Product P       on P.productIdx = CR.productIdx\n" +
-                "    join ProductImage PI on PI.productIdx = CR.productIdx\n" +
                 "    join ChatMessage CM  on CM.chatRoomIdx = CR.chatRoomIdx\n" +
-                "where CR.chatRoomIdx = ? \n";
+                "where CR.chatRoomIdx = ?";
 
         int getChatRoomParam = chatRoomIdx;
         return this.jdbcTemplate.query(getChatRoomQuery,
@@ -66,19 +66,17 @@ public class ChatDao {
 
     public List<GetChatRes> getChatRooms() {
         String getChatRoomsQuery =
-                "select  CR.chatRoomIdx, \n" +
-                "        U.nickname,     \n" +
-                "        R.regionTown,   \n" +
-                "        U.profileImage, \n" +
-                "        CM.message, CM.createdAt,\n" +
-                "        P.productIdx, PI.productImage\n" +
+                "select  CR.chatRoomIdx, " +
+                        "U.nickname, U.profileImage, " +
+                        "P.productIdx, PI.productImage," +
+                        " R.regionTown, CM.message, CM.createdAt\n" +
                 "from ChatRoom CR\n" +
                 "    join Product P       on P.productIdx = CR.productIdx\n" +
-                "    join ProductImage PI on PI.productIdx = CR.productIdx\n" +
+                "    join ProductImage PI on PI.productIdx = P.productIdx\n" +
                 "    join ChatMessage CM  on CM.chatRoomIdx = CR.chatRoomIdx\n" +
-                "    join UserRegion UG   on P.sellerIdx = UG.userIdx\n" +
-                "    join Region R        on R.regionIdx = UG.regionIdx\n" +
-                "    join User U          on U.userIdx = CR.receiverIdx";
+                "    join User U          on U.userIdx = CR.receiverIdx\n" +
+                "    join UserRegion UG   on U.userIdx = UG.userIdx\n" +
+                "    join Region R        on R.regionIdx = UG.regionIdx";
 
         return this.jdbcTemplate.query(getChatRoomsQuery,
                 (rs, rowNum) -> new GetChatRes(

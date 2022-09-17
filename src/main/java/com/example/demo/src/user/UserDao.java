@@ -60,4 +60,21 @@ public class UserDao {
                 getPwdParams
                 );
     }
+
+    public GetUserRes getUser(int userIdx) {
+        String getUserQuery = "select userIdx, email, password, userName, phoneNumber, profileImage, status, createdAt from User where userIdx = ?";
+        int getUserParams = userIdx;
+        return this.jdbcTemplate.queryForObject(getUserQuery,
+                (rs, rowNum) -> new GetUserRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("userName"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("profileImage"),
+                        rs.getString("status"),
+                        rs.getString("createdAt")
+                ),
+                getUserParams);
+    }
 }

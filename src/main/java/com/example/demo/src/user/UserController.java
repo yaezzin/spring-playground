@@ -81,4 +81,21 @@ public class UserController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    /* userIdx로 회원 단건 조회*/
+    @ResponseBody
+    @GetMapping("/{userIdx}")
+    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            GetUserRes getUserRes = userProvider.getUser(userIdx);
+            return new BaseResponse<>(getUserRes);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+           return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

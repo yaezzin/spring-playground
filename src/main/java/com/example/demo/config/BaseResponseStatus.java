@@ -11,7 +11,8 @@ public enum BaseResponseStatus {
      * 1000 : 요청 성공
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
-
+    SUCCESS_MODIFY_USER_PASSWORD(true, 1001, "비밀번호 수정에 성공하였습니다."),
+    SUCCESS_MODIFY_USER_PROFILE(true, 1002, "프로필 사진 변경에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -39,6 +40,7 @@ public enum BaseResponseStatus {
     POST_USERS_EMAIL_IN_PASSWORD(false, 2023, "비밀번호에는 이메일을 입력할 수 없습니다."),
 
 
+
     /**
      * 3000 : Response 오류
      */
@@ -59,6 +61,12 @@ public enum BaseResponseStatus {
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
+    MODIFY_FAIL_USER_PROFILE(false, 4018, "유저 프로필 수정에 실패하였습니다."),
+
+    MODIFY_FAIL_USER_PASSWORD(false, 4015, "비밀번호 수정에 실패하였습니다."),
+    USER_CURRENT_PASSWORD_NOT_CORRECT(false, 4016, "현재 비밀번호가 일치하지 않습니다."),
+    USER_NEW_PASSWORD_NOT_CORRECT(false, 4017, "새 비밀번호가 일치하지 않습니다."),
+
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");

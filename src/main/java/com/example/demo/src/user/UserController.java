@@ -71,6 +71,7 @@ public class UserController {
         }
     }
 
+    /* 로그인 */
     @ResponseBody
     @PostMapping("/login")
     public BaseResponse<PostLoginRes> login(@RequestBody PostLoginReq postLoginReq){
@@ -82,7 +83,7 @@ public class UserController {
         }
     }
 
-    /* userIdx로 회원 단건 조회*/
+    /* userIdx로 회원 단건 조회 */
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
@@ -95,7 +96,23 @@ public class UserController {
             return new BaseResponse<>(getUserRes);
         } catch (BaseException exception) {
             exception.printStackTrace();
-           return new BaseResponse<>((exception.getStatus()));
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/profile")
+    public BaseResponse<String> modifyUserProfile(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserReq patchUserReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.modifyUserProfile(patchUserReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_USER_PROFILE);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
         }
     }
 }

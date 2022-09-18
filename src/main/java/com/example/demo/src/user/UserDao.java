@@ -77,4 +77,10 @@ public class UserDao {
                 ),
                 getUserParams);
     }
+
+    public int modifyUserProfile(PatchUserReq patchUserReq) {
+        String modifyUserProfileQuery = "update User set profileImage = ? where userIdx = ?";
+        Object[] modifyUserProfileParams = new Object[]{patchUserReq.getProfileImage(), patchUserReq.getUserIdx()};
+        return this.jdbcTemplate.update(modifyUserProfileQuery, modifyUserProfileParams);
+    }
 }

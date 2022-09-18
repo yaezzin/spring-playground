@@ -59,4 +59,15 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void modifyUserProfile(PatchUserReq patchUserReq) throws BaseException {
+        try {
+            int result = userDao.modifyUserProfile(patchUserReq);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_USER_PROFILE);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

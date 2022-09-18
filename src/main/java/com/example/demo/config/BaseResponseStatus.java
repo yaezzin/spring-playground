@@ -73,7 +73,11 @@ public enum BaseResponseStatus {
 
     // [Category]
     CREATE_FAIL_CATEGORY(false, 4020, "카테고리 생성에 실패하였습니다"),
-    MODIFY_FAIL_CATEGORY(false, 4021, "카테고리 수정에 실패하였습니다.");
+    MODIFY_FAIL_CATEGORY(false, 4021, "카테고리 수정에 실패하였습니다."),
+
+    // [Review]
+    CREATRE_FAIL_REVIEW(false, 4030, "리뷰 생성에 실패하였습니다.");
+
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

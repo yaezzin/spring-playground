@@ -13,6 +13,7 @@ public enum BaseResponseStatus {
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
     SUCCESS_MODIFY_USER_PASSWORD(true, 1001, "비밀번호 수정에 성공하였습니다."),
     SUCCESS_MODIFY_USER_PROFILE(true, 1002, "프로필 사진 변경에 성공하였습니다."),
+    SUCCESS_CREATE_CATEGORY(true, 1003, "카테고리 생성에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -67,9 +68,11 @@ public enum BaseResponseStatus {
     USER_CURRENT_PASSWORD_NOT_CORRECT(false, 4016, "현재 비밀번호가 일치하지 않습니다."),
     USER_NEW_PASSWORD_NOT_CORRECT(false, 4017, "새 비밀번호가 일치하지 않습니다."),
 
-
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
+
+    // [Category]
+    CREATE_FAIL_CATEGORY(false, 4020, "카테고리 생성에 실패하였습니다");
 
 
     // 5000 : 필요시 만들어서 쓰세요

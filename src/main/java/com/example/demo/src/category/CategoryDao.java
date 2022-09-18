@@ -1,6 +1,7 @@
 package com.example.demo.src.category;
 
 import com.example.demo.src.category.model.GetCategoryRes;
+import com.example.demo.src.category.model.PatchCategoryReq;
 import com.example.demo.src.category.model.PostCategoryReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +36,11 @@ public class CategoryDao {
                         rs.getString("name")
                 )
         );
+    }
+
+    public int modifyCategory(PatchCategoryReq patchCategoryReq) {
+        String modifyCategoryQuery = "update Category set name = ? where categoryIdx = ?";
+        Object[] modifyCategoryParams = new Object[] {patchCategoryReq.getName(), patchCategoryReq.getCategoryIdx()};
+        return this.jdbcTemplate.update(modifyCategoryQuery, modifyCategoryParams);
     }
 }

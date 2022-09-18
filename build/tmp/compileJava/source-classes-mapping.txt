@@ -38,10 +38,12 @@ com/example/demo/src/product/ProductService.java
  com.example.demo.src.product.ProductService
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
-com/example/demo/src/category/CategoryProvider.java
- com.example.demo.src.category.CategoryProvider
+com/example/demo/src/category/model/GetCategoryRes.java
+ com.example.demo.src.category.model.GetCategoryRes
 com/example/demo/src/category/model/PostCategoryReq.java
  com.example.demo.src.category.model.PostCategoryReq
+com/example/demo/src/category/CategoryProvider.java
+ com.example.demo.src.category.CategoryProvider
 com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
 com/example/demo/src/category/CategoryService.java
@@ -54,8 +56,8 @@ com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
-com/example/demo/src/category/model/GetCategoryRes.java
- com.example.demo.src.category.model.GetCategoryRes
+com/example/demo/src/category/model/PatchCategoryReq.java
+ com.example.demo.src.category.model.PatchCategoryReq
 com/example/demo/src/product/ProductController.java
  com.example.demo.src.product.ProductController
 com/example/demo/config/BaseException.java

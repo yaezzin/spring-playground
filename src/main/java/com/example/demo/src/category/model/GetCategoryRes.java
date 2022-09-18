@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostCategoryRes {
+public class GetCategoryRes {
     private int categoryIdx;
-    private int name;
+    private String name;
 }

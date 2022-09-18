@@ -22,7 +22,6 @@ public class UserProvider {
     private final UserDao userDao;
     private final JwtService jwtService;
 
-
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

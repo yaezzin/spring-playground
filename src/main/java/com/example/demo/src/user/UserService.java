@@ -30,7 +30,6 @@ public class UserService {
         this.userDao = userDao;
         this.userProvider = userProvider;
         this.jwtService = jwtService;
-
     }
 
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {

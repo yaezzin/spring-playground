@@ -25,7 +25,7 @@ public class ReviewDao {
         Object[] createReviewParams = new Object[]{
                 postReviewReq.getTitle(),
                 postReviewReq.getDescription(),
-                postReviewReq.getStartPoint(),
+                postReviewReq.getStarPoint(),
                 postReviewReq.getRepImage(),
                 postReviewReq.getUserIdx(),
                 postReviewReq.getProductIdx(),
@@ -59,12 +59,12 @@ public class ReviewDao {
     public List<GetReviewRes> getReviews(int productIdx) {
 
         String getReviewsQuery =
-                    "select R.reviewIdx, U.userName, U.profileImage, P.productName, R.title, R.description, R.updatedAt, R.startPoint, \n" +
+                    "select R.reviewIdx, U.userName, U.profileImage, P.productName, R.title, R.description, R.updatedAt, R.starPoint, \n" +
                             "R.repImage, RK.satisfaction, RK.delivery, RK.quality\n" +
                             "from Review R\n" +
-                            "    left join User U \t\t \ton U.userIdx = R.userIdx\n" +
-                            "    left join Product P \t \ton P.productIdx = R.productIdx\n" +
-                            "    left join ReviewKeyword RK \ton RK.reviewIdx = R.reviewIdx\n" +
+                            "    left join User U            on U.userIdx = R.userIdx\n" +
+                            "    left join Product P         on P.productIdx = R.productIdx\n" +
+                            "    left join ReviewKeyword RK  on RK.reviewIdx = R.reviewIdx\n" +
                             "where R.productIdx = ?";
 
             Object[] params = new Object[] {productIdx};
@@ -77,7 +77,7 @@ public class ReviewDao {
                             rs.getString("title"),
                             rs.getString("description"),
                             rs.getString("updatedAt"),
-                            rs.getInt("startPoint"),
+                            rs.getInt("starPoint"),
                             rs.getString("repImage"),
                             rs.getInt("satisfaction"),
                             rs.getInt("delivery"),

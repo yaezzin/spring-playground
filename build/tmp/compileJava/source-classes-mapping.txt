@@ -12,20 +12,16 @@ com/example/demo/src/user/model/PostUserReq.java
  com.example.demo.src.user.model.PostUserReq
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
-com/example/demo/src/category/CategoryDao.java
- com.example.demo.src.category.CategoryDao
+com/example/demo/src/review/ReviewDao.java
+ com.example.demo.src.review.ReviewDao
 com/example/demo/src/product/ProductService.java
  com.example.demo.src.product.ProductService
 com/example/demo/src/product/model/PostProdRes.java
  com.example.demo.src.product.model.PostProdRes
-com/example/demo/src/review/model/GetReviewListRes.java
- com.example.demo.src.review.model.GetReviewListRes
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
-com/example/demo/src/review/model/GetReviewsRes.java
- com.example.demo.src.review.model.GetReviewsRes
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/config/BaseResponseStatus.java
@@ -38,8 +34,8 @@ com/example/demo/src/category/model/GetCategoryRes.java
  com.example.demo.src.category.model.GetCategoryRes
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
+com/example/demo/src/review/ReviewController.java
+ com.example.demo.src.review.ReviewController
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
 com/example/demo/src/category/CategoryProvider.java
@@ -54,10 +50,8 @@ com/example/demo/src/category/CategoryService.java
  com.example.demo.src.category.CategoryService
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
-com/example/demo/src/review/model/Review.java
- com.example.demo.src.review.model.Review
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
+com/example/demo/src/review/ReviewProvider.java
+ com.example.demo.src.review.ReviewProvider
 com/example/demo/src/user/model/PostUserRes.java
  com.example.demo.src.user.model.PostUserRes
 com/example/demo/src/user/UserController.java
@@ -70,8 +64,6 @@ com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
-com/example/demo/src/review/model/etc/ReviewIdx.java
- com.example.demo.src.review.model.etc.ReviewIdx
 com/example/demo/src/user/model/GetUserRes.java
  com.example.demo.src.user.model.GetUserRes
 com/example/demo/src/product/ProductController.java
@@ -82,11 +74,11 @@ com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
 com/example/demo/src/product/model/PostProdReq.java
  com.example.demo.src.product.model.PostProdReq
-com/example/demo/src/review/ReviewDao.java
- com.example.demo.src.review.ReviewDao
-com/example/demo/src/review/ReviewProvider.java
- com.example.demo.src.review.ReviewProvider
-com/example/demo/src/review/ReviewController.java
- com.example.demo.src.review.ReviewController
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
 com/example/demo/src/review/ReviewService.java
  com.example.demo.src.review.ReviewService
+com/example/demo/src/category/CategoryDao.java
+ com.example.demo.src.category.CategoryDao

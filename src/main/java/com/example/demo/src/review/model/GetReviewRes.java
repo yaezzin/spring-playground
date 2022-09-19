@@ -17,7 +17,7 @@ public class GetReviewRes {
     private String title;
     private String description;
     private String updatedAt;
-    private int startPoint;
+    private int starPoint;
     private String repImage;
     private List<String> reviewImageUrl;
     private int satisfaction;
@@ -25,7 +25,7 @@ public class GetReviewRes {
     private int quality;
 
     public GetReviewRes(int reviewIdx, String userName, String profileImage, String productName, String title,
-                        String description, String updatedAt, int startPoint, String repImage, int satisfaction, int delivery, int quality) {
+                        String description, String updatedAt, int starPoint, String repImage, int satisfaction, int delivery, int quality) {
         this.reviewIdx = reviewIdx;
         this.userName = userName;
         this.profileImage = profileImage;
@@ -33,7 +33,7 @@ public class GetReviewRes {
         this.title = title;
         this.description = description;
         this.updatedAt = updatedAt;
-        this.startPoint = startPoint;
+        this.starPoint = starPoint;
         this.repImage = repImage;
         this.satisfaction = satisfaction;
         this.delivery = delivery;

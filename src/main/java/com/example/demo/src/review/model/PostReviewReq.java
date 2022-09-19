@@ -12,7 +12,7 @@ import java.util.List;
 public class PostReviewReq {
     private String title;
     private String description;
-    private int startPoint;
+    private int starPoint;
     private int satisfaction;
     private int quality;
     private int delivery;

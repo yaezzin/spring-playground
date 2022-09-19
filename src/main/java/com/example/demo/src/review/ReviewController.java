@@ -9,10 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.EMPTY_PRODUCT_IDX;
 import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
 
 @RestController
@@ -62,13 +60,25 @@ public class ReviewController {
         }
     }
 
-    /* 해당 reviewIdx의 사진 조회*/
+    /* 리뷰 필터링 - 별점 (1-5)*/
+    @ResponseBody
+    @GetMapping("/{productIdx}/filter")
+    public BaseResponse<List<GetReviewRes>> getReviewsByStar(@PathVariable("productIdx") int productIdx, @RequestParam int star) {
+        try {
+            List<GetReviewRes> getReviewResByStar = reviewProvider.getReviewsByStar(productIdx, star);
+            return new BaseResponse<>(getReviewResByStar);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
-    /* 리뷰 사진만 전체 조회 */
-
-    /* 리뷰 프리뷰 조회 */
+    /* 리뷰 프리뷰 조회 - 3개 */
 
 
-
+    /* 리뷰 필터링 - 키워드 (품질, 배송, 만족도) */
+    /* 상품별 리뷰 사진만 전체 조회 */
+    /* 리뷰 수정 */
+    /* 리뷰 삭제 */
+    /* 유저가 작성한 리뷰 조회 */
 
 }

@@ -37,4 +37,18 @@ public class ReviewProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetReviewRes> getReviewsByStar(int productIdx, int star) throws BaseException {
+        try {
+            List<GetReviewRes> reviewsByStar = reviewDao.getReviewsByStar(productIdx, star);
+            for (GetReviewRes review : reviewsByStar) {
+                List<String> reviewImageUrl = reviewDao.getReviewImages(review.getReviewIdx());
+                review.setReviewImageUrl(reviewImageUrl);
+            }
+            return reviewsByStar;
+        } catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
 }

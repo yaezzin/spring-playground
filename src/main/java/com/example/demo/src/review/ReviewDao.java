@@ -93,5 +93,32 @@ public class ReviewDao {
                 (rs, rowNum) -> new String(rs.getString("reviewImageUrl")), getReviewImagesParams);
     }
 
+    public List<GetReviewRes> getReviewsByStar(int productIdx, int star) {
+        String getReviewsByStarQuery =
+                "select R.reviewIdx, U.userName, U.profileImage, P.productName, R.title, R.description, R.updatedAt, R.starPoint, \n" +
+                        "R.repImage, RK.satisfaction, RK.delivery, RK.quality\n" +
+                        "from Review R\n" +
+                        "    left join User U            on U.userIdx = R.userIdx\n" +
+                        "    left join Product P         on P.productIdx = R.productIdx\n" +
+                        "    left join ReviewKeyword RK  on RK.reviewIdx = R.reviewIdx\n" +
+                        "where R.productIdx = ? and R.starPoint = ?";
+
+        Object[] params = new Object[] {productIdx, star};
+        return this.jdbcTemplate.query(getReviewsByStarQuery,
+                (rs, rowNum) -> new GetReviewRes(
+                        rs.getInt("reviewIdx"),
+                        rs.getString("userName"),
+                        rs.getString("profileImage"),
+                        rs.getString("productName"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("updatedAt"),
+                        rs.getInt("starPoint"),
+                        rs.getString("repImage"),
+                        rs.getInt("satisfaction"),
+                        rs.getInt("delivery"),
+                        rs.getInt("quality")),
+                params);
+    }
 }
 

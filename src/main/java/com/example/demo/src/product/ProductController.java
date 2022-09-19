@@ -2,7 +2,7 @@ package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.product.model.GetProdByKeywordRes;
+import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
 import com.example.demo.utils.JwtService;
@@ -47,14 +47,24 @@ public class ProductController {
     /* 상품 검색 키워드별 조회 */
     @ResponseBody
     @GetMapping("/search")
-    public BaseResponse<List<GetProdByKeywordRes>> getProductsByKeyword(@RequestParam String keyword) {
+    public BaseResponse<List<GetProdRes>> getProductsByKeyword(@RequestParam String keyword) {
         try {
-            List<GetProdByKeywordRes> productsByKeyword = productProvider.getProductsByKeyword(keyword);
+            List<GetProdRes> productsByKeyword = productProvider.getProductsByKeyword(keyword);
             return new BaseResponse<>(productsByKeyword);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
-
+    /* 카테고리별 상품 조회*/
+    @ResponseBody
+    @GetMapping("/category/{categoryIdx}")
+    public BaseResponse<List<GetProdRes>> getProductsByCategory(@PathVariable("categoryIdx") int categoryIdx) {
+        try {
+            List<GetProdRes> productsByCategory = productProvider.getProductsByCategory(categoryIdx);
+            return new BaseResponse<>(productsByCategory);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

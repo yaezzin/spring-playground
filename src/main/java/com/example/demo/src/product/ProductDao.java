@@ -1,6 +1,6 @@
 package com.example.demo.src.product;
 
-import com.example.demo.src.product.model.GetProdByKeywordRes;
+import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +48,11 @@ public class ProductDao {
         return new PostProdRes("상품 등록에 성공하였습니다.");
     }
 
-    public List<GetProdByKeywordRes> getProductsByKeyword(String keyword) {
+    public List<GetProdRes> getProductsByKeyword(String keyword) {
         String getProdByKeywordQuery =
                 "select PI.prodRepImageUrl, P.productName, P.deliveryType, PI2.price, P.discount, P.overnightDelivery,\n" +
-                "        (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
-                "        (select floor(avg(R.starPoint)) from Review R where R.productIdx = P.productIdx) as StarPoint\n" +
+                "  (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
+                "  (select floor(avg(R.starPoint)) from Review R where R.productIdx = P.productIdx) as StarPoint\n" +
                 "from Product P\n" +
                 "    left join ProductImage PI  on P.productIdx = PI.productIdx\n" +
                 "    left join ProductInfo  PI2 on P.productInfoIdx = PI2.productInfoIdx\n" +
@@ -60,7 +60,7 @@ public class ProductDao {
 
         String getProdByKeywordParam = keyword;
         return this.jdbcTemplate.query(getProdByKeywordQuery,
-                (rs, rowNum) -> new GetProdByKeywordRes(
+                (rs, rowNum) -> new GetProdRes(
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),
@@ -72,5 +72,30 @@ public class ProductDao {
                 ), getProdByKeywordParam
         );
 
+    }
+
+    public List<GetProdRes> getProductsByCategory(int categoryIdx) {
+        String getProdByCategoryQuery =
+                "select PI.prodRepImageUrl, P.productName, P.deliveryType, PI2.price, P.discount, P.overnightDelivery,\n" +
+                        "  (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
+                        "  (select floor(avg(R.starPoint)) from Review R where R.productIdx = P.productIdx) as StarPoint\n" +
+                        "from Product P\n" +
+                        "    left join ProductImage PI  on P.productIdx = PI.productIdx\n" +
+                        "    left join ProductInfo  PI2 on P.productInfoIdx = PI2.productInfoIdx\n" +
+                        "    left join Category C       on P.categoryIdx = C.categoryIdx\n" +
+                        "where P.categoryIdx = ?";
+        int getProdByCategoryParam = categoryIdx;
+        return this.jdbcTemplate.query(getProdByCategoryQuery,
+                (rs, rowNum) -> new GetProdRes(
+                        rs.getString("prodRepImageUrl"),
+                        rs.getString("productName"),
+                        rs.getString("deliveryType"),
+                        rs.getInt("price"),
+                        rs.getInt("discount"),
+                        rs.getInt("starPoint"),
+                        rs.getInt("reviewCount"),
+                        rs.getBoolean("overnightDelivery")
+                ), getProdByCategoryParam
+        );
     }
 }

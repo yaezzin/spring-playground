@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetProdByKeywordRes {
+public class GetProdRes {
     private String prodRepImageUrl;
     private String productName;
     private String deliveryType; // 배송 타입

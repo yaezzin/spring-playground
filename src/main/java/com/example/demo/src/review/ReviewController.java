@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
+import static com.example.demo.config.BaseResponseStatus.SUCCESS_MODIFY_REVIEW;
 
 @RestController
 @RequestMapping("/app/reviews")
@@ -50,10 +51,22 @@ public class ReviewController {
 
     /* 상품별 리뷰 조회 */
     @ResponseBody
-    @GetMapping("/{productIdx}")
+    @GetMapping("/products/{productIdx}")
     public BaseResponse<List<GetReviewRes>> getReviews(@PathVariable("productIdx") int productIdx) {
         try {
             List<GetReviewRes> getReviewRes = reviewProvider.getReviews(productIdx);
+            return new BaseResponse<>(getReviewRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 리뷰 개별 조회 by reviewIdx */
+    @ResponseBody
+    @GetMapping("/{reviewIdx}")
+    public BaseResponse<GetReviewRes> getReviewsByReviewIdx(@PathVariable("reviewIdx") int reviewIdx) {
+        try {
+            GetReviewRes getReviewRes = reviewProvider.getReviewsByReviewIdx(reviewIdx);
             return new BaseResponse<>(getReviewRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -72,13 +85,26 @@ public class ReviewController {
         }
     }
 
+    /* 리뷰 수정 */
+    @ResponseBody
+    @PatchMapping("/{reviewIdx}")
+    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchReviewReq patchReviewReq) {
+        try {
+            reviewService.modifyReview(patchReviewReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_REVIEW);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 리뷰 삭제 */
+
+    /* 유저가 작성한 리뷰 조회 */
+
     /* 리뷰 프리뷰 조회 - 3개 */
 
-
     /* 리뷰 필터링 - 키워드 (품질, 배송, 만족도) */
+
     /* 상품별 리뷰 사진만 전체 조회 */
-    /* 리뷰 수정 */
-    /* 리뷰 삭제 */
-    /* 유저가 작성한 리뷰 조회 */
 
 }

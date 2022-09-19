@@ -1,6 +1,7 @@
 package com.example.demo.src.review;
 
 import com.example.demo.src.review.model.GetReviewRes;
+import com.example.demo.src.review.model.PatchReviewReq;
 import com.example.demo.src.review.model.PostReviewReq;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -65,7 +66,7 @@ public class ReviewDao {
                             "    left join User U            on U.userIdx = R.userIdx\n" +
                             "    left join Product P         on P.productIdx = R.productIdx\n" +
                             "    left join ReviewKeyword RK  on RK.reviewIdx = R.reviewIdx\n" +
-                            "where R.productIdx = ?";
+                            "where R.productIdx = ? and R.status = 'Y' ";
 
             Object[] params = new Object[] {productIdx};
             return this.jdbcTemplate.query(getReviewsQuery,
@@ -85,6 +86,35 @@ public class ReviewDao {
                     params);
     }
 
+    public GetReviewRes getReviewByReviewIdx(int reviewIdx) {
+        String getReviewByIdxQuery =
+                "select R.reviewIdx, U.userName, U.profileImage, P.productName, R.title, R.description, R.updatedAt, R.starPoint, \n" +
+                        "R.repImage, RK.satisfaction, RK.delivery, RK.quality\n" +
+                        "from Review R\n" +
+                        "    left join User U            on U.userIdx = R.userIdx\n" +
+                        "    left join Product P         on P.productIdx = R.productIdx\n" +
+                        "    left join ReviewKeyword RK  on RK.reviewIdx = R.reviewIdx\n" +
+                        "where R.reviewIdx = ? and R.status = 'Y'";
+
+        Object[] getReviewByIdxParam = new Object[] {reviewIdx};
+
+        return this.jdbcTemplate.queryForObject(getReviewByIdxQuery,
+                (rs, rowNum) -> new GetReviewRes(
+                        rs.getInt("reviewIdx"),
+                        rs.getString("userName"),
+                        rs.getString("profileImage"),
+                        rs.getString("productName"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("updatedAt"),
+                        rs.getInt("starPoint"),
+                        rs.getString("repImage"),
+                        rs.getInt("satisfaction"),
+                        rs.getInt("delivery"),
+                        rs.getInt("quality")),
+                getReviewByIdxParam);
+    }
+
     public List<String> getReviewImages(int reviewIdx) {
         String getReviewImageQuery = "select reviewImageUrl from ReviewImage where reviewIdx =? and status = 'Y'";
         int getReviewImagesParams = reviewIdx;
@@ -101,7 +131,7 @@ public class ReviewDao {
                         "    left join User U            on U.userIdx = R.userIdx\n" +
                         "    left join Product P         on P.productIdx = R.productIdx\n" +
                         "    left join ReviewKeyword RK  on RK.reviewIdx = R.reviewIdx\n" +
-                        "where R.productIdx = ? and R.starPoint = ?";
+                        "where R.productIdx = ? and R.starPoint = ? and R.status = 'Y'";
 
         Object[] params = new Object[] {productIdx, star};
         return this.jdbcTemplate.query(getReviewsByStarQuery,
@@ -119,6 +149,48 @@ public class ReviewDao {
                         rs.getInt("delivery"),
                         rs.getInt("quality")),
                 params);
+    }
+
+    public int modifyReview(PatchReviewReq patchReviewReq) {
+        String modifyReviewQuery = "update Review set starPoint =?, title =?, description =?, repImage =? where reviewIdx = ?";
+        Object[] modifyReviewParam = new Object[] {
+                patchReviewReq.getStarPoint(),
+                patchReviewReq.getTitle(),
+                patchReviewReq.getDescription(),
+                patchReviewReq.getRepImage(),
+                patchReviewReq.getReviewIdx()
+        };
+        int content = this.jdbcTemplate.update(modifyReviewQuery, modifyReviewParam);
+
+        /*
+        String modifyReviewImageQuery = "update ReviewImage set reviewImageUrl =? where reviewIdx =?";
+        Object[] modifyReviewImageParam = new Object[] {
+                patchReviewReq.getReviewImageUrl(),
+                patchReviewReq.getReviewIdx()
+        };
+        int image = this.jdbcTemplate.update(modifyReviewImageQuery, modifyReviewImageParam);
+        */
+
+        String modifyReviewKeywordQuery = "update ReviewKeyword set satisfaction =?, delivery =?, quality =? where reviewIdx =?";
+        Object[] modifyReviewKeywordParam = new Object[] {
+                patchReviewReq.getSatisfaction(),
+                patchReviewReq.getDelivery(),
+                patchReviewReq.getQuality(),
+                patchReviewReq.getReviewIdx()
+        };
+        int keyword = this.jdbcTemplate.update(modifyReviewKeywordQuery, modifyReviewKeywordParam);
+
+        return content & keyword;
+    }
+
+    public int updateStatusReviewImages(int reviewIdx) {
+        String query = "update ReviewImage set status = 'N' where reviewIdx =?";
+        return this.jdbcTemplate.update(query, reviewIdx);
+    }
+
+    public void insertReviewImage(int reviewIdx, String image) {
+        String insertImageQuery = "insert into ReviewImage(reviewImageUrl, reviewIdx) values(?,?)";
+        this.jdbcTemplate.update(insertImageQuery, image, reviewIdx);
     }
 }
 

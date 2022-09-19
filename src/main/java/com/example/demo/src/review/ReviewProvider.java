@@ -38,6 +38,13 @@ public class ReviewProvider {
         }
     }
 
+    public GetReviewRes getReviewsByReviewIdx(int reviewIdx) throws BaseException {
+        GetReviewRes review = reviewDao.getReviewByReviewIdx(reviewIdx);
+        List<String> reviewImageUrl = reviewDao.getReviewImages(reviewIdx);
+        review.setReviewImageUrl(reviewImageUrl);
+        return review;
+    }
+
     public List<GetReviewRes> getReviewsByStar(int productIdx, int star) throws BaseException {
         try {
             List<GetReviewRes> reviewsByStar = reviewDao.getReviewsByStar(productIdx, star);
@@ -51,4 +58,6 @@ public class ReviewProvider {
         }
 
     }
+
+
 }

@@ -1,11 +1,14 @@
 package com.example.demo.src.review;
 
+import com.example.demo.src.review.model.GetReviewRes;
 import com.example.demo.src.review.model.PostReviewReq;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class ReviewDao {
@@ -52,4 +55,43 @@ public class ReviewDao {
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
     }
+
+    public List<GetReviewRes> getReviews(int productIdx) {
+
+        String getReviewsQuery =
+                    "select R.reviewIdx, U.userName, U.profileImage, P.productName, R.title, R.description, R.updatedAt, R.startPoint, \n" +
+                            "R.repImage, RK.satisfaction, RK.delivery, RK.quality\n" +
+                            "from Review R\n" +
+                            "    left join User U \t\t \ton U.userIdx = R.userIdx\n" +
+                            "    left join Product P \t \ton P.productIdx = R.productIdx\n" +
+                            "    left join ReviewKeyword RK \ton RK.reviewIdx = R.reviewIdx\n" +
+                            "where R.productIdx = ?";
+
+            Object[] params = new Object[] {productIdx};
+            return this.jdbcTemplate.query(getReviewsQuery,
+                    (rs, rowNum) -> new GetReviewRes(
+                            rs.getInt("reviewIdx"),
+                            rs.getString("userName"),
+                            rs.getString("profileImage"),
+                            rs.getString("productName"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getString("updatedAt"),
+                            rs.getInt("startPoint"),
+                            rs.getString("repImage"),
+                            rs.getInt("satisfaction"),
+                            rs.getInt("delivery"),
+                            rs.getInt("quality")),
+                    params);
+    }
+
+    public List<String> getReviewImages(int reviewIdx) {
+        String getReviewImageQuery = "select reviewImageUrl from ReviewImage where reviewIdx =? and status = 'Y'";
+        int getReviewImagesParams = reviewIdx;
+
+        return this.jdbcTemplate.query(getReviewImageQuery,
+                (rs, rowNum) -> new String(rs.getString("reviewImageUrl")), getReviewImagesParams);
+    }
+
 }
+

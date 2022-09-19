@@ -2,14 +2,17 @@ package com.example.demo.src.review;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.review.model.PostReviewReq;
-import com.example.demo.src.review.model.PostReviewRes;
+import com.example.demo.src.review.model.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.demo.config.BaseResponseStatus.EMPTY_PRODUCT_IDX;
 import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
 
 @RestController
@@ -47,14 +50,25 @@ public class ReviewController {
         }
     }
 
+    /* 상품별 리뷰 조회 */
+    @ResponseBody
+    @GetMapping("/{productIdx}")
+    public BaseResponse<List<GetReviewRes>> getReviews(@PathVariable("productIdx") int productIdx) {
+        try {
+            List<GetReviewRes> getReviewRes = reviewProvider.getReviews(productIdx);
+            return new BaseResponse<>(getReviewRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 해당 reviewIdx의 사진 조회*/
+
+    /* 리뷰 사진만 전체 조회 */
+
+    /* 리뷰 프리뷰 조회 */
 
 
 
-    /* 리뷰 전체 조회 */
 
-    /* 리뷰 상세 조회 */
-
-    /* 리뷰 수정 */
-
-    /* 리뷰 삭제 */
 }

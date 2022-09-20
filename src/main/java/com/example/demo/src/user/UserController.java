@@ -76,6 +76,9 @@ public class UserController {
     @PostMapping("/login")
     public BaseResponse<PostLoginRes> login(@RequestBody PostLoginReq postLoginReq){
         try{
+            if (userProvider.checkUserEmail(postLoginReq.getEmail()) == 0) {
+                return new BaseResponse<>(USERS_EMPTY_EMAIl);
+            }
             PostLoginRes postLoginRes = userProvider.login(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception){

@@ -89,4 +89,10 @@ public class UserDao {
         int Param = userIdx;
         return this.jdbcTemplate.queryForObject(Query, int.class, Param);
     }
+
+    public int checkUserEmail(String email) {
+        String Query = "select exists(select * from User where status = 'Y' and email =?)";
+        Object[] Param = new Object[]{email};
+        return this.jdbcTemplate.queryForObject(Query, int.class, Param);
+    }
 }

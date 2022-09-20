@@ -156,8 +156,27 @@ public class ReviewController {
         }
     }
 
+    /* 유저가 작성한 리뷰 조회 */
+    @ResponseBody
+    @GetMapping("/users/{userIdx}")
+    public BaseResponse<List<GetUserReviewRes>> getUserReviews(@PathVariable("userIdx") int userIdx) {
+        try {
+            // 유저 권한 존재
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            // 리뷰 존재 여부 확인
+            List<GetUserReviewRes> userReview = reviewProvider.getUserReview(userIdx);
+            return new BaseResponse<>(userReview);
+
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
     /* 상품별 리뷰 사진만 전체 조회 */
     /* 리뷰 삭제 */
-    /* 유저가 작성한 리뷰 조회 */
 
 }

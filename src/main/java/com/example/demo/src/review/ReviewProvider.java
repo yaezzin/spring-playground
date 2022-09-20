@@ -3,6 +3,7 @@ package com.example.demo.src.review;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.review.model.GetReviewPreRes;
 import com.example.demo.src.review.model.GetReviewRes;
+import com.example.demo.src.review.model.GetUserReviewRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,5 +83,13 @@ public class ReviewProvider {
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public List<GetUserReviewRes> getUserReview(int userIdx) throws BaseException {
+        //try {
+            return reviewDao.getUserReview(userIdx);
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 }

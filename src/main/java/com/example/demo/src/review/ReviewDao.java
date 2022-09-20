@@ -1,9 +1,6 @@
 package com.example.demo.src.review;
 
-import com.example.demo.src.review.model.GetReviewPreRes;
-import com.example.demo.src.review.model.GetReviewRes;
-import com.example.demo.src.review.model.PatchReviewReq;
-import com.example.demo.src.review.model.PostReviewReq;
+import com.example.demo.src.review.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +20,7 @@ public class ReviewDao {
     }
 
     public int createReview(PostReviewReq postReviewReq) {
-        String createReviewQuery = "insert into Review(title, description, startPoint, repImage, userIdx, productIdx) values(?,?,?,?,?,?)";
+        String createReviewQuery = "insert into Review(title, description, starPoint, repImage, userIdx, productIdx) values(?,?,?,?,?,?)";
         Object[] createReviewParams = new Object[]{
                 postReviewReq.getTitle(),
                 postReviewReq.getDescription(),
@@ -241,6 +238,38 @@ public class ReviewDao {
                 , GetReviewPreviewParam);
     }
 
+    public List<GetUserReviewRes> getUserReview(int userIdx) {
+        String getUserReviewQuery =
+                "select R.reviewIdx, P.productName, PI.prodRepImageUrl, R.starPoint, R.createdAt,\n" +
+                "         R.title, R.description, RK.delivery, RK.quality, RK.satisfaction, \n" +
+                "         concat(PIF.quantity, '개') as quantity, \n" +
+                "         concat(PIF.kg, 'kg') as weight,\n" +
+                "         concat(PIF.liter, 'L') as liter\n" +
+                "from Review R\n" +
+                "\tleft join Product P        on P.productIdx = R.productIdx\n" +
+                "    left join ProductImage PI  on P.productIdx = PI.productIdx\n" +
+                "    left join ReviewKeyword RK on R.reviewIdx = RK.reviewIdx\n" +
+                "    left join ProductInfo PIF  on P.productInfoIdx = PIF.productInfoIdx \n" +
+                "where userIdx = ? order by R.createdAt desc";
+        Object[] getUserReviewParam = new Object[] {userIdx};
 
+        return this.jdbcTemplate.query(getUserReviewQuery,
+                (rs, rowNum) -> new GetUserReviewRes(
+                        rs.getInt("reviewIdx"),
+                        rs.getString("productName"),
+                        rs.getString("prodRepImageUrl"),
+                        rs.getInt("starPoint"),
+                        rs.getString("createdAt"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("delivery"),
+                        rs.getInt("quality"),
+                        rs.getInt("satisfaction"),
+                        rs.getString("quantity"),
+                        rs.getString("weight"),
+                        rs.getString("liter")
+                ), getUserReviewParam
+        );
+    }
 }
 

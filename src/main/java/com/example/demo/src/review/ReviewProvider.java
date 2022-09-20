@@ -49,6 +49,14 @@ public class ReviewProvider {
         }
     }
 
+    public List<String> getReviewPrePhotos(int productIdx) throws BaseException {
+        try {
+            List<String> photos = reviewDao.getReviewPrePhotos(productIdx);
+            return photos;
+        }  catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public GetReviewRes getReviewsByReviewIdx(int reviewIdx) throws BaseException {
         GetReviewRes review = reviewDao.getReviewByReviewIdx(reviewIdx);
@@ -110,4 +118,6 @@ public class ReviewProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
 }

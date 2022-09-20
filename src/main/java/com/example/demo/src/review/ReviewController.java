@@ -172,7 +172,21 @@ public class ReviewController {
         }
     }
 
-    /* 상품별 리뷰 대표 사진만 8개 조회 */
+    /* 상품별 리뷰 대표 사진만 8개 프리뷰 조회 */
+    @ResponseBody
+    @GetMapping("/{productIdx}/pre-photo")
+    public BaseResponse<List<String>> getReviewPrePhotos(@PathVariable("productIdx") int productIdx) {
+        try {
+            // 1. 상품이 있는지 조회
+            if (reviewProvider.checkProductExist(productIdx) == 0) {
+                return new BaseResponse<>(EMPTY_PRODUCT);
+            }
+            List<String> reviewPhotos = reviewProvider.getReviewPrePhotos(productIdx);
+            return new BaseResponse<>(reviewPhotos);
+        } catch (BaseException exception) {
+            return new BaseResponse((exception.getStatus()));
+        }
+    }
 
 
     /* 유저가 작성한 리뷰 조회 */

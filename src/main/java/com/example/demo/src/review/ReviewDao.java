@@ -278,7 +278,8 @@ public class ReviewDao {
     }
 
     public List<String> getReviewPhotos(int productIdx) {
-        String getReviewPhotosQuery = "select R.repImage\n" +
+        String getReviewPhotosQuery =
+                "select R.repImage\n" +
                 "from Review R\n" +
                 "    left join Product P on R.productIdx = P.productIdx\n" +
                 "where P.productIdx = ? order by R.createdAt desc";
@@ -288,10 +289,24 @@ public class ReviewDao {
                 ,getReviewPhotosParam);
     }
 
+    public List<String> getReviewPrePhotos(int productIdx) {
+        String getReviewPrePhotosQuery =
+                "select R.repImage\n" +
+                "from Review R \n" +
+                "    left join Product P on R.productIdx = P.productIdx\n" +
+                "where P.productIdx = ? order by R.createdAt desc limit 8";
+        Object[] getReviewPrePhotosParam = new Object[]{productIdx};
+        return this.jdbcTemplate.query(getReviewPrePhotosQuery,
+                (rs, rowNum) -> new String(rs.getString("repImage"))
+                ,getReviewPrePhotosParam);
+    }
+
     public int checkProductExist(int productIdx) {
         String Query = "select exists(select * from Product where status = 'Y' and productIdx =?)";
         Object[] Param = new Object[]{productIdx};
         return this.jdbcTemplate.queryForObject(Query, int.class, Param);
     }
+
+
 }
 

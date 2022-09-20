@@ -40,6 +40,16 @@ public class ReviewProvider {
         }
     }
 
+    public List<String> getReviewPhotos(int productIdx) throws BaseException {
+        try {
+            List<String> photos = reviewDao.getReviewPhotos(productIdx);
+            return photos;
+        }  catch(Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
     public GetReviewRes getReviewsByReviewIdx(int reviewIdx) throws BaseException {
         GetReviewRes review = reviewDao.getReviewByReviewIdx(reviewIdx);
         List<String> reviewImageUrl = reviewDao.getReviewImages(reviewIdx);
@@ -77,6 +87,14 @@ public class ReviewProvider {
         }
     }
 
+    public List<GetUserReviewRes> getUserReview(int userIdx) throws BaseException {
+        try {
+            return reviewDao.getUserReview(userIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public int checkReviewExist(int reviewIdx) throws BaseException {
         try {
             return reviewDao.checkReviewExist(reviewIdx);
@@ -85,11 +103,11 @@ public class ReviewProvider {
         }
     }
 
-    public List<GetUserReviewRes> getUserReview(int userIdx) throws BaseException {
-        //try {
-            return reviewDao.getUserReview(userIdx);
-        //} catch (Exception exception) {
-        //    throw new BaseException(DATABASE_ERROR);
-        //}
+    public int checkProductExist(int productIdx) throws BaseException {
+        try {
+            return reviewDao.checkProductExist(productIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

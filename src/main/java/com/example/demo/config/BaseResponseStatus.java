@@ -7,6 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public enum BaseResponseStatus {
+
     /**
      * 1000 : 요청 성공
      */
@@ -18,6 +19,7 @@ public enum BaseResponseStatus {
     SUCCESS_MODIFY_REVIEW(true, 1005, "리뷰 수정에 성공하였습니다."),
     SUCCESS_REVIEW_HELP(true, 1006, "리뷰의 도움이 됐어요 등록/해제에 성공하였습니다."),
     SUCCESS_DELETE_REVIEW(true, 1007, "리뷰 삭제에 성공하였습니다."),
+
     /**
      * 2000 : Request 오류
      */
@@ -31,7 +33,6 @@ public enum BaseResponseStatus {
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
     USERS_EMPTY_EMAIl(false, 2011, "존재하지 않는 이메일입니다."),
 
-    // [POST] /users
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
@@ -42,13 +43,16 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_PASSWORD(false, 2022, "비밀번호 형식을 확인해주세요"),
     POST_USERS_EMAIL_IN_PASSWORD(false, 2023, "비밀번호에는 이메일을 입력할 수 없습니다."),
 
-
+    // product
     EMPTY_PRODUCT_IDX(false, 2030, "상품 식별자가 존재하지 않습니다."),
-    EMPTY_CATEGORY_IDX(false, 2031, "카테고리 식별자가 존재하지 않습니다."),
-    POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),
+    EMPTY_PRODUCT(false, 2032, "상품 게시글이 존재하지 않습니다"),
 
-    // reviews
-    EMPTY_REVIEW(false, 2050, "리뷰가 존재하지 않습니다."),
+    // category
+    EMPTY_CATEGORY_IDX(false, 2031, "카테고리 식별자가 존재하지 않습니다."),
+
+    //review
+    POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),
+    EMPTY_REVIEW(false, 2041, "리뷰가 존재하지 않습니다."),
 
     /**
      * 3000 : Response 오류

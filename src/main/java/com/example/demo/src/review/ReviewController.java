@@ -112,7 +112,7 @@ public class ReviewController {
         }
     }
 
-    /* 리뷰 도움이 되었어요 설정*/
+    /* 리뷰 도움이 되었어요 설정 */
     @ResponseBody
     @PostMapping("/helpful")
     public BaseResponse<String> postReviewHelp(@RequestBody PostReviewHelpReq postReviewHelpReq) {
@@ -144,7 +144,7 @@ public class ReviewController {
         }
     }
 
-    /* 리뷰 프리뷰 조회 - 3개 */
+    /* 상품별 리뷰 프리뷰 조회 - 3개 */
     @ResponseBody
     @GetMapping("/{productIdx}/preview")
     public BaseResponse<List<GetReviewPreRes>> getReviewPreview(@PathVariable("productIdx") int productIdx) {
@@ -155,6 +155,25 @@ public class ReviewController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 상품별 리뷰 대표 사진만 전체 조회 */
+    @ResponseBody
+    @GetMapping("/{productIdx}/all-photo")
+    public BaseResponse<List<String>> getReviewPhotos(@PathVariable("productIdx") int productIdx) {
+        try {
+            // 1. 상품이 있는지 조회
+            if (reviewProvider.checkProductExist(productIdx) == 0) {
+                return new BaseResponse<>(EMPTY_PRODUCT);
+            }
+            List<String> reviewPhotos = reviewProvider.getReviewPhotos(productIdx);
+            return new BaseResponse<>(reviewPhotos);
+        } catch (BaseException exception) {
+            return new BaseResponse((exception.getStatus()));
+        }
+    }
+
+    /* 상품별 리뷰 대표 사진만 8개 조회 */
+
 
     /* 유저가 작성한 리뷰 조회 */
     @ResponseBody
@@ -174,9 +193,6 @@ public class ReviewController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-    /* 상품별 리뷰 사진만 전체 조회 */
-
 
     /* 리뷰 삭제 */
     @ResponseBody

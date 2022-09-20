@@ -249,7 +249,7 @@ public class ReviewDao {
                 "\tleft join Product P        on P.productIdx = R.productIdx\n" +
                 "    left join ProductImage PI  on P.productIdx = PI.productIdx\n" +
                 "    left join ReviewKeyword RK on R.reviewIdx = RK.reviewIdx\n" +
-                "    left join ProductInfo PIF  on P.productInfoIdx = PIF.productInfoIdx \n" +
+                "    left join ProductInfo PIF  on P.productIdx = PIF.productIdx \n" +
                 "where userIdx = ? order by R.createdAt desc";
         Object[] getUserReviewParam = new Object[] {userIdx};
 
@@ -275,6 +275,23 @@ public class ReviewDao {
     public int deleteReview(int reviewIdx) {
         String updateStatusReviewQuery = "update Review set status = 'N' where reviewIdx =?";
         return this.jdbcTemplate.update(updateStatusReviewQuery, reviewIdx);
+    }
+
+    public List<String> getReviewPhotos(int productIdx) {
+        String getReviewPhotosQuery = "select R.repImage\n" +
+                "from Review R\n" +
+                "    left join Product P on R.productIdx = P.productIdx\n" +
+                "where P.productIdx = ? order by R.createdAt desc";
+        Object[] getReviewPhotosParam = new Object[]{productIdx};
+        return this.jdbcTemplate.query(getReviewPhotosQuery,
+                (rs, rowNum) -> new String(rs.getString("repImage"))
+                ,getReviewPhotosParam);
+    }
+
+    public int checkProductExist(int productIdx) {
+        String Query = "select exists(select * from Product where status = 'Y' and productIdx =?)";
+        Object[] Param = new Object[]{productIdx};
+        return this.jdbcTemplate.queryForObject(Query, int.class, Param);
     }
 }
 

@@ -15,7 +15,7 @@ import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/app/reviews")
 public class ReviewController {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -38,7 +38,7 @@ public class ReviewController {
 
     /* 리뷰작성 */
     @ResponseBody
-    @PostMapping("/reviews")
+    @PostMapping("")
     public BaseResponse<PostReviewRes> createReview(@RequestBody PostReviewReq postReviewReq) {
         try {
             int userIdxByJwt = jwtService.getUserIdx();
@@ -54,7 +54,7 @@ public class ReviewController {
 
     /* 상품별 리뷰 조회 */
     @ResponseBody
-    @GetMapping("/reviews/products/{productIdx}")
+    @GetMapping("/products/{productIdx}")
     public BaseResponse<List<GetReviewRes>> getReviews(@PathVariable("productIdx") int productIdx) {
         try {
             List<GetReviewRes> getReviewRes = reviewProvider.getReviews(productIdx);
@@ -66,7 +66,7 @@ public class ReviewController {
 
     /* 리뷰 개별 조회 by reviewIdx */
     @ResponseBody
-    @GetMapping("/reviews/{reviewIdx}")
+    @GetMapping("/{reviewIdx}")
     public BaseResponse<GetReviewRes> getReviewsByReviewIdx(@PathVariable("reviewIdx") int reviewIdx) {
         try {
             GetReviewRes getReviewRes = reviewProvider.getReviewsByReviewIdx(reviewIdx);
@@ -78,7 +78,7 @@ public class ReviewController {
 
     /* 리뷰 필터링 - 별점 (1-5)*/
     @ResponseBody
-    @GetMapping("/reviews/{productIdx}/filter")
+    @GetMapping("/{productIdx}/filter")
     public BaseResponse<List<GetReviewRes>> getReviewsByStar(@PathVariable("productIdx") int productIdx, @RequestParam int star) {
         try {
             List<GetReviewRes> getReviewResByStar = reviewProvider.getReviewsByStar(productIdx, star);
@@ -90,7 +90,7 @@ public class ReviewController {
 
     /* 리뷰 수정 */
     @ResponseBody
-    @PatchMapping("/reviews/{reviewIdx}/users/{userIdx}")
+    @PatchMapping("/{reviewIdx}/users/{userIdx}")
     public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx,
                                              @PathVariable("userIdx") int userIdx,
                                              @RequestBody PatchReviewReq patchReviewReq) {

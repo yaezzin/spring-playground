@@ -28,18 +28,34 @@ public class ProductProvider {
     }
 
     public List<GetProdRes> getProductsByKeyword(String keyword) throws BaseException {
-        try {
+        //try {
             List<GetProdRes> productsByKeyword = productDao.getProductsByKeyword(keyword);
             return productsByKeyword;
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 
     public List<GetProdRes> getProductsByCategory(int categoryIdx) throws BaseException {
         try {
             List<GetProdRes> productsByCategory = productDao.getProductsByCategory(categoryIdx);
             return productsByCategory;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkProductExist(int productIdx) throws BaseException {
+        try {
+            return productDao.checkProductExist(productIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkProductWishExist(int productIdx, int userIdx) throws BaseException {
+        try {
+            return productDao.checkProductWishExist(productIdx, userIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

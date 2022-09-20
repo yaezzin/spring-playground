@@ -2,9 +2,11 @@ package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
+import com.example.demo.src.user.UserProvider;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/app/products")
@@ -24,11 +28,14 @@ public class ProductController {
     @Autowired
     private final ProductService productService;
     @Autowired
+    private final UserProvider userProvider;
+    @Autowired
     private final JwtService jwtService;
 
-    public ProductController(ProductProvider productProvider, ProductService productService, JwtService jwtService){
+    public ProductController(ProductProvider productProvider, ProductService productService, UserProvider userProvider, JwtService jwtService){
         this.productProvider = productProvider;
         this.productService = productService;
+        this.userProvider = userProvider;
         this.jwtService = jwtService;
     }
 
@@ -67,4 +74,28 @@ public class ProductController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 상품 찜하기 */
+    @ResponseBody
+    @PostMapping("/{productIdx}/wish")
+    public BaseResponse<String> createProductWish(@PathVariable("productIdx") int productIdx) {
+        try {
+            int userIdx = jwtService.getUserIdx();
+            if (userProvider.checkUser(userIdx) == 0) {
+                return new BaseResponse<>(USERS_EMPTY_USER_ID);
+            }
+            if (productProvider.checkProductExist(productIdx) == 0) {
+                return new BaseResponse<>(EMPTY_PRODUCT);
+            }
+            // 이미 좋아요를 눌렀으면
+            if (productProvider.checkProductWishExist(productIdx, userIdx) != 0) {
+                return new BaseResponse<>(POST_PRODUCT_WISH_EXIST);
+            }
+            productService.createProductWish(userIdx, productIdx);
+            return new BaseResponse<>(SUCCESS_CREATE_WISH);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

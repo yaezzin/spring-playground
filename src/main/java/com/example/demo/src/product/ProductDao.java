@@ -98,4 +98,21 @@ public class ProductDao {
                 ), getProdByCategoryParam
         );
     }
+
+    public int checkProductExist(int productIdx) {
+        String Query = "select exists(select * from Product where status = 'Y' and productIdx =?)";
+        Object[] Param = new Object[]{productIdx};
+        return this.jdbcTemplate.queryForObject(Query, int.class, Param);
+    }
+
+    public int createProductWish(int userIdx, int productIdx) {
+        String createProductWishQuery = "insert into Wish (userIdx, productIdx) values(?,?)";
+        return this.jdbcTemplate.update(createProductWishQuery, userIdx, productIdx);
+    }
+
+    public int checkProductWishExist(int productIdx, int userIdx) {
+        String Query = "select exists(select * from Wish where productIdx =? and userIdx =?)";
+        Object[] Param = new Object[]{productIdx, userIdx};
+        return this.jdbcTemplate.queryForObject(Query, int.class, Param);
+    }
 }

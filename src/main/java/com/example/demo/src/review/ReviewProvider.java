@@ -1,6 +1,7 @@
 package com.example.demo.src.review;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.review.model.GetReviewPreRes;
 import com.example.demo.src.review.model.GetReviewRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,14 @@ public class ReviewProvider {
     public String checkAlreadyReviewHelp(int userIdx, int reviewIdx) throws BaseException {
         try {
             return reviewDao.checkAlreadyReviewHelp(userIdx, reviewIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetReviewPreRes> getReviewPreview(int productIdx) throws BaseException {
+        try {
+            return reviewDao.getReviewPreview(productIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

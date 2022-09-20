@@ -100,14 +100,6 @@ public class ReviewController {
         }
     }
 
-    /* 리뷰 삭제 */
-
-    /* 유저가 작성한 리뷰 조회 */
-
-    /* 리뷰 프리뷰 조회 - 3개 */
-    //@ResponseBody
-    //@GetMapping("/{productIdx}/preview")
-
     /* 리뷰 도움이 되었어요 설정*/
     @ResponseBody
     @PostMapping("/helpful")
@@ -140,7 +132,20 @@ public class ReviewController {
         }
     }
 
+    /* 리뷰 프리뷰 조회 - 3개 */
+    @ResponseBody
+    @GetMapping("/{productIdx}/preview")
+    public BaseResponse<List<GetReviewPreRes>> getReviewPreview(@PathVariable("productIdx") int productIdx) {
+        try {
+            List<GetReviewPreRes> preview = reviewProvider.getReviewPreview(productIdx);
+            return new BaseResponse<>(preview);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     /* 상품별 리뷰 사진만 전체 조회 */
+    /* 리뷰 삭제 */
+    /* 유저가 작성한 리뷰 조회 */
 
 }

@@ -20,8 +20,8 @@ com/example/demo/src/product/model/PostProdRes.java
  com.example.demo.src.product.model.PostProdRes
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
-com/example/demo/src/review/model/GetReviewPreRes.java
- com.example.demo.src.review.model.GetReviewPreRes
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/user/UserDao.java
@@ -80,13 +80,13 @@ com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/src/product/ProductController.java
  com.example.demo.src.product.ProductController
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
 com/example/demo/src/review/ReviewDao.java
  com.example.demo.src.review.ReviewDao
 com/example/demo/src/review/ReviewProvider.java
  com.example.demo.src.review.ReviewProvider
 com/example/demo/src/review/ReviewController.java
  com.example.demo.src.review.ReviewController
+com/example/demo/src/review/model/GetReviewPreRes.java
+ com.example.demo.src.review.model.GetReviewPreRes
 com/example/demo/src/review/ReviewService.java
  com.example.demo.src.review.ReviewService

@@ -1,5 +1,6 @@
 package com.example.demo.src.review;
 
+import com.example.demo.src.review.model.GetReviewPreRes;
 import com.example.demo.src.review.model.GetReviewRes;
 import com.example.demo.src.review.model.PatchReviewReq;
 import com.example.demo.src.review.model.PostReviewReq;
@@ -211,6 +212,27 @@ public class ReviewDao {
     public int deleteExistsReviewHelp(int userIdx, int reviewIdx) {
         String deleteExistsReviewHelpQuery = "update ReviewHelp set status = 'N' where userIdx = ? and reviewIdx =? and status = 'Y'";
         return this.jdbcTemplate.update(deleteExistsReviewHelpQuery, userIdx, reviewIdx);
+    }
+
+    public List<GetReviewPreRes> getReviewPreview(int productIdx) {
+        String getReviewPreviewQuery =
+                "select U.userName, R.title, R.description, R.starPoint, R.repImage, R.createdAt,\n" +
+                "  (select count(*) from ReviewHelp RH where R.reviewIdx = RH.reviewIdx and status = 'Y') as reviewHelpCount \n" +
+                "from Review R\n" +
+                "    left join User U    on U.userIdx = R.userIdx\n" +
+                "    left join Product P on P.productIdx = R.productIdx\n" +
+                "where P.productIdx = ? order by ReviewHelpCount desc limit 3;";
+        Object[] GetReviewPreviewParam = new Object[] {productIdx};
+        return this.jdbcTemplate.query(getReviewPreviewQuery,
+                (rs, rowNum) -> new GetReviewPreRes(
+                        rs.getString("userName"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("starPoint"),
+                        rs.getString("repImage"),
+                        rs.getString("createdAt"),
+                        rs.getInt("reviewHelpCount"))
+                , GetReviewPreviewParam);
     }
 }
 

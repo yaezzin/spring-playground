@@ -9,5 +9,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GetReviewPreRes {
     private String userName;
+    private String title;
+    private String description;
+    private int starPoint;
+    private String repImage;
     private String createdAt;
+    private int reviewHelpCount;
 }

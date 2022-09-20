@@ -3,6 +3,7 @@ package com.example.demo.src.review;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.review.model.*;
+import com.example.demo.src.user.UserProvider;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_MODIFY_REVIEW;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/app/reviews")
@@ -26,10 +26,13 @@ public class ReviewController {
     private final ReviewService reviewService;
     @Autowired
     private final JwtService jwtService;
+    @Autowired
+    private final UserProvider userProvider;
 
-    public ReviewController(ReviewProvider reviewProvider, ReviewService reviewService, JwtService jwtService){
+    public ReviewController(ReviewProvider reviewProvider, ReviewService reviewService, UserProvider userProvider, JwtService jwtService){
         this.reviewProvider = reviewProvider;
         this.reviewService = reviewService;
+        this.userProvider = userProvider;
         this.jwtService = jwtService;
     }
 
@@ -102,8 +105,41 @@ public class ReviewController {
     /* 유저가 작성한 리뷰 조회 */
 
     /* 리뷰 프리뷰 조회 - 3개 */
+    //@ResponseBody
+    //@GetMapping("/{productIdx}/preview")
 
-    /* 리뷰 필터링 - 키워드 (품질, 배송, 만족도) */
+    /* 리뷰 도움이 되었어요 설정*/
+    @ResponseBody
+    @PostMapping("/helpful")
+    public BaseResponse<String> postReviewHelp(@RequestBody PostReviewHelpReq postReviewHelpReq) {
+        try {
+            // 1. 사용자 존재 여부 확인
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userProvider.checkUser(userIdxByJwt) == 0) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            // 3. 이미 도움이 돼요를 설정했는지 확인 -> N or Y 리턴
+            String isHelp = reviewProvider.checkAlreadyReviewHelp(userIdxByJwt, postReviewHelpReq.getReviewIdx());
+            if (isHelp.equals(postReviewHelpReq.getIsHelp())) {
+                return new BaseResponse<>(POST_REVIEW_HELP_EXIST);
+            }
+
+            // 4. 도움이 돼요를 누른 기록이 없고 Y로 요청한 경우 -> 도움이 돼요 누르기 (Y, Y)
+            if (isHelp.equals("N")) {
+                reviewService.createReviewHelp(userIdxByJwt, postReviewHelpReq.getReviewIdx(), postReviewHelpReq.getIsHelp());
+            }
+            // 5. 도움이 돼요를 누른 기록이 있고 N로 요청한 경우 -> 도움이 돼요 해제 (N, Y)
+            else if (isHelp.equals("Y")){
+                reviewService.createReviewHelpDelete(userIdxByJwt, postReviewHelpReq.getReviewIdx(), postReviewHelpReq.getIsHelp());
+            }
+            return new BaseResponse<>(SUCCESS_REVIEW_HELP);
+
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 
     /* 상품별 리뷰 사진만 전체 조회 */
 

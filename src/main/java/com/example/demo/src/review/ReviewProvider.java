@@ -59,5 +59,11 @@ public class ReviewProvider {
 
     }
 
-
+    public String checkAlreadyReviewHelp(int userIdx, int reviewIdx) throws BaseException {
+        try {
+            return reviewDao.checkAlreadyReviewHelp(userIdx, reviewIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

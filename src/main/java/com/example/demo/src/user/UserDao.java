@@ -83,4 +83,10 @@ public class UserDao {
         Object[] modifyUserProfileParams = new Object[]{patchUserReq.getProfileImage(), patchUserReq.getUserIdx()};
         return this.jdbcTemplate.update(modifyUserProfileQuery, modifyUserProfileParams);
     }
+
+    public int checkUser(int userIdx) {
+        String Query = "SELECT EXISTS(SELECT * FROM User WHERE status = 'Y' AND userIdx = ?);";
+        int Param = userIdx;
+        return this.jdbcTemplate.queryForObject(Query, int.class, Param);
+    }
 }

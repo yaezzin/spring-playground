@@ -192,5 +192,25 @@ public class ReviewDao {
         String insertImageQuery = "insert into ReviewImage(reviewImageUrl, reviewIdx) values(?,?)";
         this.jdbcTemplate.update(insertImageQuery, image, reviewIdx);
     }
+
+    public String checkAlreadyReviewHelp(int userIdx, int reviewIdx) {
+        String CheckIsHelpQuery = "select exists(select isHelp From ReviewHelp WHERE reviewIdx =? AND userIdx =? and status='Y');";
+        if (this.jdbcTemplate.queryForObject(CheckIsHelpQuery, int.class, reviewIdx, userIdx)==0){
+            return "N";
+        }
+        else {
+            return "Y";
+        }
+    }
+
+    public int createReviewHelp(int userIdx, int reviewIdx, String isHelp) {
+        String createReviewHelpQuery = "insert into ReviewHelp(userIdx, reviewIdx, isHelp, status) values(?,?,?, 'Y')";
+        return this.jdbcTemplate.update(createReviewHelpQuery, userIdx, reviewIdx, isHelp);
+    }
+
+    public int deleteExistsReviewHelp(int userIdx, int reviewIdx) {
+        String deleteExistsReviewHelpQuery = "update ReviewHelp set status = 'N' where userIdx = ? and reviewIdx =? and status = 'Y'";
+        return this.jdbcTemplate.update(deleteExistsReviewHelpQuery, userIdx, reviewIdx);
+    }
 }
 

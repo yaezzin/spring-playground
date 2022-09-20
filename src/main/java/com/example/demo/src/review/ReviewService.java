@@ -46,6 +46,18 @@ public class ReviewService {
         }
     }
 
+    public void createReviewHelp(int userIdx, int reviewIdx, String isHelp) throws BaseException {
+        try {
+            int result = reviewDao.createReviewHelp(userIdx, reviewIdx, isHelp);
+            if (result == 0){
+                throw new BaseException(CREATE_FAIL_REVIEW_HELP);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
     public void modifyReview(PatchReviewReq patchReviewReq) throws BaseException {
         // 1. 유저 존재 검증
         // 2. 리뷰 존재 검증
@@ -67,4 +79,17 @@ public class ReviewService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void createReviewHelpDelete(int userIdx, int reviewIdx, String isHelp) throws BaseException {
+        try {
+            int deleteSuccess = reviewDao.deleteExistsReviewHelp(userIdx, reviewIdx);
+            if (deleteSuccess == 0){
+                throw new BaseException(DELETE_FAIL_EXISTS_REVIEW_HELP);
+            }
+        
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

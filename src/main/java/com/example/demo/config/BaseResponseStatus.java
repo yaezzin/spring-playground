@@ -16,6 +16,7 @@ public enum BaseResponseStatus {
     SUCCESS_CREATE_CATEGORY(true, 1003, "카테고리 생성에 성공하였습니다."),
     SUCCESS_MODIFY_CATEGORY(true, 1004, "카테고리 수정에 성공하였습니다."),
     SUCCESS_MODIFY_REVIEW(true, 1005, "리뷰 수정에 성공하였습니다."),
+    SUCCESS_REVIEW_HELP(true, 1006, "리뷰의 도움이 됐어요 등록/해제에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */
@@ -43,6 +44,7 @@ public enum BaseResponseStatus {
 
     EMPTY_PRODUCT_IDX(false, 2030, "상품 식별자가 존재하지 않습니다."),
     EMPTY_CATEGORY_IDX(false, 2031, "카테고리 식별자가 존재하지 않습니다."),
+    POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),
 
     /**
      * 3000 : Response 오류
@@ -79,7 +81,10 @@ public enum BaseResponseStatus {
 
     // [Review]
     CREATE_FAIL_REVIEW(false, 4030, "리뷰 생성에 실패하였습니다."),
-    MODIFY_FAIL_REVIEW(false, 4031, "리뷰 수정에 실패하였습니다.");
+    MODIFY_FAIL_REVIEW(false, 4031, "리뷰 수정에 실패하였습니다."),
+    CREATE_FAIL_REVIEW_HELP(false, 4032, "도움이 됐어요 등록에 실패하였습니다"),
+    UPDATE_FAIL_REVIEW_HELP(false, 4044, "도움이 됐어요 수정에 실패하였습니다"),
+    DELETE_FAIL_EXISTS_REVIEW_HELP(false, 4033, "도움이 됐어요 해제에 실패하였습니다.");
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

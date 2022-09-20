@@ -271,5 +271,10 @@ public class ReviewDao {
                 ), getUserReviewParam
         );
     }
+
+    public int deleteReview(int reviewIdx) {
+        String updateStatusReviewQuery = "update Review set status = 'N' where reviewIdx =?";
+        return this.jdbcTemplate.update(updateStatusReviewQuery, reviewIdx);
+    }
 }
 

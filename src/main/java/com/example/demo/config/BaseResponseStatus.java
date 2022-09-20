@@ -17,6 +17,7 @@ public enum BaseResponseStatus {
     SUCCESS_MODIFY_CATEGORY(true, 1004, "카테고리 수정에 성공하였습니다."),
     SUCCESS_MODIFY_REVIEW(true, 1005, "리뷰 수정에 성공하였습니다."),
     SUCCESS_REVIEW_HELP(true, 1006, "리뷰의 도움이 됐어요 등록/해제에 성공하였습니다."),
+    SUCCESS_DELETE_REVIEW(true, 1007, "리뷰 삭제에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */
@@ -86,7 +87,8 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_REVIEW(false, 4031, "리뷰 수정에 실패하였습니다."),
     CREATE_FAIL_REVIEW_HELP(false, 4032, "도움이 됐어요 등록에 실패하였습니다"),
     UPDATE_FAIL_REVIEW_HELP(false, 4044, "도움이 됐어요 수정에 실패하였습니다"),
-    DELETE_FAIL_EXISTS_REVIEW_HELP(false, 4033, "도움이 됐어요 해제에 실패하였습니다.");
+    DELETE_FAIL_EXISTS_REVIEW_HELP(false, 4033, "도움이 됐어요 해제에 실패하였습니다."),
+    DELETE_FAIL_REVIEW(false, 4035, "리뷰 삭제에 실패하였스니다.");
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

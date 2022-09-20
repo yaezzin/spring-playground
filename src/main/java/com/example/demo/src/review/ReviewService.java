@@ -88,4 +88,15 @@ public class ReviewService {
         }
     }
 
+    public void deleteReview(int reviewIdx) throws BaseException {
+        try {
+            int result = reviewDao.deleteReview(reviewIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_REVIEW);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
 }

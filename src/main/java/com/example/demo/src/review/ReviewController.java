@@ -175,8 +175,23 @@ public class ReviewController {
         }
     }
 
-
     /* 상품별 리뷰 사진만 전체 조회 */
+
+
     /* 리뷰 삭제 */
+    @ResponseBody
+    @PatchMapping("/{reviewIdx}/deletion")
+    public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") int reviewIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userProvider.checkUser(userIdxByJwt) == 0) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            reviewService.deleteReview(reviewIdx);
+            return new BaseResponse<>(SUCCESS_DELETE_REVIEW);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 }

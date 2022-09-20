@@ -50,13 +50,13 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByKeyword(String keyword) {
         String getProdByKeywordQuery =
-                "select PI.prodRepImageUrl, P.productName, P.deliveryType, PI2.price, P.discount, P.overnightDelivery,\n" +
-                "  (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
-                "  (select floor(avg(R.starPoint)) from Review R where R.productIdx = P.productIdx) as StarPoint\n" +
+                "select P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
+                "    (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
+                "    (select avg(R.starPoint) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
+                "    (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
                 "from Product P\n" +
-                "    left join ProductImage PI  on P.productIdx = PI.productIdx\n" +
-                "    left join ProductInfo  PI2 on P.productInfoIdx = PI2.productInfoIdx\n" +
-                "having P.productName like concat('%', ?, '%')";
+                "    left join ProductInfo PIF on PIF.productIdx = P.productIdx\n" +
+                "where P.productName like concat('%', ?, '%')";
 
         String getProdByKeywordParam = keyword;
         return this.jdbcTemplate.query(getProdByKeywordQuery,

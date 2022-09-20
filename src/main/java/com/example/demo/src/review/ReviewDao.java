@@ -214,17 +214,23 @@ public class ReviewDao {
         return this.jdbcTemplate.update(deleteExistsReviewHelpQuery, userIdx, reviewIdx);
     }
 
+    public int checkReviewExist(int reviewIdx) {
+        String checkReviewExistQuery = "select exists(select reviewIdx from Review where reviewIdx =? and status = 'Y')";
+        return this.jdbcTemplate.queryForObject(checkReviewExistQuery, int.class, reviewIdx);
+    }
+
     public List<GetReviewPreRes> getReviewPreview(int productIdx) {
         String getReviewPreviewQuery =
-                "select U.userName, R.title, R.description, R.starPoint, R.repImage, R.createdAt,\n" +
+                "select R.reviewIdx, U.userName, R.title, R.description, R.starPoint, R.repImage, R.createdAt,\n" +
                 "  (select count(*) from ReviewHelp RH where R.reviewIdx = RH.reviewIdx and status = 'Y') as reviewHelpCount \n" +
                 "from Review R\n" +
                 "    left join User U    on U.userIdx = R.userIdx\n" +
                 "    left join Product P on P.productIdx = R.productIdx\n" +
-                "where P.productIdx = ? order by ReviewHelpCount desc limit 3;";
+                "where P.productIdx = ? order by ReviewHelpCount desc limit 3;"; // 도움이됐어요 순으로 3개만 리턴
         Object[] GetReviewPreviewParam = new Object[] {productIdx};
         return this.jdbcTemplate.query(getReviewPreviewQuery,
                 (rs, rowNum) -> new GetReviewPreRes(
+                        rs.getInt("reviewIdx"),
                         rs.getString("userName"),
                         rs.getString("title"),
                         rs.getString("description"),
@@ -234,5 +240,7 @@ public class ReviewDao {
                         rs.getInt("reviewHelpCount"))
                 , GetReviewPreviewParam);
     }
+
+
 }
 

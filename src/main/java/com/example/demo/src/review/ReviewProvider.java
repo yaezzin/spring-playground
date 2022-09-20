@@ -75,4 +75,12 @@ public class ReviewProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkReviewExist(int reviewIdx) throws BaseException {
+        try {
+            return reviewDao.checkReviewExist(reviewIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

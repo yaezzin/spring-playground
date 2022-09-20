@@ -59,10 +59,6 @@ public class ReviewService {
 
 
     public void modifyReview(PatchReviewReq patchReviewReq) throws BaseException {
-        // 1. 유저 존재 검증
-        // 2. 리뷰 존재 검증
-        // 3. 리뷰 == 유저 검증
-
         try {
             // 리뷰 수정
             reviewDao.modifyReview(patchReviewReq);

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetReviewPreRes {
+    private int reviewIdx;
     private String userName;
     private String title;
     private String description;

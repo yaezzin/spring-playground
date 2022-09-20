@@ -15,7 +15,7 @@ import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
-@RequestMapping("/app/reviews")
+@RequestMapping("/app")
 public class ReviewController {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -38,7 +38,7 @@ public class ReviewController {
 
     /* 리뷰작성 */
     @ResponseBody
-    @PostMapping("")
+    @PostMapping("/reviews")
     public BaseResponse<PostReviewRes> createReview(@RequestBody PostReviewReq postReviewReq) {
         try {
             int userIdxByJwt = jwtService.getUserIdx();
@@ -54,7 +54,7 @@ public class ReviewController {
 
     /* 상품별 리뷰 조회 */
     @ResponseBody
-    @GetMapping("/products/{productIdx}")
+    @GetMapping("/reviews/products/{productIdx}")
     public BaseResponse<List<GetReviewRes>> getReviews(@PathVariable("productIdx") int productIdx) {
         try {
             List<GetReviewRes> getReviewRes = reviewProvider.getReviews(productIdx);
@@ -66,7 +66,7 @@ public class ReviewController {
 
     /* 리뷰 개별 조회 by reviewIdx */
     @ResponseBody
-    @GetMapping("/{reviewIdx}")
+    @GetMapping("/reviews/{reviewIdx}")
     public BaseResponse<GetReviewRes> getReviewsByReviewIdx(@PathVariable("reviewIdx") int reviewIdx) {
         try {
             GetReviewRes getReviewRes = reviewProvider.getReviewsByReviewIdx(reviewIdx);
@@ -78,7 +78,7 @@ public class ReviewController {
 
     /* 리뷰 필터링 - 별점 (1-5)*/
     @ResponseBody
-    @GetMapping("/{productIdx}/filter")
+    @GetMapping("/reviews/{productIdx}/filter")
     public BaseResponse<List<GetReviewRes>> getReviewsByStar(@PathVariable("productIdx") int productIdx, @RequestParam int star) {
         try {
             List<GetReviewRes> getReviewResByStar = reviewProvider.getReviewsByStar(productIdx, star);
@@ -90,9 +90,21 @@ public class ReviewController {
 
     /* 리뷰 수정 */
     @ResponseBody
-    @PatchMapping("/{reviewIdx}")
-    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchReviewReq patchReviewReq) {
+    @PatchMapping("/reviews/{reviewIdx}/users/{userIdx}")
+    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx,
+                                             @PathVariable("userIdx") int userIdx,
+                                             @RequestBody PatchReviewReq patchReviewReq) {
         try {
+            // 리뷰가 존재하는지 확인
+            if (reviewProvider.checkReviewExist(reviewIdx) == 0) {
+                return new BaseResponse<>(EMPTY_REVIEW);
+            }
+
+            // 유저가 작성한 글인지 권한 확인
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             reviewService.modifyReview(patchReviewReq);
             return new BaseResponse<>(SUCCESS_MODIFY_REVIEW);
         } catch (BaseException exception) {

@@ -135,4 +135,25 @@ public class UserController {
            return new BaseResponse<>((exception.getStatus()));
        }
     }
+
+    /* 유저의 장바구니 조회 */
+    @ResponseBody
+    @GetMapping("/{userIdx}/cart")
+    public BaseResponse<List<GetUserCartRes>> getUserCart(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetUserCartRes> userProductWish = userProvider.getUserCart(userIdx);
+            return new BaseResponse<>(userProductWish);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 장바구니 담기 */
+
+
 }

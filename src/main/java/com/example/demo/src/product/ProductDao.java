@@ -38,7 +38,7 @@ public class ProductDao {
         if (postProdReq.getProdContentImageUrl() != null && postProdReq.getProdRepImageUrl() != null) {
             for (String s1 : postProdReq.getProdRepImageUrl()) {
                 for (String s2 : postProdReq.getProdContentImageUrl()) {
-                    String createProdImageQuery = "insert into ProductImage(prodRepImageUrl, prodContentImageUrl, productIdx) values(?,?, ?)";
+                    String createProdImageQuery = "insert into ProductImage(prodRepImageUrl, prodContentImageUrl, productIdx) values(?,?,?)";
                     Object[] createProdImageParams = new Object[]{s1, s2, postProdReq.getProductIdx()};
                     this.jdbcTemplate.update(createProdImageQuery, createProdImageParams);
                 }

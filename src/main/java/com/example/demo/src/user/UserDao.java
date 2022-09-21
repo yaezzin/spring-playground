@@ -121,4 +121,8 @@ public class UserDao {
                         rs.getString("liter"))
                 , GetUserProdWishParam);
     }
+
+    public List<GetUserCartRes> getUserCart(int userIdx) {
+        return null;
+    }
 }

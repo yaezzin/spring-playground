@@ -18,7 +18,6 @@ public class PostProdReq {
     private int deliveryTip; // 배달비
     private int categoryIdx; // 카테고리 ID
     private int sellerIdx; // 판매자 ID
-    private int productInfoIdx;
     private int productIdx;
     private List<String> prodRepImageUrl; //대표 이미지
     private List<String> prodContentImageUrl; // 상품 설명 이미지

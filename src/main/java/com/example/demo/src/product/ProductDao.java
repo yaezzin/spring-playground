@@ -111,11 +111,11 @@ public class ProductDao {
 
     public int deleteProductWish(int userIdx, int productIdx) {
         String Query = "update Wish set status = 'N' where userIdx =? and productIdx =? and status = 'Y'";
-        return 1;
+        return this.jdbcTemplate.update(Query, userIdx, productIdx);
     }
 
     public int checkProductWishExist(int productIdx, int userIdx) {
-        String Query = "select exists(select * from Wish where productIdx =? and userIdx =?)";
+        String Query = "select exists(select * from Wish where productIdx =? and userIdx =? and status = 'Y')";
         Object[] Param = new Object[]{productIdx, userIdx};
         return this.jdbcTemplate.queryForObject(Query, int.class, Param);
     }

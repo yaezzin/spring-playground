@@ -2,6 +2,7 @@ package com.example.demo.src.order;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.order.model.CreateOrderCartReq;
+import com.example.demo.src.order.model.DeleteOrderCartReq;
 import com.example.demo.src.product.ProductDao;
 import com.example.demo.src.product.ProductProvider;
 import com.example.demo.utils.JwtService;
@@ -35,6 +36,17 @@ public class OrderService {
                 throw new BaseException(CREATE_FAIL_CART);
             }
         } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteCart(DeleteOrderCartReq deleteOrderCartReq) throws BaseException {
+        try {
+            int result = orderDao.deleteCart(deleteOrderCartReq);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_CART);
+            }
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }

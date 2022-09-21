@@ -22,6 +22,7 @@ public enum BaseResponseStatus {
     SUCCESS_CREATE_WISH(true, 1008, "상품 찜 등록에 성공하였습니다"),
     SUCCESS_DELETE_WISH(true, 1009, "상품 찜 해제에 성공하였습니다."),
     SUCCESS_CREATE_CART(true, 1010, "상품의 장바구니 등록에 성공하였습니다."),
+    SUCCESS_DELETE_CART(true, 1011, "상품의 장바구니 해제에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -58,6 +59,10 @@ public enum BaseResponseStatus {
     //review
     POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),
     EMPTY_REVIEW(false, 2041, "리뷰가 존재하지 않습니다."),
+
+    // order
+    POST_CART_NOT_EXIST(false, 2050, "상품이 이미 장바구니에 등록되었습니다."),
+    PATCH_CART_NOT_EXIST(false, 2051, "장바구니에서 해제할 상품이 없습니다."),
 
 
     /**
@@ -106,7 +111,8 @@ public enum BaseResponseStatus {
     PUT_FAIL_PRODUCT_WISH(false, 4041, "상품 찜 해제에 실패하였습니다"),
 
     //order
-    CREATE_FAIL_CART(false, 4050, "상품의 장바구니 등록에 실패하였습니다.");
+    CREATE_FAIL_CART(false, 4050, "상품의 장바구니 등록에 실패하였습니다."),
+    DELETE_FAIL_CART(false, 4051, "상품의 장바구니 해제에 실패하였습니다.");
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

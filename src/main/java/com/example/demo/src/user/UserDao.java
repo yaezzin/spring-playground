@@ -122,7 +122,32 @@ public class UserDao {
                 , GetUserProdWishParam);
     }
 
-    public List<GetUserCartRes> getUserCart(int userIdx) {
-        return null;
+    public List<GetUserCartRes> getUserCart(int userIdx, int deliveryType) {
+        String getUserCartQuery =
+                "select P.productIdx, P.productName, \n" +
+                "concat(PIF.kg, 'kg') as kg,\n" +
+                "concat(PIF.quantity, '개') as quantity,\n" +
+                "concat(PIF.liter, 'L') as liter,\n" +
+                "PIF.price, P.discount, P.deliveryType, \n" +
+                "  (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
+                "from Cart C\n" +
+                "    left join Product P       on P.productIdx = C.productIdx\n" +
+                "    left join ProductInfo PIF on P.productIdx = PIF.productIdx\n" +
+                "    left join User U          on U.userIdx = C.userIdx\n" +
+                "where U.userIdx = ? and P.deliveryType = ? and C.status = 'Y' order by C.createdAt desc";
+
+        Object[] getUserCartParam = new Object[]{userIdx, deliveryType};
+        return this.jdbcTemplate.query(getUserCartQuery,
+                (rs, rowNum) -> new GetUserCartRes(
+                        rs.getInt("productIdx"),
+                        rs.getString("productName"),
+                        rs.getString("kg"),
+                        rs.getString("quantity"),
+                        rs.getString("liter"),
+                        rs.getInt("price"),
+                        rs.getInt("discount"),
+                        rs.getInt("deliveryType"),
+                        rs.getString("prodRepImageUrl")
+                ), getUserCartParam);
     }
 }

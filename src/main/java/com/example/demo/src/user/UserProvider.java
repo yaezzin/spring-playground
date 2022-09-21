@@ -99,11 +99,11 @@ public class UserProvider {
         }
     }
 
-    public List<GetUserCartRes> getUserCart(int userIdx) throws BaseException {
-        try {
-            return userDao.getUserCart(userIdx);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+    public List<GetUserCartRes> getUserCart(int userIdx, int deliveryType) throws BaseException {
+        //try {
+            return userDao.getUserCart(userIdx, deliveryType);
+        //} catch (Exception exception){
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 }

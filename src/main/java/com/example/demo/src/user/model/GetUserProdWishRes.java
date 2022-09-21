@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GetUserProdWishRes {
     private int productIdx;
+    private String productName;
     private int price;
     private int discount;
     private String prodRepImageUrl; //상품 대표이미지

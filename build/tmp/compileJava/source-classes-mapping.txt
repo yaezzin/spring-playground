@@ -82,6 +82,8 @@ com/example/demo/src/product/ProductService.java
  com.example.demo.src.product.ProductService
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
+com/example/demo/src/user/model/GetUserProdWishRes.java
+ com.example.demo.src.user.model.GetUserProdWishRes
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
@@ -90,8 +92,6 @@ com/example/demo/src/product/ProductController.java
  com.example.demo.src.product.ProductController
 com/example/demo/src/review/ReviewController.java
  com.example.demo.src.review.ReviewController
-com/example/demo/src/user/model/GetUserProdWishRes.java
- com.example.demo.src.user.model.GetUserProdWishRes
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/src/user/UserProvider.java

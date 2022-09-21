@@ -100,7 +100,7 @@ public class UserDao {
         String GetUserProdWishQuery =
                 "select P.productIdx, P.productName, PIF.price, P.discount, \n" +
                 "    concat(PIF.quantity, '개') as quantity,\n" +
-                "    concat(PIF.kg, 'kg'), as kg\n" +
+                "    concat(PIF.kg, 'kg') as kg,\n" +
                 "    concat(PIF.liter, 'L') as liter,\n" +
                 "    (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
                 "from Product P\n" +
@@ -112,6 +112,7 @@ public class UserDao {
         return this.jdbcTemplate.query(GetUserProdWishQuery,
                 (rs, rowNum) -> new GetUserProdWishRes(
                         rs.getInt("productIdx"),
+                        rs.getString("productName"),
                         rs.getInt("price"),
                         rs.getInt("discount"),
                         rs.getString("prodRepImageUrl"),

@@ -92,10 +92,10 @@ public class UserProvider {
     }
 
     public List<GetUserProdWishRes> getUserProductWish(int userIdx) throws BaseException {
-        try {
+        //try {
             return userDao.getUserProductWish(userIdx);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+        //} catch (Exception exception){
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 }

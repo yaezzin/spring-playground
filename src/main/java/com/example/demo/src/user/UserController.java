@@ -13,8 +13,7 @@ import java.util.List;
 
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
-import static com.example.demo.utils.ValidationRegex.isRegexPassword;
+import static com.example.demo.utils.ValidationRegex.*;
 
 @RestController
 @RequestMapping("/app/users")
@@ -41,6 +40,8 @@ public class UserController {
          * 1. 핸드폰 번호, 이름, 패스워드, 이메일이 null이면 예외
          * 2. 패스워드가 형식에 (영문, 숫자, 특수문자 중 2가지이상 조합 // 8~20자 // 이메일제외)
          */
+
+        // 1. null 값 확인
         if (postUserReq.getEmail() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
@@ -53,14 +54,21 @@ public class UserController {
         if (postUserReq.getUserName() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_NAME);
         }
+
+        // 2. 이메일 확인
         if (!isRegexEmail(postUserReq.getEmail())){
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
+
+        // 3. 비밀번호 확인
         if (!isRegexPassword(postUserReq.getPassword())) {
             return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
         }
         if (postUserReq.getPassword() == postUserReq.getEmail()) {
-            return new BaseResponse<>(POST_USERS_EMAIL_IN_PASSWORD); // 패스워드는 이메일일 수 없음
+            return new BaseResponse<>(POST_USERS_EMAIL_IN_PASSWORD);
+        }
+        if (!isRegexPasswordThreeSame(postUserReq.getPassword())) {
+            return new BaseResponse<>(POST_USER_INVALID_PASSWORD_CONTINUOUS);
         }
 
         try{

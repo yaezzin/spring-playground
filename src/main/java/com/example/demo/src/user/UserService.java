@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
-        if(userProvider.checkEmail(postUserReq.getEmail()) ==1){
+        if(userProvider.checkEmail(postUserReq.getEmail()) == 1){
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
         if(userProvider.checkPhoneNumber(postUserReq.getPhoneNumber()) == 1){

@@ -23,6 +23,7 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_WISH(true, 1009, "상품 찜 해제에 성공하였습니다."),
     SUCCESS_CREATE_CART(true, 1010, "상품의 장바구니 등록에 성공하였습니다."),
     SUCCESS_DELETE_CART(true, 1011, "상품의 장바구니 해제에 성공하였습니다."),
+    SUCCESS_DELETE_USER(true, 1012, "회원 탈퇴에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -87,6 +88,7 @@ public enum BaseResponseStatus {
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
     MODIFY_FAIL_USER_PROFILE(false, 4018, "유저 프로필 수정에 실패하였습니다."),
+    DELETE_FAIL_USER(false, 4019, "유저탈퇴에 실패하였습니다"),
 
     MODIFY_FAIL_USER_PASSWORD(false, 4015, "비밀번호 수정에 실패하였습니다."),
     USER_CURRENT_PASSWORD_NOT_CORRECT(false, 4016, "현재 비밀번호가 일치하지 않습니다."),
@@ -111,7 +113,7 @@ public enum BaseResponseStatus {
     CREATE_FAIL_PRODUCT_WISH(false, 4040, "상품 찜 등록에 실패하였습니다."),
     PUT_FAIL_PRODUCT_WISH(false, 4041, "상품 찜 해제에 실패하였습니다"),
 
-    //order
+    // order
     CREATE_FAIL_CART(false, 4050, "상품의 장바구니 등록에 실패하였습니다."),
     DELETE_FAIL_CART(false, 4051, "상품의 장바구니 해제에 실패하였습니다.");
 

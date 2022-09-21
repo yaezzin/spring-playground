@@ -94,6 +94,23 @@ public class UserController {
         }
     }
 
+    /* 회원 탈퇴 */
+    @ResponseBody
+    @PatchMapping("/{userIdx}")
+    public BaseResponse<String> deleteUser(@PathVariable("userIdx") int userIdx,
+                                           @RequestBody PatchUserStatusReq patchUserStatusReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.deleteUser(userIdx, patchUserStatusReq);
+            return new BaseResponse<>(SUCCESS_DELETE_USER);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    
     /* userIdx로 회원 단건 조회 */
     @ResponseBody
     @GetMapping("/{userIdx}")
@@ -111,6 +128,7 @@ public class UserController {
         }
     }
 
+    /* 유저 프로필 사진 변경 */
     @ResponseBody
     @PatchMapping("/{userIdx}/profile")
     public BaseResponse<String> modifyUserProfile(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserReq patchUserReq) {
@@ -162,7 +180,8 @@ public class UserController {
         }
     }
 
-    /* 장바구니 담기 */
+
+
 
 
 }

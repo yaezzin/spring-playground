@@ -150,4 +150,15 @@ public class UserDao {
                         rs.getString("prodRepImageUrl")
                 ), getUserCartParam);
     }
+
+    public int checkPassword(String email, String encryptPwd) {
+        String query = "SELECT EXISTS(SELECT * FROM User U WHERE U.email=? AND U.password=? AND U.status='Y');";
+        Object[] Params = new Object[]{email, encryptPwd};
+        return this.jdbcTemplate.queryForObject(query, int.class, Params);
+    }
+
+    public int deleteUser(int userIdx) {
+        String query = "update User set status = 'N' where userIdx = ?";
+        return this.jdbcTemplate.update(query, userIdx);
+    }
 }

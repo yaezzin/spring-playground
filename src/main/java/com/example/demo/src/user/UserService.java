@@ -71,4 +71,28 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void deleteUser(int userIdx, PatchUserStatusReq patchUserStatusReq) throws BaseException {
+        String encryptPwd;
+        try {
+            encryptPwd = new SHA256().encrypt(patchUserStatusReq.getPassword());
+            patchUserStatusReq.setPassword(encryptPwd);
+        } catch (Exception exception) {
+            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+        }
+
+        if (userProvider.checkPassword(patchUserStatusReq.getEmail(), encryptPwd) == 0) {
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
+
+        try {
+            int result = userDao.deleteUser(userIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_USER);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
 }

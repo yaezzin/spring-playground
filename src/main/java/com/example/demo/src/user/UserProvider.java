@@ -100,10 +100,18 @@ public class UserProvider {
     }
 
     public List<GetUserCartRes> getUserCart(int userIdx, int deliveryType) throws BaseException {
-        //try {
+        try {
             return userDao.getUserCart(userIdx, deliveryType);
-        //} catch (Exception exception){
-        //    throw new BaseException(DATABASE_ERROR);
-        //}
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkPassword(String email, String encryptPwd) throws BaseException {
+        try {
+            return userDao.checkPassword(email, encryptPwd);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

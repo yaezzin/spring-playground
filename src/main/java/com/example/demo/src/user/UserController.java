@@ -118,4 +118,21 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 유저가 찜한 상품 목록 조회 */
+    @ResponseBody
+    @GetMapping("/{userIdx}/wish")
+    public BaseResponse<List<GetUserProdWishRes>> getUserProductWish(@PathVariable("userIdx") int userIdx) {
+       try {
+           int userIdxByJwt = jwtService.getUserIdx();
+           if (userIdx != userIdxByJwt) {
+               return new BaseResponse<>(INVALID_USER_JWT);
+           }
+           List<GetUserProdWishRes> userProductWish = userProvider.getUserProductWish(userIdx);
+           return new BaseResponse<>(userProductWish);
+       } catch (BaseException exception) {
+           exception.printStackTrace();
+           return new BaseResponse<>((exception.getStatus()));
+       }
+    }
 }

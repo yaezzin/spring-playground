@@ -95,4 +95,29 @@ public class UserDao {
         Object[] Param = new Object[]{email};
         return this.jdbcTemplate.queryForObject(Query, int.class, Param);
     }
+
+    public List<GetUserProdWishRes> getUserProductWish(int userIdx) {
+        String GetUserProdWishQuery =
+                "select P.productIdx, P.productName, PIF.price, P.discount, \n" +
+                "    concat(PIF.quantity, '개') as quantity,\n" +
+                "    concat(PIF.kg, 'kg'), as kg\n" +
+                "    concat(PIF.liter, 'L') as liter,\n" +
+                "    (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
+                "from Product P\n" +
+                "    left join ProductInfo PIF  on P.productIdx = PIF.productIdx\n" +
+                "    left join Wish W on W.productIdx = P.productIdx\n" +
+                "    left join User U on U.userIdx = W.userIdx\n" +
+                "where U.userIdx = ? and W.status = 'Y' order by W.createdAt desc";
+        Object[] GetUserProdWishParam = new Object[] {userIdx};
+        return this.jdbcTemplate.query(GetUserProdWishQuery,
+                (rs, rowNum) -> new GetUserProdWishRes(
+                        rs.getInt("productIdx"),
+                        rs.getInt("price"),
+                        rs.getInt("discount"),
+                        rs.getString("prodRepImageUrl"),
+                        rs.getString("quantity"),
+                        rs.getString("kg"),
+                        rs.getString("liter"))
+                , GetUserProdWishParam);
+    }
 }

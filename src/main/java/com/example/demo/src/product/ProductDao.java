@@ -21,14 +21,13 @@ public class ProductDao {
     }
 
     public PostProdRes createProduct(PostProdReq postProdReq) {
-        String createProductQuery = "insert into Product(productName, discount, deliveryAt, deliveryTip, categoryIdx, productInfoIdx, sellerIdx) values(?,?,?,?,?,?,?)";
+        String createProductQuery = "insert into Product(productName, discount, deliveryAt, deliveryTip, categoryIdx, sellerIdx) values(?,?,?,?,?,?)";
         Object[] createProductParams = new Object[]{
                 postProdReq.getProductName(),
                 postProdReq.getDiscount(),
                 postProdReq.getDeliveryAt(),
                 postProdReq.getDeliveryTip(),
                 postProdReq.getCategoryIdx(),
-                postProdReq.getProductInfoIdx(),
                 postProdReq.getSellerIdx()
         };
 

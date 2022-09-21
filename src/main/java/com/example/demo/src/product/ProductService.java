@@ -27,12 +27,12 @@ public class ProductService {
     }
 
     public PostProdRes createProduct(PostProdReq postProdReq) throws BaseException {
-        try {
+        //try {
             PostProdRes result = productDao.createProduct(postProdReq);
             return result;
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 
     public void createProductWish(int userIdx, int productIdx) throws BaseException {

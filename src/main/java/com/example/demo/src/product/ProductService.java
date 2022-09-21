@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.example.demo.config.BaseResponseStatus.CREATE_FAIL_PRODUCT_WISH;
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class ProductService {
@@ -37,14 +36,24 @@ public class ProductService {
     }
 
     public void createProductWish(int userIdx, int productIdx) throws BaseException {
-        //try {
+        try {
             int result = productDao.createProductWish(userIdx, productIdx);
             if (result == 0) {
                 throw new BaseException(CREATE_FAIL_PRODUCT_WISH);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteProductWish(int userIdx, int productIdx) throws BaseException {
+        //try {
+            int result = productDao.deleteProductWish(userIdx, productIdx);
+            if (result == 0) {
+                throw new BaseException(PUT_FAIL_PRODUCT_WISH);
             }
         //} catch (Exception exception) {
         //    throw new BaseException(DATABASE_ERROR);
         //}
     }
-
 }

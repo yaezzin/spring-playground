@@ -20,6 +20,7 @@ public enum BaseResponseStatus {
     SUCCESS_REVIEW_HELP(true, 1006, "리뷰의 도움이 됐어요 등록/해제에 성공하였습니다."),
     SUCCESS_DELETE_REVIEW(true, 1007, "리뷰 삭제에 성공하였습니다."),
     SUCCESS_CREATE_WISH(true, 1008, "상품 찜 등록에 성공하였습니다"),
+    SUCCESS_DELETE_WISH(true, 1009, "상품 찜 해제에 성공하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -48,12 +49,15 @@ public enum BaseResponseStatus {
     EMPTY_PRODUCT_IDX(false, 2030, "상품 식별자가 존재하지 않습니다."),
     EMPTY_PRODUCT(false, 2032, "상품 게시글이 존재하지 않습니다"),
     POST_PRODUCT_WISH_EXIST(false, 2033, "상품에 대한 찜을 이미 등록하였습니다."),
+    POST_PRODUCT_WISH_NOT_EXIST(false, 2034, "상품에 대한 찜을 이미 해제하였습니다"),
+
     // category
     EMPTY_CATEGORY_IDX(false, 2031, "카테고리 식별자가 존재하지 않습니다."),
 
     //review
     POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),
     EMPTY_REVIEW(false, 2041, "리뷰가 존재하지 않습니다."),
+
 
     /**
      * 3000 : Response 오류
@@ -97,7 +101,8 @@ public enum BaseResponseStatus {
     DELETE_FAIL_REVIEW(false, 4035, "리뷰 삭제에 실패하였습니다."),
 
     // product
-    CREATE_FAIL_PRODUCT_WISH(false, 4040, "상품 찜 등록에 실패하였습니다.");
+    CREATE_FAIL_PRODUCT_WISH(false, 4040, "상품 찜 등록에 실패하였습니다."),
+    PUT_FAIL_PRODUCT_WISH(false, 4041, "상품 찜 해제에 실패하였습니다");
 
 
     // 5000 : 필요시 만들어서 쓰세요

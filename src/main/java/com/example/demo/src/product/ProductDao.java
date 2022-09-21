@@ -110,6 +110,11 @@ public class ProductDao {
         return this.jdbcTemplate.update(createProductWishQuery, userIdx, productIdx);
     }
 
+    public int deleteProductWish(int userIdx, int productIdx) {
+        String Query = "update Wish set status = 'N' where userIdx =? and productIdx =? and status = 'Y'";
+        return 1;
+    }
+
     public int checkProductWishExist(int productIdx, int userIdx) {
         String Query = "select exists(select * from Wish where productIdx =? and userIdx =?)";
         Object[] Param = new Object[]{productIdx, userIdx};

@@ -2,6 +2,7 @@ package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.product.model.GetProdDetailRes;
 import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
@@ -69,6 +70,18 @@ public class ProductController {
         try {
             List<GetProdRes> productsByCategory = productProvider.getProductsByCategory(categoryIdx);
             return new BaseResponse<>(productsByCategory);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 상품 상세 조회 */
+    @ResponseBody
+    @GetMapping("/{productIdx}")
+    public BaseResponse<GetProdDetailRes> getProductDetail(@PathVariable("productIdx") int productIdx) {
+        try {
+            GetProdDetailRes getProdDetailRes = productProvider.getProductDetail(productIdx);
+            return new BaseResponse<>(getProdDetailRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetProdDetailRes {
+    private int productIdx;
     private String productName;
     private int discount;
     private int price;
@@ -26,5 +27,19 @@ public class GetProdDetailRes {
     private List<String> prodRepImageUrl;
     private List<String> prodContentImageUrl;
 
+    public GetProdDetailRes(int productIdx, String productName, int discount, int price, String deliveryAt, String sellerName,
+                            int starPoint, int reviewCount, String quantity, String kg, String liter) {
+        this.productIdx = productIdx;
+        this.productName = productName;
+        this.discount = discount;
+        this.price = price;
+        this.deliveryAt = deliveryAt;
+        this.sellerName = sellerName;
+        this.starPoint = starPoint;
+        this.reviewCount = reviewCount;
+        this.quantity = quantity;
+        this.kg = kg;
+        this.liter = liter;
+    }
 
 }

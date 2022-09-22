@@ -1,6 +1,7 @@
 package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.product.model.GetProdDetailRes;
 import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -96,5 +97,20 @@ public class ProductProvider {
         }
     }
 
+    public GetProdDetailRes getProductDetail(int productIdx) throws BaseException {
+        //try {
+            GetProdDetailRes prodDetail = productDao.getProductDetail(productIdx);
 
+            List<String> prodRepImageUrl = productDao.getProductRepImages(productIdx);
+            prodDetail.setProdRepImageUrl(prodRepImageUrl);
+
+            List<String> prodContentImageUrl = productDao.getProductContentImages(productIdx);
+            prodDetail.setProdContentImageUrl(prodContentImageUrl);
+
+            return prodDetail;
+
+        //} catch (Exception exception) {
+       //     throw new BaseException(DATABASE_ERROR);
+        //}
+    }
 }

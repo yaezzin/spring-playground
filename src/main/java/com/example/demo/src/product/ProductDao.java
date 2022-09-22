@@ -49,6 +49,36 @@ public class ProductDao {
         return new PostProdRes("상품 등록에 성공하였습니다.");
     }
 
+    public GetProdDetailRes getProductDetail(int productIdx) {
+        String query =
+                "select P.productIdx, P.productName, P.discount, PIF.price, P.deliveryAt,\n" +
+                "    U.userName as sellerName,\n" +
+                "    (select floor(avg(R.starPoint)) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
+                "    (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
+                "    concat(PIF.quantity, '개') as quantity,\n" +
+                "    concat(PIF.kg, 'kg') as kg,\n" +
+                "    concat(PIF.liter, 'L') as liter\n" +
+                "from Product P \n" +
+                "    left join ProductInfo PIF on PIF.productIdx = P.productIdx\n" +
+                "    left join User U on P.sellerIdx = U.userIdx\n" +
+                "where P.productIdx = ? and P.status = 'Y'";
+        Object[] getProdDetailParam = new Object[] {productIdx};
+
+        return this.jdbcTemplate.queryForObject(query,
+                (rs, rowNum) -> new GetProdDetailRes(
+                        rs.getInt("productIdx"),
+                        rs.getString("productName"),
+                        rs.getInt("discount"),
+                        rs.getInt("price"),
+                        rs.getString("deliveryAt"),
+                        rs.getString("sellerName"),
+                        rs.getInt("starPoint"),
+                        rs.getInt("reviewCount"),
+                        rs.getString("quantity"),
+                        rs.getString("kg"),
+                        rs.getString("liter")
+                ), getProdDetailParam);
+    }
 
     public List<String> getProductRepImages(int productIdx) {
         String getProductRepImageQuery = "select prodRepImageUrl from ProductImage where productIdx = ? and status = 'Y'";
@@ -233,4 +263,6 @@ public class ProductDao {
         Object[] Param = new Object[]{productIdx, userIdx};
         return this.jdbcTemplate.queryForObject(Query, int.class, Param);
     }
+
+
 }

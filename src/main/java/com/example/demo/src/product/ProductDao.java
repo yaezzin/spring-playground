@@ -97,7 +97,7 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByKeyword(String keyword) {
         String getProdByKeywordQuery =
-                "select P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
+                "select P.productIdx, P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
                 "    (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
                 "    (select avg(R.starPoint) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
                 "    (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
@@ -108,6 +108,7 @@ public class ProductDao {
         String getProdByKeywordParam = keyword;
         return this.jdbcTemplate.query(getProdByKeywordQuery,
                 (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),
@@ -122,7 +123,7 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByHighPrice(int categoryIdx) {
         String getProdByHighPriceQuery =
-                "select P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
+                "select P.productIdx, P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
                 " (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
                 " (select avg(R.starPoint) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
                 " (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
@@ -132,6 +133,7 @@ public class ProductDao {
         int getProdByHighPriceParam = categoryIdx;
         return this.jdbcTemplate.query(getProdByHighPriceQuery,
                 (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),
@@ -145,7 +147,7 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByLowPrice(Integer categoryIdx) {
         String getProdByLowPriceQuery =
-                "select P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
+                "select P.productIdx, P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
                 " (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
                 " (select avg(R.starPoint) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
                 " (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
@@ -156,6 +158,7 @@ public class ProductDao {
 
         return this.jdbcTemplate.query(getProdByLowPriceQuery,
                 (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),
@@ -169,17 +172,18 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByCategory(Integer categoryIdx) {
         String getProdByCategoryQuery =
-                "select PI.prodRepImageUrl, P.productName, P.deliveryType, PI2.price, P.discount, P.overnightDelivery,\n" +
+                "select P.productIdx, PI.prodRepImageUrl, P.productName, P.deliveryType, PI2.price, P.discount, P.overnightDelivery,\n" +
                         "  (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
                         "  (select floor(avg(R.starPoint)) from Review R where R.productIdx = P.productIdx) as StarPoint\n" +
                         "from Product P\n" +
                         "    left join ProductImage PI  on P.productIdx = PI.productIdx\n" +
-                        "    left join ProductInfo  PI2 on P.productInfoIdx = PI2.productInfoIdx\n" +
+                        "    left join ProductInfo  PI2 on P.productIdx = PI2.productIdx\n" +
                         "    left join Category C       on P.categoryIdx = C.categoryIdx\n" +
                         "where P.categoryIdx = ?";
         int getProdByCategoryParam = categoryIdx;
         return this.jdbcTemplate.query(getProdByCategoryQuery,
                 (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),
@@ -194,7 +198,7 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByKeywordAndHighPrice(String keyword) {
         String getProdByKeywordAndHighPriceQuery =
-                "select P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
+                "select P.productIdx, P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
                 " (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
                 " (select avg(R.starPoint) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
                 " (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
@@ -205,6 +209,7 @@ public class ProductDao {
         Object [] getProdByKeywordAndHighPriceParam = new Object[] {keyword};
         return this.jdbcTemplate.query(getProdByKeywordAndHighPriceQuery,
                 (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),
@@ -219,7 +224,7 @@ public class ProductDao {
 
     public List<GetProdRes> getProductsByKeywordAndLowPrice(String keyword) {
         String getProdByKeywordAndLowPriceQuery =
-                "select P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
+                "select P.productIdx, P.productName, P.deliveryType, P.discount, P.overnightDelivery, PIF.price,\n" +
                         " (select count(*) from Review R where R.productIdx = P.productIdx) as reviewCount,\n" +
                         " (select avg(R.starPoint) from Review R where R.productIdx = P.productIdx) as StarPoint,\n" +
                         " (select PI.prodRepImageUrl from ProductImage PI where PI.productIdx = P.productIdx limit 1) as prodRepImageUrl\n" +
@@ -230,6 +235,7 @@ public class ProductDao {
         String getProdByKeywordAndLowPriceParam = keyword;
         return this.jdbcTemplate.query(getProdByKeywordAndLowPriceQuery,
                 (rs, rowNum) -> new GetProdRes(
+                        rs.getInt("productIdx"),
                         rs.getString("prodRepImageUrl"),
                         rs.getString("productName"),
                         rs.getString("deliveryType"),

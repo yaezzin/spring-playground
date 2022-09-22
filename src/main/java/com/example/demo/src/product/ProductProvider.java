@@ -98,7 +98,7 @@ public class ProductProvider {
     }
 
     public GetProdDetailRes getProductDetail(int productIdx) throws BaseException {
-        //try {
+        try {
             GetProdDetailRes prodDetail = productDao.getProductDetail(productIdx);
 
             List<String> prodRepImageUrl = productDao.getProductRepImages(productIdx);
@@ -109,8 +109,8 @@ public class ProductProvider {
 
             return prodDetail;
 
-        //} catch (Exception exception) {
-       //     throw new BaseException(DATABASE_ERROR);
-        //}
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

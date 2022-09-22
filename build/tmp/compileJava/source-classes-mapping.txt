@@ -22,8 +22,8 @@ com/example/demo/src/review/model/PatchReviewReq.java
  com.example.demo.src.review.model.PatchReviewReq
 com/example/demo/src/review/ReviewController.java
  com.example.demo.src.review.ReviewController
-com/example/demo/src/product/model/GetProdRes.java
- com.example.demo.src.product.model.GetProdRes
+com/example/demo/src/product/model/GetProdDetailRes.java
+ com.example.demo.src.product.model.GetProdDetailRes
 com/example/demo/src/category/CategoryProvider.java
  com.example.demo.src.category.CategoryProvider
 com/example/demo/src/user/UserProvider.java
@@ -102,8 +102,8 @@ com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/user/model/PatchUserStatusReq.java
  com.example.demo.src.user.model.PatchUserStatusReq
-com/example/demo/src/product/model/GetProdDetailRes.java
- com.example.demo.src.product.model.GetProdDetailRes
+com/example/demo/src/product/model/GetProdRes.java
+ com.example.demo.src.product.model.GetProdRes
 com/example/demo/src/product/ProductProvider.java
  com.example.demo.src.product.ProductProvider
 com/example/demo/src/product/ProductDao.java

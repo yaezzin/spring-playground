@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.EMPTY_CATEGORY_IDX;
 
 @Service
 public class ProductProvider {
@@ -28,12 +27,48 @@ public class ProductProvider {
     }
 
     public List<GetProdRes> getProductsByKeyword(String keyword) throws BaseException {
-        //try {
+        try {
             List<GetProdRes> productsByKeyword = productDao.getProductsByKeyword(keyword);
+            return productsByKeyword;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetProdRes> getProductsByHighPrice(Integer categoryIdx) throws BaseException {
+        //try {
+            List<GetProdRes> productsByKeyword = productDao.getProductsByHighPrice(categoryIdx);
+            return productsByKeyword;
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+       // }
+    }
+
+    public List<GetProdRes> getProductsByLowPrice(Integer categoryIdx) throws BaseException {
+        //try {
+            List<GetProdRes> productsByKeyword = productDao.getProductsByLowPrice(categoryIdx);
             return productsByKeyword;
         //} catch (Exception exception) {
         //    throw new BaseException(DATABASE_ERROR);
         //}
+    }
+
+    public List<GetProdRes> getProductsByKeywordAndHighPrice(String keyword) throws BaseException {
+        try {
+            List<GetProdRes> productsByKeyword = productDao.getProductsByKeywordAndHighPrice(keyword);
+            return productsByKeyword;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetProdRes> getProductsByKeywordAndLowPrice(String keyword) throws BaseException {
+        try {
+            List<GetProdRes> productsByKeyword = productDao.getProductsByKeywordAndLowPrice(keyword);
+            return productsByKeyword;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
     public List<GetProdRes> getProductsByCategory(int categoryIdx) throws BaseException {
@@ -60,4 +95,6 @@ public class ProductProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
 }

@@ -2,7 +2,6 @@ package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.product.model.GetProdRes;
 import com.example.demo.src.product.model.PostProdReq;
 import com.example.demo.src.product.model.PostProdRes;
@@ -54,7 +53,7 @@ public class ProductController {
     /* 상품 검색 키워드별 조회 */
     @ResponseBody
     @GetMapping("/search")
-    public BaseResponse<List<GetProdRes>> getProductsByKeyword(@RequestParam String keyword) {
+    public BaseResponse<List<GetProdRes>> getProductsByKeyword(@RequestParam(required = false) String keyword) {
         try {
             List<GetProdRes> productsByKeyword = productProvider.getProductsByKeyword(keyword);
             return new BaseResponse<>(productsByKeyword);
@@ -74,6 +73,39 @@ public class ProductController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 상품 필터링 - 키워드 유무에 따른 가격 높은순, 낮은순 정렬 */
+    @ResponseBody
+    @GetMapping("/filter")
+    public BaseResponse<List<GetProdRes>> getProductsByPrice(@RequestParam(required = false) String keyword,
+                                                             @RequestParam(required = false) Integer categoryIdx,
+                                                             @RequestParam int price) {
+
+        // 상품 필터링의 경우 검색 전후로 가능하므로 keyword를 request 파라미터로 전달함
+        try {
+            if (keyword == null) { // 키워드가 없으면 -> 카테고리 + 가격 필터링
+                if (price == 0) { // price 값이 0 이면 높은 가격 순으로 필터링
+                    List<GetProdRes> productsByHighPrice = productProvider.getProductsByHighPrice(categoryIdx);
+                    return new BaseResponse<>(productsByHighPrice);
+                } else {
+                    List<GetProdRes> productsByLowPrice = productProvider.getProductsByLowPrice(categoryIdx);
+                    return new BaseResponse<>(productsByLowPrice);
+                }
+
+            } else { // 키워드가 있으면 키워드 + 가격 필터링
+                if (price == 0) {
+                    List<GetProdRes> productsByKeywordAndHighPrice = productProvider.getProductsByKeywordAndHighPrice(keyword);
+                    return new BaseResponse<>(productsByKeywordAndHighPrice);
+                } else {
+                    List<GetProdRes> productsByKeywordAndLowPrice = productProvider.getProductsByKeywordAndLowPrice(keyword);
+                    return new BaseResponse<>(productsByKeywordAndLowPrice);
+                }
+            }
+        }  catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 
     /* 상품 찜 등록 */
     @ResponseBody

@@ -42,6 +42,8 @@ com/example/demo/src/review/model/PostReviewRes.java
  com.example.demo.src.review.model.PostReviewRes
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
+com/example/demo/src/product/model/GetProdDetailRes.java
+ com.example.demo.src.product.model.GetProdDetailRes
 com/example/demo/src/review/model/PatchReviewStatusReq.java
  com.example.demo.src.review.model.PatchReviewStatusReq
 com/example/demo/src/user/UserService.java

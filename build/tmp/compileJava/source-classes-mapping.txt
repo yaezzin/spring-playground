@@ -1,35 +1,35 @@
 com/example/demo/src/review/model/PostReviewReq.java
  com.example.demo.src.review.model.PostReviewReq
-com/example/demo/src/category/CategoryController.java
- com.example.demo.src.category.CategoryController
+com/example/demo/src/user/model/PostLoginReq.java
+ com.example.demo.src.user.model.PostLoginReq
 com/example/demo/src/review/model/GetReviewRes.java
  com.example.demo.src.review.model.GetReviewRes
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/review/ReviewDao.java
  com.example.demo.src.review.ReviewDao
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
+com/example/demo/src/order/model/DeleteOrderCartReq.java
+ com.example.demo.src.order.model.DeleteOrderCartReq
 com/example/demo/src/order/OrderDao.java
  com.example.demo.src.order.OrderDao
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
-com/example/demo/config/BaseResponseStatus.java
- com.example.demo.config.BaseResponseStatus
+com/example/demo/src/product/model/GetProdRes.java
+ com.example.demo.src.product.model.GetProdRes
 com/example/demo/src/category/model/GetCategoryRes.java
  com.example.demo.src.category.model.GetCategoryRes
 com/example/demo/src/review/model/PatchReviewReq.java
  com.example.demo.src.review.model.PatchReviewReq
-com/example/demo/src/review/ReviewController.java
- com.example.demo.src.review.ReviewController
+com/example/demo/src/test/TestController.java
+ com.example.demo.src.test.TestController
 com/example/demo/src/product/model/GetProdDetailRes.java
  com.example.demo.src.product.model.GetProdDetailRes
-com/example/demo/src/category/CategoryProvider.java
- com.example.demo.src.category.CategoryProvider
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
-com/example/demo/src/category/CategoryService.java
- com.example.demo.src.category.CategoryService
+com/example/demo/src/review/model/PostReviewHelpReq.java
+ com.example.demo.src.review.model.PostReviewHelpReq
+com/example/demo/src/WebSecurityConfig.java
+ com.example.demo.src.WebSecurityConfig
+com/example/demo/src/product/ProductDao.java
+ com.example.demo.src.product.ProductDao
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/user/model/GetUserCartRes.java
@@ -40,28 +40,28 @@ com/example/demo/src/user/model/PostUserRes.java
  com.example.demo.src.user.model.PostUserRes
 com/example/demo/src/review/model/PostReviewRes.java
  com.example.demo.src.review.model.PostReviewRes
-com/example/demo/config/BaseResponse.java
- com.example.demo.config.BaseResponse
+com/example/demo/src/user/model/User.java
+ com.example.demo.src.user.model.User
 com/example/demo/src/user/model/GetUserRes.java
  com.example.demo.src.user.model.GetUserRes
 com/example/demo/src/review/model/PatchReviewStatusReq.java
  com.example.demo.src.review.model.PatchReviewStatusReq
-com/example/demo/src/user/UserService.java
- com.example.demo.src.user.UserService
+com/example/demo/src/user/model/PatchUserStatusReq.java
+ com.example.demo.src.user.model.PatchUserStatusReq
 com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
+com/example/demo/src/category/model/PostCategoryReq.java
+ com.example.demo.src.category.model.PostCategoryReq
 com/example/demo/src/product/model/PostProdReq.java
  com.example.demo.src.product.model.PostProdReq
-com/example/demo/src/order/OrderService.java
- com.example.demo.src.order.OrderService
-com/example/demo/src/category/CategoryDao.java
- com.example.demo.src.category.CategoryDao
+com/example/demo/src/category/model/PatchCategoryReq.java
+ com.example.demo.src.category.model.PatchCategoryReq
+com/example/demo/src/order/model/CreateOrderCartReq.java
+ com.example.demo.src.order.model.CreateOrderCartReq
 com/example/demo/src/review/model/GetUserReviewRes.java
  com.example.demo.src.review.model.GetUserReviewRes
-com/example/demo/src/review/ReviewService.java
- com.example.demo.src.review.ReviewService
+com/example/demo/src/user/model/PatchUserReq.java
+ com.example.demo.src.user.model.PatchUserReq
 com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/src/user/model/PostUserReq.java
@@ -74,43 +74,43 @@ com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
-com/example/demo/src/order/model/CreateOrderCartReq.java
- com.example.demo.src.order.model.CreateOrderCartReq
-com/example/demo/src/user/model/PatchUserReq.java
- com.example.demo.src.user.model.PatchUserReq
-com/example/demo/src/category/model/PatchCategoryReq.java
- com.example.demo.src.category.model.PatchCategoryReq
-com/example/demo/src/WebSecurityConfig.java
- com.example.demo.src.WebSecurityConfig
-com/example/demo/src/order/OrderProvider.java
- com.example.demo.src.order.OrderProvider
-com/example/demo/src/test/TestController.java
- com.example.demo.src.test.TestController
-com/example/demo/src/order/model/DeleteOrderCartReq.java
- com.example.demo.src.order.model.DeleteOrderCartReq
-com/example/demo/src/category/model/PostCategoryReq.java
- com.example.demo.src.category.model.PostCategoryReq
-com/example/demo/src/user/model/PostLoginReq.java
- com.example.demo.src.user.model.PostLoginReq
+com/example/demo/src/category/CategoryProvider.java
+ com.example.demo.src.category.CategoryProvider
+com/example/demo/src/product/ProductProvider.java
+ com.example.demo.src.product.ProductProvider
+com/example/demo/src/category/CategoryDao.java
+ com.example.demo.src.category.CategoryDao
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
+com/example/demo/src/product/ProductService.java
+ com.example.demo.src.product.ProductService
 com/example/demo/src/review/ReviewProvider.java
  com.example.demo.src.review.ReviewProvider
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
-com/example/demo/src/review/model/PostReviewHelpReq.java
- com.example.demo.src.review.model.PostReviewHelpReq
-com/example/demo/src/user/model/User.java
- com.example.demo.src.user.model.User
-com/example/demo/src/user/model/PatchUserStatusReq.java
- com.example.demo.src.user.model.PatchUserStatusReq
-com/example/demo/src/product/model/GetProdRes.java
- com.example.demo.src.product.model.GetProdRes
-com/example/demo/src/product/ProductProvider.java
- com.example.demo.src.product.ProductProvider
-com/example/demo/src/product/ProductDao.java
- com.example.demo.src.product.ProductDao
-com/example/demo/src/product/ProductService.java
- com.example.demo.src.product.ProductService
-com/example/demo/src/product/ProductController.java
- com.example.demo.src.product.ProductController
+com/example/demo/config/BaseResponse.java
+ com.example.demo.config.BaseResponse
 com/example/demo/src/order/OrderController.java
  com.example.demo.src.order.OrderController
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/config/BaseResponseStatus.java
+ com.example.demo.config.BaseResponseStatus
+com/example/demo/src/product/ProductController.java
+ com.example.demo.src.product.ProductController
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
+com/example/demo/src/order/OrderProvider.java
+ com.example.demo.src.order.OrderProvider
+com/example/demo/src/review/ReviewController.java
+ com.example.demo.src.review.ReviewController
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+com/example/demo/src/order/OrderService.java
+ com.example.demo.src.order.OrderService
+com/example/demo/src/review/ReviewService.java
+ com.example.demo.src.review.ReviewService
+com/example/demo/src/category/CategoryController.java
+ com.example.demo.src.category.CategoryController

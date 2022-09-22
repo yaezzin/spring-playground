@@ -43,4 +43,10 @@ public class CategoryDao {
         Object[] modifyCategoryParams = new Object[] {patchCategoryReq.getName(), patchCategoryReq.getCategoryIdx()};
         return this.jdbcTemplate.update(modifyCategoryQuery, modifyCategoryParams);
     }
+
+    public int deleteCategory(int categoryIdx) {
+         String deleteCategoryQuery = "update Category set status = 'N' where categoryIdx = ?";
+         int deleteCategoryParam = categoryIdx;
+         return this.jdbcTemplate.update(deleteCategoryQuery, deleteCategoryParam);
+    }
 }

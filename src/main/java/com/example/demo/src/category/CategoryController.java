@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_CREATE_CATEGORY;
-import static com.example.demo.config.BaseResponseStatus.SUCCESS_MODIFY_CATEGORY;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/app/categories")
@@ -73,5 +72,15 @@ public class CategoryController {
     }
 
     /* 카테고리 삭제 */
+    @ResponseBody
+    @PatchMapping("/{categoryIdx}/deletion")
+    public BaseResponse<String> deleteCategory(@PathVariable("categoryIdx") int categoryIdx) {
+        try {
+            categoryService.deleteCategory(categoryIdx);
+            return new BaseResponse<>(SUCCESS_DELETE_CATEGORY);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 }

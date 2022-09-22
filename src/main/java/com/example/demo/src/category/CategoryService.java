@@ -48,4 +48,15 @@ public class CategoryService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void deleteCategory(int categoryIdx) throws BaseException {
+        try {
+            int result = categoryDao.deleteCategory(categoryIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_CATEGORY);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

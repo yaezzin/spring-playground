@@ -24,7 +24,7 @@ public enum BaseResponseStatus {
     SUCCESS_CREATE_CART(true, 1010, "상품의 장바구니 등록에 성공하였습니다."),
     SUCCESS_DELETE_CART(true, 1011, "상품의 장바구니 해제에 성공하였습니다."),
     SUCCESS_DELETE_USER(true, 1012, "회원 탈퇴에 성공하였습니다."),
-
+    SUCCESS_DELETE_CATEGORY(true, 1013, "카테고리 삭제에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */
@@ -100,6 +100,7 @@ public enum BaseResponseStatus {
     // [Category]
     CREATE_FAIL_CATEGORY(false, 4020, "카테고리 생성에 실패하였습니다"),
     MODIFY_FAIL_CATEGORY(false, 4021, "카테고리 수정에 실패하였습니다."),
+    DELETE_FAIL_CATEGORY(false, 4022, "카테고리 삭제에 실패하였습니다."),
 
     // [Review]
     CREATE_FAIL_REVIEW(false, 4030, "리뷰 생성에 실패하였습니다."),

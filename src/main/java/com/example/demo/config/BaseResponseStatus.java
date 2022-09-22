@@ -57,10 +57,13 @@ public enum BaseResponseStatus {
 
     // category
     EMPTY_CATEGORY_IDX(false, 2031, "카테고리 식별자가 존재하지 않습니다."),
+    PATCH_CATEGORY_EXISTS(false, 2032, "수정하고자 하는 카테고리명이 이미 존재합니다."),
+
 
     //review
     POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),
     EMPTY_REVIEW(false, 2041, "리뷰가 존재하지 않습니다."),
+    POST_CATEGORY_EXISTS(false, 2042, "생성하고자 하는 리뷰명이 이미 존재합니다."),
 
     // order
     POST_CART_NOT_EXIST(false, 2050, "상품이 이미 장바구니에 등록되었습니다."),

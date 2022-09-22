@@ -39,6 +39,10 @@ public class CategoryController {
     @PostMapping("")
     public BaseResponse<String> createCategory(@RequestBody PostCategoryReq postCategoryReq) {
         try{
+            //이미 카테고리 이름이 존재하는지 확인
+            if (categoryProvider.checkCategoryNameExist(postCategoryReq.getName()) != 0) {
+                return new BaseResponse<>(POST_CATEGORY_EXISTS);
+            }
             categoryService.createCategory(postCategoryReq);
             return new BaseResponse<>(SUCCESS_CREATE_CATEGORY);
         } catch(BaseException exception){
@@ -63,6 +67,10 @@ public class CategoryController {
     @PatchMapping("/{categoryIdx}")
     public BaseResponse<String> modifyCategory(@PathVariable("categoryIdx") int categoryIdx, @RequestBody PatchCategoryReq patchCategoryReq) {
         try {
+            // 이미 카테고리 이름이 존재하는지 확인
+            if (categoryProvider.checkCategoryNameExist(patchCategoryReq.getName()) != 0) {
+                return new BaseResponse<>(PATCH_CATEGORY_EXISTS);
+            }
             patchCategoryReq = new PatchCategoryReq(categoryIdx, patchCategoryReq.getName());
             categoryService.modifyCategory(patchCategoryReq);
             return new BaseResponse<>(SUCCESS_MODIFY_CATEGORY);
@@ -76,6 +84,9 @@ public class CategoryController {
     @PatchMapping("/{categoryIdx}/deletion")
     public BaseResponse<String> deleteCategory(@PathVariable("categoryIdx") int categoryIdx) {
         try {
+            if (categoryProvider.checkCategoryIdxExist(categoryIdx) == 0) {
+                return new BaseResponse<>(EMPTY_CATEGORY_IDX);
+            }
             categoryService.deleteCategory(categoryIdx);
             return new BaseResponse<>(SUCCESS_DELETE_CATEGORY);
         } catch (BaseException exception) {

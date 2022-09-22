@@ -35,4 +35,20 @@ public class CategoryProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkCategoryNameExist(String name) throws BaseException {
+        //try {
+            return categoryDao.checkCategoryNameExist(name);
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+       // }
+    }
+
+    public int checkCategoryIdxExist(int categoryIdx) throws BaseException {
+        try {
+            return categoryDao.checkCategoryIdxExist(categoryIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

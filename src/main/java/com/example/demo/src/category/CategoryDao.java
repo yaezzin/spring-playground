@@ -29,7 +29,7 @@ public class CategoryDao {
     }
 
     public List<GetCategoryRes> getCategories() {
-        String getCategoryQuery = "select categoryIdx, name from Category";
+        String getCategoryQuery = "select categoryIdx, name from Category where status = 'Y'";
         return this.jdbcTemplate.query(getCategoryQuery,
                 (rs, rowNum) -> new GetCategoryRes(
                         rs.getInt("categoryIdx"),
@@ -48,5 +48,17 @@ public class CategoryDao {
          String deleteCategoryQuery = "update Category set status = 'N' where categoryIdx = ?";
          int deleteCategoryParam = categoryIdx;
          return this.jdbcTemplate.update(deleteCategoryQuery, deleteCategoryParam);
+    }
+
+    public int checkCategoryNameExist(String name) {
+        String query = "select exists(select name From Category WHERE name = ? and status ='Y');";
+        String param = name;
+        return this.jdbcTemplate.queryForObject(query, int.class, param);
+    }
+
+    public int checkCategoryIdxExist(int categoryIdx) {
+        String query = "select exists(select categoryIdx from Category where categoryIdx =? and status = 'Y')";
+        int param = categoryIdx;
+        return this.jdbcTemplate.queryForObject(query, int.class, param);
     }
 }

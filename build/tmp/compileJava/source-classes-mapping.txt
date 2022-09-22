@@ -74,14 +74,14 @@ com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
-com/example/demo/src/category/CategoryProvider.java
- com.example.demo.src.category.CategoryProvider
+com/example/demo/src/order/OrderService.java
+ com.example.demo.src.order.OrderService
 com/example/demo/src/product/ProductProvider.java
  com.example.demo.src.product.ProductProvider
-com/example/demo/src/category/CategoryDao.java
- com.example.demo.src.category.CategoryDao
-com/example/demo/src/category/CategoryService.java
- com.example.demo.src.category.CategoryService
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+com/example/demo/src/review/ReviewService.java
+ com.example.demo.src.review.ReviewService
 com/example/demo/src/product/ProductService.java
  com.example.demo.src.product.ProductService
 com/example/demo/src/review/ReviewProvider.java
@@ -106,11 +106,11 @@ com/example/demo/src/review/ReviewController.java
  com.example.demo.src.review.ReviewController
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
-com/example/demo/src/order/OrderService.java
- com.example.demo.src.order.OrderService
-com/example/demo/src/review/ReviewService.java
- com.example.demo.src.review.ReviewService
+com/example/demo/src/category/CategoryProvider.java
+ com.example.demo.src.category.CategoryProvider
 com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
+com/example/demo/src/category/CategoryDao.java
+ com.example.demo.src.category.CategoryDao

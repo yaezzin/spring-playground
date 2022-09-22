@@ -28,14 +28,14 @@ public class CategoryService {
     }
 
     public void createCategory(PostCategoryReq postCategoryReq) throws BaseException {
-        try {
+       // try {
             int result = categoryDao.createCategory(postCategoryReq);
             if (result == 0) {
                 throw new BaseException(CREATE_FAIL_CATEGORY);
             }
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+       // } catch (Exception exception) {
+       //     throw new BaseException(DATABASE_ERROR);
+       // }
     }
 
     public void modifyCategory(PatchCategoryReq patchCategoryReq) throws BaseException {

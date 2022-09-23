@@ -50,7 +50,7 @@ public class ValidationRegex {
     }
 
     public static boolean isRegexUserName(String target) {
-        String regex = "^^[가-힣]{2,5}$\n$";
+        String regex = "^[가-힣]{2,5}$";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(target);
         return matcher.find();

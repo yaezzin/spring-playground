@@ -211,6 +211,8 @@ public class UserController {
                     UserAddressIdxRes userAddressIdx = userService.getDefaultAddressIdx(userIdx);
                     userService.modifyDefaultAddress(userAddressIdx.getUserAddressIdx()); // 기존의 주소는 N으로 바꾸기
                     userService.createAddress(postUserAddressReq);
+                } else { // 기존 배송지 설정이 되어있고 N으로 요청하는 경우
+                    userService.createAddress(postUserAddressReq);
                 }
             }
             else {
@@ -232,9 +234,31 @@ public class UserController {
             if (userIdx != userIdxByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
+            if (patchUserAddressReq.getPhoneNumber() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_PHONE_NUMBER);
+            }
+            if (patchUserAddressReq.getRecipient() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_NAME);
+            }
+            if (!isRegexPhoneNumber(patchUserAddressReq.getPhoneNumber())){
+                return new BaseResponse<>(POST_USER_INVALID_PHONE_NUMBER);
+            }
+            if (!isRegexUserName(patchUserAddressReq.getRecipient())) {
+                return new BaseResponse<>(POST_USER_INVALID_RECIPIENT);
+            }
 
-
-            userService.modifyAddress(patchUserAddressReq);
+            if (userProvider.checkDefaultAddressExist(userIdx) == 1) {
+                if (patchUserAddressReq.getIsDefaultAddress().equals("Y")) {
+                    UserAddressIdxRes userAddressIdx = userService.getDefaultAddressIdx(userIdx);
+                    userService.modifyDefaultAddress(userAddressIdx.getUserAddressIdx()); // 기존의 주소는 N으로 바꾸기
+                    userService.modifyAddress(patchUserAddressReq);
+                } else {
+                    userService.modifyAddress(patchUserAddressReq);
+                }
+            }
+            else {
+                userService.modifyAddress(patchUserAddressReq);
+            }
             return new BaseResponse<>(SUCCESS_MODIFY_ADDRESS);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

@@ -181,7 +181,7 @@ public class UserDao {
     }
 
     public int updateAddress(PatchUserAddressReq patchUserAddressReq) {
-        String query1 = "update UserAddressInfo set recipient, phoneNumber =?, isDefaultAddress =?, address =?, addressDetail =?, deliveryRequest=?, zipCode =?, doorCode =? where userAddressIdx =?";
+        String query1 = "update UserAddressInfo set recipient =?, phoneNumber =?, isDefaultAddress =?, address =?, addressDetail =?, deliveryRequest=?, zipCode =?, doorCode =? where userAddressIdx =?";
         Object[] params = new Object[] {
                 patchUserAddressReq.getRecipient(),
                 patchUserAddressReq.getPhoneNumber(),

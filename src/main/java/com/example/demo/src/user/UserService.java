@@ -135,4 +135,16 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
        }
     }
+
+    public void deleteAddress(int userAddressIdx) throws BaseException {
+        try {
+            int result = userDao.deleteAddress(userAddressIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_DEFAULT_ADDRESS);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+
+        }
+    }
 }

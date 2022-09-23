@@ -283,5 +283,23 @@ public class UserController {
     }
 
     /* 배송지 삭제 */
+    @ResponseBody
+    @PatchMapping("/{userIdx}/address/{userAddressIdx}")
+    public BaseResponse<String> deleteAddress(@PathVariable("userIdx") int userIdx,
+                                              @PathVariable("userAddressIdx") int userAddressIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            // 배송지가 있는지 체크
+
+
+            userService.deleteAddress(userAddressIdx);
+            return new BaseResponse<>(SUCCESS_DELETE_ADDRESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 }

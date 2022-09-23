@@ -27,6 +27,7 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_CATEGORY(true, 1013, "카테고리 삭제에 성공하였습니다."),
     SUCCESS_CREATE_ADDRESS(true, 1014, "배송지 생성에 성공하였습니다."),
     SUCCESS_MODIFY_ADDRESS(true, 1015, "배송지 수정에 성공하였습니다."),
+    SUCCESS_DELETE_ADDRESS(true, 1016, "배송지 삭제에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */
@@ -52,6 +53,7 @@ public enum BaseResponseStatus {
     POST_USER_INVALID_PASSWORD_CONTINUOUS(false, 2024, "비밀번호는 3개 이상 연속되거나 동일한 문자를 사용할 수 없습니다."),
     POST_USER_INVALID_PHONE_NUMBER(false, 2025, "핸드폰 번호 형식을 확인해주세요."),
     POST_USER_INVALID_RECIPIENT(false, 2026, "수령인 이름의 형식을 확인해주세요."),
+
     // product
     EMPTY_PRODUCT_IDX(false, 2030, "상품 식별자가 존재하지 않습니다."),
     EMPTY_PRODUCT(false, 2032, "상품 게시글이 존재하지 않습니다"),
@@ -125,7 +127,8 @@ public enum BaseResponseStatus {
     // user/address
     CREATE_FAIL_ADDRESS(false, 4060, "유저의 배송지 생성이 실패하였습니다"),
     MODIFY_FAIL_ADDRESS(false, 4061, "유저의 배송지 수정에 실패하였습니다"),
-    MODIFY_FAIL_DEFAULT_ADDRESS(false, 4062, "유저의 기본 배송지 수정에 실패하였습니다.");
+    MODIFY_FAIL_DEFAULT_ADDRESS(false, 4062, "유저의 기본 배송지 수정에 실패하였습니다."),
+    DELETE_FAIL_DEFAULT_ADDRESS(false, 4064, "유저의 배송지 삭제에 실패하였습니다.");
 
 
     // 5000 : 필요시 만들어서 쓰세요

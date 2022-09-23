@@ -228,4 +228,9 @@ public class UserDao {
                 (rs, rowNum) -> new UserAddressIdxRes(rs.getInt("userAddressIdx")), userIdx);
         return userAddressIdx;
     }
+
+    public int deleteAddress(int userAddressIdx) {
+        String deleteAddressQuery = "update UserAddressInfo set status = 'N' where userAddressIdx =?";
+        return this.jdbcTemplate.update(deleteAddressQuery, userAddressIdx);
+    }
 }

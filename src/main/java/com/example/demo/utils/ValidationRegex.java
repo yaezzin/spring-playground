@@ -12,7 +12,6 @@ public class ValidationRegex {
     }
 
     // 1. 영문, 숫자, 특수문자 중 2가지 이상 조합
-
     public static boolean isRegexPassword(String target) {
         String regex = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,20}$";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -38,6 +37,20 @@ public class ValidationRegex {
     // 3개이상 연속되는지 확인
     public static boolean isRegexPasswordThreeSame(String target) {
         String regex = "(\\w)\\1\\1";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(target);
+        return matcher.find();
+    }
+
+    public static boolean isRegexPhoneNumber(String target) {
+        String regex = "\\d{11}";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(target);
+        return matcher.find();
+    }
+
+    public static boolean isRegexUserName(String target) {
+        String regex = "^^[가-힣]{2,5}$\n$";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(target);
         return matcher.find();

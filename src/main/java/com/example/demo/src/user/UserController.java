@@ -193,9 +193,18 @@ public class UserController {
             if (userIdx != userIdxByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            // 이름정규화확인
-            // 번호정규화 확인
-
+            if (postUserAddressReq.getPhoneNumber() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_PHONE_NUMBER);
+            }
+            if (postUserAddressReq.getRecipient() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_NAME);
+            }
+            if (!isRegexPhoneNumber(postUserAddressReq.getPhoneNumber())){
+                return new BaseResponse<>(POST_USER_INVALID_PHONE_NUMBER);
+            }
+            if (!isRegexUserName(postUserAddressReq.getRecipient())) {
+                return new BaseResponse<>(POST_USER_INVALID_RECIPIENT);
+            }
             // 기본 배송지 설정이 되어있는데 Y로 요청하게 되면 -> 기존것은 n로 새로 추가하는 것을 y로 설정하기
             if (userProvider.checkDefaultAddressExist(userIdx) == 1) {
                 if (postUserAddressReq.getIsDefaultAddress().equals("Y")) {
@@ -223,15 +232,8 @@ public class UserController {
             if (userIdx != userIdxByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            /* 유저의 주소록 배송지를 다 가져옴 -> 근데 거기에 이미 기본 배송지 Y로 설정되어있는데 Y로 요청하게 되면
-            for (address : userProvider.getUserAddress(userIdx)) {
-                if (address.get)
-            }
 
-            if (userProvider.IsDefaultAddress() == patchUserAddressReq.getIsDefaultAddress()) {
 
-            }
-            */
             userService.modifyAddress(patchUserAddressReq);
             return new BaseResponse<>(SUCCESS_MODIFY_ADDRESS);
         } catch (BaseException exception) {

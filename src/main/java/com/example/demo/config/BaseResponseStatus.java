@@ -50,7 +50,8 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_PASSWORD(false, 2022, "비밀번호 형식을 확인해주세요"),
     POST_USERS_EMAIL_IN_PASSWORD(false, 2023, "비밀번호에는 이메일을 입력할 수 없습니다."),
     POST_USER_INVALID_PASSWORD_CONTINUOUS(false, 2024, "비밀번호는 3개 이상 연속되거나 동일한 문자를 사용할 수 없습니다."),
-
+    POST_USER_INVALID_PHONE_NUMBER(false, 2025, "핸드폰 번호 형식을 확인해주세요."),
+    POST_USER_INVALID_RECIPIENT(false, 2026, "수령인 이름의 형식을 확인해주세요."),
     // product
     EMPTY_PRODUCT_IDX(false, 2030, "상품 식별자가 존재하지 않습니다."),
     EMPTY_PRODUCT(false, 2032, "상품 게시글이 존재하지 않습니다"),
@@ -60,7 +61,6 @@ public enum BaseResponseStatus {
     // category
     EMPTY_CATEGORY_IDX(false, 2031, "카테고리 식별자가 존재하지 않습니다."),
     PATCH_CATEGORY_EXISTS(false, 2032, "수정하고자 하는 카테고리명이 이미 존재합니다."),
-
 
     //review
     POST_REVIEW_HELP_EXIST(false, 2040, "이미 도움이 요청했거나, 요청하지 않은 상태입니다."),

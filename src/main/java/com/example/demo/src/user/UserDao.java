@@ -181,7 +181,7 @@ public class UserDao {
     }
 
     public int updateAddress(PatchUserAddressReq patchUserAddressReq) {
-        String query1 = "update UserAddressInfo set recipient =?, phoneNumber =?, isDefaultAddress =?, address =?, addressDetail =?, deliveryRequest=?, zipCode =?, doorCode =? where userAddressIdx =?";
+        String query1 = "update UserAddressInfo set recipient =?, phoneNumber =?, isDefaultAddress =?, address =?, addressDetail =?, deliveryRequest=?, zipCode =?, doorCode =? where userAddressIdx = ? and status = 'Y'";
         Object[] params = new Object[] {
                 patchUserAddressReq.getRecipient(),
                 patchUserAddressReq.getPhoneNumber(),
@@ -197,7 +197,7 @@ public class UserDao {
     }
 
     public List<GetUserAddress> getUserAddress(int userIdx) {
-        String query = "select recipient, phoneNumber, isDefaultAddress, address, addressDetail, deliveryRequest from UserAddressInfo where userIdx =?";
+        String query = "select recipient, phoneNumber, isDefaultAddress, address, addressDetail, deliveryRequest from UserAddressInfo where userIdx =? and status = 'Y'";
         Object[] param = new Object[] {userIdx};
         return this.jdbcTemplate.query(query,
                 (rs, rowNum) -> new GetUserAddress(
@@ -211,19 +211,19 @@ public class UserDao {
     }
 
     public int checkDefaultAddressExist(int userIdx) {
-        String query = "select exists(select isDefaultAddress from UserAddressInfo where isDefaultAddress = 'Y' and userIdx = ?)";
+        String query = "select exists(select isDefaultAddress from UserAddressInfo where isDefaultAddress = 'Y' and userIdx = ? and status = 'Y')";
         int param = userIdx;
         int integer = this.jdbcTemplate.queryForObject(query, int.class, param);
         return integer;
     }
 
     public int modifyDefaultAddress(int userAddressIdx) {
-        String query = "update UserAddressInfo set isDefaultAddress = 'N' where userAddressIdx = ?";
+        String query = "update UserAddressInfo set isDefaultAddress = 'N' where userAddressIdx = ? and status = 'Y'";
         return this.jdbcTemplate.update(query, userAddressIdx);
     }
 
     public UserAddressIdxRes getDefaultAddressIdx(int userIdx) {
-        String query = "select userAddressIdx from UserAddressInfo where isDefaultAddress = 'Y' and userIdx = ?";
+        String query = "select userAddressIdx from UserAddressInfo where isDefaultAddress = 'Y' and userIdx = ? and status = 'Y'";
         UserAddressIdxRes userAddressIdx = this.jdbcTemplate.queryForObject(query,
                 (rs, rowNum) -> new UserAddressIdxRes(rs.getInt("userAddressIdx")), userIdx);
         return userAddressIdx;

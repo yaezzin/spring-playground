@@ -93,6 +93,16 @@ public class UserService {
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
 
+    public void createAddress(PostUserAddressReq postUserAddressRequest) throws BaseException {
+        //try {
+            int result = userDao.createAddress(postUserAddressRequest);
+            if (result == 0) {
+                throw new BaseException(CREATE_FAIL_PRODUCT_WISH);
+            }
+        //} catch (Exception exception) {
+        //    throw new BaseException(DATABASE_ERROR);
+        //}
     }
 }

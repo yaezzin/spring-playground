@@ -25,6 +25,7 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_CART(true, 1011, "상품의 장바구니 해제에 성공하였습니다."),
     SUCCESS_DELETE_USER(true, 1012, "회원 탈퇴에 성공하였습니다."),
     SUCCESS_DELETE_CATEGORY(true, 1013, "카테고리 삭제에 성공하였습니다."),
+    SUCCESS_CREATE_ADDRESS(true, 1014, "배송지 생성에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */

@@ -180,6 +180,27 @@ public class UserController {
         }
     }
 
+    /* 배송지 추가 */
+    @ResponseBody
+    @PostMapping("/{userIdx}/address")
+    public BaseResponse<String> createAddress(@PathVariable("userIdx") int userIdx, @RequestBody PostUserAddressReq postUserAddressReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.createAddress(postUserAddressReq);
+            return new BaseResponse<>(SUCCESS_CREATE_ADDRESS);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
+    /* 배송지 변경 */
+
+    /* 배송지 조회 */
+
+    /* 배송지 삭제 */
 
 }

@@ -161,4 +161,29 @@ public class UserDao {
         String query = "update User set status = 'N' where userIdx = ?";
         return this.jdbcTemplate.update(query, userIdx);
     }
+
+    public int createAddress(PostUserAddressReq postUserAddressReq) {
+        String query1 = "insert into UserAddress(recipient, phoneNumber, isDefaultAddress, userIdx) values(?,?,?,?);";
+        Object[] params1 = new Object[] {
+                postUserAddressReq.getRecipient(),
+                postUserAddressReq.getPhoneNumber(),
+                postUserAddressReq.getIsDefaultAddress(),
+                postUserAddressReq.getUserIdx(),
+        };
+        this.jdbcTemplate.update(query1, params1);
+
+        String query2 = "insert into Address(address, addressDetail, deliveryRequest, zipCode, doorCode, userAddressIdx) values(?,?,?,?,?,?)";
+        Object[] param2 = new Object[] {
+                postUserAddressReq.getAddress(),
+                postUserAddressReq.getAddressDetail(),
+                postUserAddressReq.getDeliveryRequest(),
+                postUserAddressReq.getZipCode(),
+                postUserAddressReq.getDoorCode(),
+                postUserAddressReq.getUserAddressIdx()
+        };
+        this.jdbcTemplate.update(query2, param2);
+
+        String lastProductIdxQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastProductIdxQuery, int.class);
+    }
 }

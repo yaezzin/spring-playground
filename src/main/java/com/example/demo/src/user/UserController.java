@@ -1,5 +1,6 @@
 package com.example.demo.src.user;
 
+import com.sun.jdi.connect.spi.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.config.BaseException;
@@ -9,11 +10,14 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.*;
+import static java.sql.DriverManager.getConnection;
 
 @RestController
 @RequestMapping("/app/users")
@@ -189,7 +193,20 @@ public class UserController {
             if (userIdx != userIdxByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            userService.createAddress(postUserAddressReq);
+            // 이름정규화확인
+            // 번호정규화 확인
+
+            // 기본 배송지 설정이 되어있는데 Y로 요청하게 되면 -> 기존것은 n로 새로 추가하는 것을 y로 설정하기
+            if (userProvider.checkDefaultAddressExist(userIdx) == 1) {
+                if (postUserAddressReq.getIsDefaultAddress().equals("Y")) {
+                    UserAddressIdxRes userAddressIdx = userService.getDefaultAddressIdx(userIdx);
+                    userService.modifyDefaultAddress(userAddressIdx.getUserAddressIdx()); // 기존의 주소는 N으로 바꾸기
+                    userService.createAddress(postUserAddressReq);
+                }
+            }
+            else {
+                userService.createAddress(postUserAddressReq);
+            }
             return new BaseResponse<>(SUCCESS_CREATE_ADDRESS);
         } catch (BaseException exception) {
             exception.printStackTrace();
@@ -198,8 +215,46 @@ public class UserController {
     }
 
     /* 배송지 변경 */
+    @ResponseBody
+    @PatchMapping("/{userIdx}/address")
+    public BaseResponse<String> modifyAddress(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserAddressReq patchUserAddressReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            /* 유저의 주소록 배송지를 다 가져옴 -> 근데 거기에 이미 기본 배송지 Y로 설정되어있는데 Y로 요청하게 되면
+            for (address : userProvider.getUserAddress(userIdx)) {
+                if (address.get)
+            }
 
-    /* 배송지 조회 */
+            if (userProvider.IsDefaultAddress() == patchUserAddressReq.getIsDefaultAddress()) {
+
+            }
+            */
+            userService.modifyAddress(patchUserAddressReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_ADDRESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /* 유저의 모든 배송지 조회 */
+    @ResponseBody
+    @GetMapping("/{userIdx}/address")
+    public BaseResponse<List<GetUserAddress>> getAddress(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetUserAddress> userAddress = userProvider.getUserAddress(userIdx);
+            return new BaseResponse<>(userAddress);
+
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     /* 배송지 삭제 */
 

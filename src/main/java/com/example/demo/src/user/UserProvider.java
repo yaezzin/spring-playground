@@ -114,4 +114,21 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetUserAddress> getUserAddress(int userIdx) throws BaseException {
+        try {
+            return userDao.getUserAddress(userIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkDefaultAddressExist(int userIdx) throws BaseException {
+        try {
+            int i = userDao.checkDefaultAddressExist(userIdx);
+            return i;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

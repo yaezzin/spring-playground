@@ -96,13 +96,43 @@ public class UserService {
     }
 
     public void createAddress(PostUserAddressReq postUserAddressRequest) throws BaseException {
-        //try {
+        try {
             int result = userDao.createAddress(postUserAddressRequest);
             if (result == 0) {
-                throw new BaseException(CREATE_FAIL_PRODUCT_WISH);
+                throw new BaseException(CREATE_FAIL_ADDRESS);
             }
-        //} catch (Exception exception) {
-        //    throw new BaseException(DATABASE_ERROR);
-        //}
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void modifyAddress(PatchUserAddressReq patchUserAddressReq) throws BaseException {
+        try {
+            int result = userDao.updateAddress(patchUserAddressReq);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_ADDRESS);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void modifyDefaultAddress(int userAddressIdx) throws BaseException {
+        try {
+            int result = userDao.modifyDefaultAddress(userAddressIdx);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_DEFAULT_ADDRESS);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public UserAddressIdxRes getDefaultAddressIdx(int idx) throws BaseException {
+        try {
+            return userDao.getDefaultAddressIdx(idx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+       }
     }
 }

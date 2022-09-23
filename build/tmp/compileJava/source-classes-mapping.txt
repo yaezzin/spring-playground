@@ -10,6 +10,8 @@ com/example/demo/src/review/ReviewDao.java
  com.example.demo.src.review.ReviewDao
 com/example/demo/src/product/ProductService.java
  com.example.demo.src.product.ProductService
+com/example/demo/src/user/model/PatchUserAddressReq.java
+ com.example.demo.src.user.model.PatchUserAddressReq
 com/example/demo/src/order/OrderDao.java
  com.example.demo.src.order.OrderDao
 com/example/demo/utils/ValidationRegex.java
@@ -20,8 +22,8 @@ com/example/demo/src/category/model/GetCategoryRes.java
  com.example.demo.src.category.model.GetCategoryRes
 com/example/demo/src/review/model/PatchReviewReq.java
  com.example.demo.src.review.model.PatchReviewReq
-com/example/demo/src/user/model/GetUserRes.java
- com.example.demo.src.user.model.GetUserRes
+com/example/demo/DemoApplication.java
+ com.example.demo.DemoApplication
 com/example/demo/src/product/model/GetProdRes.java
  com.example.demo.src.product.model.GetProdRes
 com/example/demo/src/category/CategoryProvider.java
@@ -44,14 +46,14 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/product/model/GetProdDetailRes.java
  com.example.demo.src.product.model.GetProdDetailRes
-com/example/demo/src/review/model/PostReviewHelpReq.java
- com.example.demo.src.review.model.PostReviewHelpReq
+com/example/demo/src/user/model/PostUserAddressReq.java
+ com.example.demo.src.user.model.PostUserAddressReq
 com/example/demo/src/review/model/PatchReviewStatusReq.java
  com.example.demo.src.review.model.PatchReviewStatusReq
-com/example/demo/src/review/ReviewService.java
- com.example.demo.src.review.ReviewService
-com/example/demo/DemoApplication.java
- com.example.demo.DemoApplication
+com/example/demo/src/review/model/PostReviewHelpReq.java
+ com.example.demo.src.review.model.PostReviewHelpReq
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
 com/example/demo/src/product/model/PostProdReq.java
@@ -74,8 +76,8 @@ com/example/demo/src/review/model/GetReviewPreRes.java
  com.example.demo.src.review.model.GetReviewPreRes
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
+com/example/demo/src/review/ReviewService.java
+ com.example.demo.src.review.ReviewService
 com/example/demo/src/order/model/CreateOrderCartReq.java
  com.example.demo.src.order.model.CreateOrderCartReq
 com/example/demo/src/user/model/PatchUserReq.java
@@ -84,6 +86,8 @@ com/example/demo/src/category/model/PatchCategoryReq.java
  com.example.demo.src.category.model.PatchCategoryReq
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
+com/example/demo/src/user/model/GetUserAddress.java
+ com.example.demo.src.user.model.GetUserAddress
 com/example/demo/src/order/OrderProvider.java
  com.example.demo.src.order.OrderProvider
 com/example/demo/src/test/TestController.java
@@ -96,14 +100,16 @@ com/example/demo/src/user/model/PostLoginReq.java
  com.example.demo.src.user.model.PostLoginReq
 com/example/demo/src/review/ReviewProvider.java
  com.example.demo.src.review.ReviewProvider
-com/example/demo/src/user/model/PatchUserStatusReq.java
- com.example.demo.src.user.model.PatchUserStatusReq
+com/example/demo/src/user/model/GetUserRes.java
+ com.example.demo.src.user.model.GetUserRes
 com/example/demo/src/order/OrderController.java
  com.example.demo.src.order.OrderController
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
-com/example/demo/src/user/model/PostUserAddressReq.java
- com.example.demo.src.user.model.PostUserAddressReq
+com/example/demo/src/user/model/PatchUserStatusReq.java
+ com.example.demo.src.user.model.PatchUserStatusReq
+com/example/demo/src/user/model/UserAddressIdxRes.java
+ com.example.demo.src.user.model.UserAddressIdxRes
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java

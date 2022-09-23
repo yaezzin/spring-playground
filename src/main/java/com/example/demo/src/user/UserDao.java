@@ -163,27 +163,69 @@ public class UserDao {
     }
 
     public int createAddress(PostUserAddressReq postUserAddressReq) {
-        String query1 = "insert into UserAddress(recipient, phoneNumber, isDefaultAddress, userIdx) values(?,?,?,?);";
+        String query1 = "insert into UserAddressInfo(recipient, phoneNumber, isDefaultAddress, address, addressDetail, deliveryRequest, zipCode, doorCode, userIdx) values(?,?,?,?,?,?,?,?,?);";
         Object[] params1 = new Object[] {
                 postUserAddressReq.getRecipient(),
                 postUserAddressReq.getPhoneNumber(),
                 postUserAddressReq.getIsDefaultAddress(),
-                postUserAddressReq.getUserIdx(),
-        };
-        this.jdbcTemplate.update(query1, params1);
-
-        String query2 = "insert into Address(address, addressDetail, deliveryRequest, zipCode, doorCode, userAddressIdx) values(?,?,?,?,?,?)";
-        Object[] param2 = new Object[] {
                 postUserAddressReq.getAddress(),
                 postUserAddressReq.getAddressDetail(),
                 postUserAddressReq.getDeliveryRequest(),
                 postUserAddressReq.getZipCode(),
                 postUserAddressReq.getDoorCode(),
-                postUserAddressReq.getUserAddressIdx()
+                postUserAddressReq.getUserIdx(),
         };
-        this.jdbcTemplate.update(query2, param2);
-
+        this.jdbcTemplate.update(query1, params1);
         String lastProductIdxQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastProductIdxQuery, int.class);
+    }
+
+    public int updateAddress(PatchUserAddressReq patchUserAddressReq) {
+        String query1 = "update UserAddressInfo set recipient, phoneNumber =?, isDefaultAddress =?, address =?, addressDetail =?, deliveryRequest=?, zipCode =?, doorCode =? where userAddressIdx =?";
+        Object[] params = new Object[] {
+                patchUserAddressReq.getRecipient(),
+                patchUserAddressReq.getPhoneNumber(),
+                patchUserAddressReq.getIsDefaultAddress(),
+                patchUserAddressReq.getAddress(),
+                patchUserAddressReq.getAddressDetail(),
+                patchUserAddressReq.getDeliveryRequest(),
+                patchUserAddressReq.getZipCode(),
+                patchUserAddressReq.getDoorCode(),
+                patchUserAddressReq.getUserAddressIdx()
+        };
+        return this.jdbcTemplate.update(query1, params);
+    }
+
+    public List<GetUserAddress> getUserAddress(int userIdx) {
+        String query = "select recipient, phoneNumber, isDefaultAddress, address, addressDetail, deliveryRequest from UserAddressInfo where userIdx =?";
+        Object[] param = new Object[] {userIdx};
+        return this.jdbcTemplate.query(query,
+                (rs, rowNum) -> new GetUserAddress(
+                        rs.getString("recipient"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("isDefaultAddress"),
+                        rs.getString("address"),
+                        rs.getString("addressDetail"),
+                        rs.getInt("deliveryRequest"))
+                ,param);
+    }
+
+    public int checkDefaultAddressExist(int userIdx) {
+        String query = "select exists(select isDefaultAddress from UserAddressInfo where isDefaultAddress = 'Y' and userIdx = ?)";
+        int param = userIdx;
+        int integer = this.jdbcTemplate.queryForObject(query, int.class, param);
+        return integer;
+    }
+
+    public int modifyDefaultAddress(int userAddressIdx) {
+        String query = "update UserAddressInfo set isDefaultAddress = 'N' where userAddressIdx = ?";
+        return this.jdbcTemplate.update(query, userAddressIdx);
+    }
+
+    public UserAddressIdxRes getDefaultAddressIdx(int userIdx) {
+        String query = "select userAddressIdx from UserAddressInfo where isDefaultAddress = 'Y' and userIdx = ?";
+        UserAddressIdxRes userAddressIdx = this.jdbcTemplate.queryForObject(query,
+                (rs, rowNum) -> new UserAddressIdxRes(rs.getInt("userAddressIdx")), userIdx);
+        return userAddressIdx;
     }
 }

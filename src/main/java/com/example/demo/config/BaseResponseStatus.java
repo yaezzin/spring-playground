@@ -26,6 +26,7 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_USER(true, 1012, "회원 탈퇴에 성공하였습니다."),
     SUCCESS_DELETE_CATEGORY(true, 1013, "카테고리 삭제에 성공하였습니다."),
     SUCCESS_CREATE_ADDRESS(true, 1014, "배송지 생성에 성공하였습니다."),
+    SUCCESS_MODIFY_ADDRESS(true, 1015, "배송지 수정에 성공하였습니다."),
     /**
      * 2000 : Request 오류
      */
@@ -90,16 +91,15 @@ public enum BaseResponseStatus {
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
 
     //[PATCH] /users/{userIdx}
-    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
-    MODIFY_FAIL_USER_PROFILE(false, 4018, "유저 프로필 수정에 실패하였습니다."),
-    DELETE_FAIL_USER(false, 4019, "유저탈퇴에 실패하였습니다"),
+    PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
+    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
     MODIFY_FAIL_USER_PASSWORD(false, 4015, "비밀번호 수정에 실패하였습니다."),
     USER_CURRENT_PASSWORD_NOT_CORRECT(false, 4016, "현재 비밀번호가 일치하지 않습니다."),
     USER_NEW_PASSWORD_NOT_CORRECT(false, 4017, "새 비밀번호가 일치하지 않습니다."),
-
-    PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
+    MODIFY_FAIL_USER_PROFILE(false, 4018, "유저 프로필 수정에 실패하였습니다."),
+    DELETE_FAIL_USER(false, 4019, "유저 탈퇴에 실패하였습니다"),
 
     // [Category]
     CREATE_FAIL_CATEGORY(false, 4020, "카테고리 생성에 실패하였습니다"),
@@ -120,7 +120,13 @@ public enum BaseResponseStatus {
 
     // order
     CREATE_FAIL_CART(false, 4050, "상품의 장바구니 등록에 실패하였습니다."),
-    DELETE_FAIL_CART(false, 4051, "상품의 장바구니 해제에 실패하였습니다.");
+    DELETE_FAIL_CART(false, 4051, "상품의 장바구니 해제에 실패하였습니다."),
+
+    // user/address
+    CREATE_FAIL_ADDRESS(false, 4060, "유저의 배송지 생성이 실패하였습니다"),
+    MODIFY_FAIL_ADDRESS(false, 4061, "유저의 배송지 수정에 실패하였습니다"),
+    MODIFY_FAIL_DEFAULT_ADDRESS(false, 4062, "유저의 기본 배송지 수정에 실패하였습니다.");
+
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

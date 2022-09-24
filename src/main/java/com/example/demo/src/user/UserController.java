@@ -1,6 +1,5 @@
 package com.example.demo.src.user;
 
-import com.sun.jdi.connect.spi.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.config.BaseException;
@@ -10,14 +9,10 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.*;
-import static java.sql.DriverManager.getConnection;
 
 @RestController
 @RequestMapping("/app/users")
@@ -95,6 +90,23 @@ public class UserController {
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /* 비밀번호 수정 */
+    @ResponseBody
+    @PatchMapping("/{userIdx}/password")
+    public BaseResponse<GetUserRes> modifyUserPassword(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserPasswordReq patchUserPasswordReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.modifyUserPassword(userIdx, patchUserPasswordReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_USER_PASSWORD);
+        } catch (BaseException exception) {
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
         }
     }
 

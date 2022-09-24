@@ -233,4 +233,13 @@ public class UserDao {
         String deleteAddressQuery = "update UserAddressInfo set status = 'N' where userAddressIdx =?";
         return this.jdbcTemplate.update(deleteAddressQuery, userAddressIdx);
     }
+
+    public int modifyUserPassword(int userIdx, PatchUserPasswordReq patchUserPasswordReq) {
+        String modifyUserPasswordQuery = "update User set password = ? where userIdx = ?";
+        Object[] modifyUserNameParams = new Object[]{
+                patchUserPasswordReq.getModPassword(),
+                userIdx
+        };
+        return this.jdbcTemplate.update(modifyUserPasswordQuery,modifyUserNameParams);
+    }
 }

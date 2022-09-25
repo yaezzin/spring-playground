@@ -242,4 +242,33 @@ public class UserDao {
         };
         return this.jdbcTemplate.update(modifyUserPasswordQuery,modifyUserNameParams);
     }
+
+    // 인증번호
+    public int certifyPhoneNumberSave(String phoneNumber, String numStr) {
+        String checkQuery = "select exists(select * from PhoneCertification WHERE phoneNumber=?)";
+        String InsertQuery = "insert into PhoneCertification(phoneNumber, cerNumber) values (?,?);";
+        String UpdateQuery = "update PhoneCertification SET cerNumber=? WHERE phoneNumber=?;";
+        if (this.jdbcTemplate.queryForObject(checkQuery, int.class, phoneNumber) == 0) {
+            return this.jdbcTemplate.update(InsertQuery, phoneNumber, numStr);
+        }
+        return this.jdbcTemplate.update(UpdateQuery,numStr, phoneNumber);
+    }
+
+    public int checkCertificationPhone(String phoneNumber) {
+        String Query = "SELECT EXISTS(SELECT * FROM PhoneCertification WHERE phoneNumber=?);";
+        return this.jdbcTemplate.queryForObject(Query, int.class, phoneNumber);
+    }
+
+    public boolean checkCertificationNum(String phoneNumber, String certificationNum) {
+        String Query = "SELECT EXISTS(SELECT * FROM PhoneCertification WHERE phoneNumber=? AND cerNumber=?);";
+        if (this.jdbcTemplate.queryForObject(Query, int.class, phoneNumber, certificationNum) == 0){
+            return false;
+        }
+        return true;
+    }
+
+    public int checkCertificationTime(String phoneNumber) {
+        String Query = "SELECT TIMESTAMPDIFF(SECOND, updatedAt, CURRENT_TIMESTAMP()) FROM PhoneCertification WHERE phoneNumber=?";
+        return this.jdbcTemplate.queryForObject(Query, int.class, phoneNumber);
+    }
 }

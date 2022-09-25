@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.*;
@@ -305,13 +306,67 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             // 배송지가 있는지 체크
-
-
             userService.deleteAddress(userAddressIdx);
             return new BaseResponse<>(SUCCESS_DELETE_ADDRESS);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /* 휴대폰 인증문자 발송 */
+    @ResponseBody
+    @PostMapping("/message")
+    public BaseResponse<String> sendSms(@RequestBody PostSmsReq postSmsReq) throws BaseException {
+
+        String phoneNumber = postSmsReq.getPhoneNumber();
+
+        if (postSmsReq.getPhoneNumber() != null) {
+            if (! isRegexPhoneNumber(postSmsReq.getPhoneNumber())) {
+                return new BaseResponse<>(POST_USER_INVALID_PHONE_NUMBER);
+            }
+        }
+        // 난수 생성
+        Random random = new Random();
+        String numStr = "";
+        for (int i=0; i < 4; i ++) {
+            String ran = Integer.toString(random.nextInt(10));
+            numStr += ran;
+        }
+        System.out.println("수신자 번호 : " + phoneNumber);
+        System.out.println("인증번호 : " + numStr);
+
+        userService.certifyPhoneNumber(phoneNumber, numStr); // 발송
+        userService.certifyPhoneNumberSave(phoneNumber, numStr); // 저장
+        return new BaseResponse<>(numStr);
+    }
+
+    /* 휴대폰 인증번호 확인 */
+    @ResponseBody
+    @PostMapping("/message/check")
+    public BaseResponse<String> checkSms(@RequestBody PostSmsCheckReq postSmsCheckReq) throws BaseException {
+        // 핸드폰 형식 확인
+        if (postSmsCheckReq.getPhoneNumber() != null) {
+            if (!isRegexPhoneNumber(postSmsCheckReq.getPhoneNumber())) {
+                return new BaseResponse<>(POST_USER_INVALID_PHONE_NUMBER);
+            }
+        }
+
+        // 번호 확인
+        if (userProvider.checkCertificationPhone(postSmsCheckReq.getPhoneNumber()) == 0) {
+            return new BaseResponse<>(EMPTY_CERTIFICATION_NUMBER);
+        }
+
+        int timeDiff = userProvider.checkCertificationTime(postSmsCheckReq.getPhoneNumber());
+        if(timeDiff>=10000){
+            return new BaseResponse<>(FAILED_TO_CERTIFICATION_TIME);
+        }
+
+        // 인증번호 확인
+        if (!(userProvider.checkCertificationNum(postSmsCheckReq.getPhoneNumber(), postSmsCheckReq.getCertificationNum()))){
+            return new BaseResponse<>(FAILED_TO_CERTIFICATION);
+        }
+        return new BaseResponse<>(SUCCESS_SMS_CHECK);
+    }
+
 
 }

@@ -131,4 +131,30 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkCertificationPhone(String phoneNumber) throws BaseException {
+        try {
+            return userDao.checkCertificationPhone(phoneNumber);
+        } catch (Exception exception){
+            System.out.println("checkCertificationPhone"+exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public boolean checkCertificationNum(String phoneNumber, String certificationNum) throws BaseException {
+        try {
+            return userDao.checkCertificationNum(phoneNumber, certificationNum);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    public int checkCertificationTime(String phoneNumber) throws BaseException {
+        try {
+            return userDao.checkCertificationTime(phoneNumber);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

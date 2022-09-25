@@ -28,6 +28,8 @@ public enum BaseResponseStatus {
     SUCCESS_CREATE_ADDRESS(true, 1014, "배송지 생성에 성공하였습니다."),
     SUCCESS_MODIFY_ADDRESS(true, 1015, "배송지 수정에 성공하였습니다."),
     SUCCESS_DELETE_ADDRESS(true, 1016, "배송지 삭제에 성공하였습니다."),
+    SUCCESS_SMS_CHECK(true, 1017, "인증번호 확인에 성공하였습니다."),
+
     /**
      * 2000 : Request 오류
      */
@@ -40,6 +42,7 @@ public enum BaseResponseStatus {
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
     USERS_EMPTY_EMAIl(false, 2011, "존재하지 않는 이메일입니다."),
+    EMPTY_CERTIFICATION_NUMBER(false, 2012, "인증번호가 존재하지 않습니다."),
 
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
@@ -53,6 +56,7 @@ public enum BaseResponseStatus {
     POST_USER_INVALID_PASSWORD_CONTINUOUS(false, 2024, "비밀번호는 3개 이상 연속되거나 동일한 문자를 사용할 수 없습니다."),
     POST_USER_INVALID_PHONE_NUMBER(false, 2025, "핸드폰 번호 형식을 확인해주세요."),
     POST_USER_INVALID_RECIPIENT(false, 2026, "수령인 이름의 형식을 확인해주세요."),
+
 
     // product
     EMPTY_PRODUCT_IDX(false, 2030, "상품 식별자가 존재하지 않습니다."),
@@ -79,11 +83,13 @@ public enum BaseResponseStatus {
      */
     // Common
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
-
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
-
+    EMPTY_CERTIFICATION_PHONE_NUMBER(false, 3015, "인증 번호가 발송된 휴대폰 번호가 아닙니다."),
+    FAILED_TO_CERTIFICATION(false, 3016, "인증번호가 일치하지 않습니다."),
+    FAILED_TO_CHECK_USER(false, 3017, "비밀번호가 일치하지 않습니다."),
+    FAILED_TO_CERTIFICATION_TIME(false, 3018, "인증번호 유효시간이 지났습니다."),
 
 
     /**

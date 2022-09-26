@@ -27,16 +27,9 @@ public class ValidationRegex {
         return matcher.find();
     }
 
-    public static boolean isRegexPasswordContinuous(String target) {
-        String regex = "^.{8,20}$";
-        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(target);
-        return matcher.find();
-    }
-
     // 3개이상 연속되는지 확인
     public static boolean isRegexPasswordThreeSame(String target) {
-        String regex = "(\\w)\\1\\1";
+        String regex = "(\\\\w)\\\\1\\\\1";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(target);
         return matcher.find();

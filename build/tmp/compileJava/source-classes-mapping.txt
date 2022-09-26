@@ -14,8 +14,8 @@ com/example/demo/src/user/model/PatchUserAddressReq.java
  com.example.demo.src.user.model.PatchUserAddressReq
 com/example/demo/src/order/OrderDao.java
  com.example.demo.src.order.OrderDao
-com/example/demo/utils/ValidationRegex.java
- com.example.demo.utils.ValidationRegex
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
 com/example/demo/src/review/model/PostReviewHelpReq.java
  com.example.demo.src.review.model.PostReviewHelpReq
 com/example/demo/src/category/model/GetCategoryRes.java
@@ -102,14 +102,14 @@ com/example/demo/src/product/ProductService.java
  com.example.demo.src.product.ProductService
 com/example/demo/src/review/ReviewProvider.java
  com.example.demo.src.review.ReviewProvider
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/order/OrderService.java
+ com.example.demo.src.order.OrderService
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/order/OrderController.java
  com.example.demo.src.order.OrderController
-com/example/demo/src/user/UserService.java
- com.example.demo.src.user.UserService
+com/example/demo/src/review/ReviewService.java
+ com.example.demo.src.review.ReviewService
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/src/product/ProductController.java
@@ -122,9 +122,9 @@ com/example/demo/src/review/ReviewController.java
  com.example.demo.src.review.ReviewController
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
-com/example/demo/src/order/OrderService.java
- com.example.demo.src.order.OrderService
-com/example/demo/src/review/ReviewService.java
- com.example.demo.src.review.ReviewService
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+com/example/demo/utils/ValidationRegex.java
+ com.example.demo.utils.ValidationRegex

@@ -71,9 +71,6 @@ public class UserController {
         if (postUserReq.getPassword().equals(postUserReq.getEmail())) {
             return new BaseResponse<>(POST_USERS_EMAIL_IN_PASSWORD);
         }
-        if (!isRegexPasswordThreeSame(postUserReq.getPassword()) || !isRegexPasswordContinuous(postUserReq.getPassword())) {
-            return new BaseResponse<>(POST_USER_INVALID_PASSWORD_CONTINUOUS);
-        }
 
         try{
             PostUserRes postUserRes = userService.createUser(postUserReq);

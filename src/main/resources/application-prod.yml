@@ -1,0 +1,15 @@
+server:
+  port: 9001
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://coupanga-db.cghvjdw6npqu.ap-northeast-2.rds.amazonaws.com/coupangADB?autoReconnect=true
+    username: admin
+    password: connect123
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+    # driver-class-name: com.mysql.jdbc.Driver # mysql 5버전

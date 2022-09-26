@@ -88,6 +88,8 @@ com/example/demo/src/user/model/PostSmsCheckReq.java
  com.example.demo.src.user.model.PostSmsCheckReq
 com/example/demo/src/user/model/PostSmsReq.java
  com.example.demo.src.user.model.PostSmsReq
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
 com/example/demo/src/category/CategoryProvider.java
  com.example.demo.src.category.CategoryProvider
 com/example/demo/src/product/ProductProvider.java
@@ -106,8 +108,6 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/order/OrderController.java
  com.example.demo.src.order.OrderController
-com/example/demo/src/user/UserDao.java
- com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
 com/example/demo/config/BaseResponseStatus.java

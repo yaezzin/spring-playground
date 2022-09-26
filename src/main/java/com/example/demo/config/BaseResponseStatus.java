@@ -56,6 +56,7 @@ public enum BaseResponseStatus {
     POST_USER_INVALID_PASSWORD_CONTINUOUS(false, 2024, "비밀번호는 3개 이상 연속되거나 동일한 문자를 사용할 수 없습니다."),
     POST_USER_INVALID_PHONE_NUMBER(false, 2025, "핸드폰 번호 형식을 확인해주세요."),
     POST_USER_INVALID_RECIPIENT(false, 2026, "수령인 이름의 형식을 확인해주세요."),
+    POST_USERS_INVALID_PASSWORD_LENGTH(false, 2027, "비밀번호 길이는 8-20자여야 합니다."),
 
 
     // product

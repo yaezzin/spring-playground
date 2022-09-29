@@ -1,6 +1,6 @@
 # 🌱 spring-core-summary
 
-<img width="600" alt="스크린샷 2022-09-28 오후 5 08 02" src="https://user-images.githubusercontent.com/97823928/192724685-59498521-0756-454b-a168-9b087372bee6.png">
+<img width="500" alt="스크린샷 2022-09-28 오후 5 08 02" src="https://user-images.githubusercontent.com/97823928/192724685-59498521-0756-454b-a168-9b087372bee6.png">
 
 ### 기존 코드 
 
@@ -98,5 +98,47 @@ public class MemberApp {
 
 ### 싱글톤 패턴
 
+<img width="500" alt="스크린샷 2022-09-29 오후 5 37 30" src="https://user-images.githubusercontent.com/97823928/192983082-87875f40-39bd-45b7-8e80-ce2b3d13ddb8.png">
 
+```java
+AppConfig appConfig = new AppConfig();
+
+//1. 조회: 호출할 때 마다 객체를 생성
+MemberService memberService1 = appConfig.memberService();
+
+//2. 조회: 호출할 때 마다 객체를 생성
+MemberService memberService2 = appConfig.memberService();
+
+//참조값이 다름
+System.out.println("memberService1 = " + memberService1); 
+System.out.println("memberService2 = " + memberService2);       
+```
+* 스프링 없는 순수한 DI 컨테이너인 AppConfig는 요청을 할 때 마다 객체를 새로 생성
+* 이러한 방식은 메모리 낭비가 심하므로 객체를 딱 1개만 생성하고 공유하도록 설계하면 된다 -> 싱글톤 패턴
+
+```java
+public class SingletonService {
+
+//1. static 영역에 객체를 딱 1개만 생성해둔다.
+private static final SingletonService instance = new SingletonService();
+
+//2. public으로 열어서 객체 인스터스가 필요하면 이 static 메서드를 통해서만 조회하도록 허용한다.
+public static SingletonService getInstance() {
+    return instance;
+}
+
+//3. 생성자를 private으로 선언해서 외부에서 new 키워드를 사용한 객체 생성을 못하게 막는다. 
+private SingletonService() {
+}
+```
+
+싱글톤 패턴의 문제점 
+* 
+
+### 싱글톤 컨테이너
+
+<img width="500" alt="스크린샷 2022-09-29 오후 5 41 14" src="https://user-images.githubusercontent.com/97823928/192984015-1fefb62b-3070-436a-9202-ad08eae8ef9e.png">
+
+* 스프링 컨테이너는 싱글턴 패턴을 적용하지 않아도, 객체 인스턴스를 싱글톤으로 관리한다.
+* 싱글톤 패턴이든 싱글톤 컨테이너든 객체를 하나만 생성해서 클라이언트가 같은 객체를 공유하는 방식이므로 ```stateless```하게 설계해야함 
 

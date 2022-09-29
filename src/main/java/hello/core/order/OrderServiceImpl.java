@@ -14,6 +14,11 @@ public class OrderServiceImpl implements OrderService {
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); //할인 정책을 변경하려면 OrderServiceImpl 코드르 변경해주어야 함
 
+    // 테스트용
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
+
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;

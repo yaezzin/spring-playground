@@ -132,8 +132,6 @@ private SingletonService() {
 }
 ```
 
-싱글톤 패턴의 문제점 
-* 
 
 ### 싱글톤 컨테이너
 
@@ -141,4 +139,116 @@ private SingletonService() {
 
 * 스프링 컨테이너는 싱글턴 패턴을 적용하지 않아도, 객체 인스턴스를 싱글톤으로 관리한다.
 * 싱글톤 패턴이든 싱글톤 컨테이너든 객체를 하나만 생성해서 클라이언트가 같은 객체를 공유하는 방식이므로 ```stateless```하게 설계해야함 
+
+```java
+public class StatefulService {
+
+    private int price; // 상태를 유지하는 필드
+
+    public void order(String name, int price) {
+        System.out.println("name = " + name + " price = " + price);
+        this.price = price; // 여기가 문제임!
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}
+
+class StatefulServiceTest {
+  @Test
+  void statefulServiceSingleton() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(TestConfig.class);
+        StatefulService statefulService1 = ac.getBean(StatefulService.class);
+        StatefulService statefulService2 = ac.getBean(StatefulService.class);
+
+        // ThreadA : A 사용자가 10000원 주문
+        statefulService1.order("userA", 10000);
+
+        // ThreadB : B 사용자가 20000원 주문
+        statefulService2.order("useB", 20000);
+
+        int price = statefulService1.getPrice();
+        System.out.println("price = " + price);
+        Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000); 
+    }
+```
+* StatefulService의 price 필드는 공유되는 필드이므로 특정 클라이언트가 값을 변경하게 됨 (this.price = price;)
+* 사용자A의 주문 금액은 10000원이지만, 싱글톤이기 때문에 ThreadB가 사용자B 코드를 호출함에 따라 20000원으로 변경됨 → 무상태로 설계하자
+
+```java
+public class StatefulService {
+    public int order(String name, int price) {
+        System.out.println("name = " + name + " price = " + price);
+        return price; // 아예 가격을 넘겨버리자
+    }
+}
+```
+
+### @Configuration과 싱글톤
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public MemberService memberService() {
+        return new MemberServiceImpl(memberRepository());
+    }
+
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl(
+                memberRepository(),
+                discountPolicy());
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    @Bean
+    public DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
+    }
+}
+```
+AppConfig에서 드는 의문 : memberRepository는 총 3번 호출되어 싱글톤이 깨지는거 아닌가 ...?
+* 스프링 컨테이너가 스프링 빈에 등록하기 위해 @Bean이 붙어있는 memberRepository() 호출
+* memberSerivce 빈을 만드는 코드에서 memberRepository() 호출 → 자동적으로 MemoryMemberRepository() 호출
+* orderSerivce 빈을 만드는 코드에서도 memberRepository() 호출 → 동일하게 MemoryMemberRepository() 호출
+* 하지만 3번이 아닌 1번이 호출됨.. 왜?
+
+
+```java
+bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$bd479d70
+// 순수한 클래스라면 class hello.core.AppConfig로 출력되어야 함
+```
+
+* AppConfig 스프링빈을 조회해서 클래스 정보를 출력해보면 클래스명이 복잡하게 되어짐
+* 스프링이 CGLIB라는 바이트코드 조작 라이브러리를 사용해서 AppConfig 클래스를 상속받은 **임의의 다른 클래스를 만들고, 그 다른 클래스를 스프링 빈으로 등록함**
+
+<img width="500" alt="스크린샷 2022-09-30 오전 1 45 49" src="https://user-images.githubusercontent.com/97823928/193090426-72c805ab-b14f-45c9-ac23-4c108b217a81.png">
+
+* @Bean이 붙은 메서드마다 스프링 빈이 이미 존재하면 존재하는 빈을 반환하고, 스프링 빈이 없으면 생성해서 스프링 빈으로 등록하고 반환하는 코드가 동적으로 만들어짐 → 싱글톤 보장 O
+* @Configuration 없이 @Bean만 붙이게 되면 MemberRepository가 총 3번 호출되고 서로 다른 인스턴스가 만들어짐 → 싱글톤 보장 X
+
+### 컴포넌트 스캔
+
+```java
+@Configuration
+@ComponentScan( 
+        // 기존의 AppConfig가 자동으로 등록되지 않도록 @Configuration이 붙은 것들은 제외하도록 함!
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
+)
+public class AutoAppConfig {
+    // 빈으로 등록된 클래스가 하나도 없다!
+}
+```
+스프링은 설정 정보가 없어도 ```자동으로 스프링 빈을 등록```하는 컴포넌트 스캔이라는 기능을 제공함
+* 메서드 하나하나마다 @Bean을 붙이지 않아도 됨!
+* 말 그대로 ```@Component```가 붙은 클래스를 스캔해서 스프링빈으로 등록해줌
+* AppConfig에서는 @Bean을 통해 직접 설정 정보를 작성하고 의존관계를 직접 명시함
+* 하지만 이제 설정 정보 자체가 없으므로 ```@Autowired```를 통해 의존관계를 자동으로 주입해야함
 

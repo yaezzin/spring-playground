@@ -84,7 +84,8 @@ public class MemberApp {
 #### 과정 
   1. 스프링 컨테이너 생성 : ```new AnnotationConfigApplicationContext(AppConfig.class)```
   2. 스프링 빈 등록 : AppConfig의 메서드에 @Bean을 붙여 주면 스프링 컨테이너는 파라미터로 넘어온 설정 클래스 정보를 통해 스프링 빈을 등록
-  3. 의존 관계 주입 
+  3. 의존 관계 주입
+
   <img width="500" alt="스크린샷 2022-09-29 오후 4 44 18" src="https://user-images.githubusercontent.com/97823928/192971147-a85fefec-9951-42e6-b3a0-9244cc45e655.png">
 
 ### BeanDefinition
@@ -100,7 +101,7 @@ public class MemberApp {
 
 <img width="500" alt="스크린샷 2022-09-29 오후 5 37 30" src="https://user-images.githubusercontent.com/97823928/192983082-87875f40-39bd-45b7-8e80-ce2b3d13ddb8.png">
 
-```java
+```text
 AppConfig appConfig = new AppConfig();
 
 //1. 조회: 호출할 때 마다 객체를 생성
@@ -113,10 +114,11 @@ MemberService memberService2 = appConfig.memberService();
 System.out.println("memberService1 = " + memberService1); 
 System.out.println("memberService2 = " + memberService2);       
 ```
+
 * 스프링 없는 순수한 DI 컨테이너인 AppConfig는 요청을 할 때 마다 객체를 새로 생성
 * 이러한 방식은 메모리 낭비가 심하므로 객체를 딱 1개만 생성하고 공유하도록 설계하면 된다 -> 싱글톤 패턴
 
-```java
+``` java
 public class SingletonService {
 
 //1. static 영역에 객체를 딱 1개만 생성해둔다.
@@ -156,8 +158,8 @@ public class StatefulService {
 }
 
 class StatefulServiceTest {
-  @Test
-  void statefulServiceSingleton() {
+    @Test
+    void statefulServiceSingleton() {
         ApplicationContext ac = new AnnotationConfigApplicationContext(TestConfig.class);
         StatefulService statefulService1 = ac.getBean(StatefulService.class);
         StatefulService statefulService2 = ac.getBean(StatefulService.class);
@@ -170,8 +172,9 @@ class StatefulServiceTest {
 
         int price = statefulService1.getPrice();
         System.out.println("price = " + price);
-        Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000); 
+        Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000);
     }
+}
 ```
 * StatefulService의 price 필드는 공유되는 필드이므로 특정 클라이언트가 값을 변경하게 됨 (this.price = price;)
 * 사용자A의 주문 금액은 10000원이지만, 싱글톤이기 때문에 ThreadB가 사용자B 코드를 호출함에 따라 20000원으로 변경됨 → 무상태로 설계하자
@@ -221,7 +224,7 @@ AppConfig에서 드는 의문 : memberRepository는 총 3번 호출되어 싱글
 * 하지만 3번이 아닌 1번이 호출됨.. 왜?
 
 
-```java
+``` java
 bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$bd479d70
 // 순수한 클래스라면 class hello.core.AppConfig로 출력되어야 함
 ```
@@ -270,3 +273,30 @@ public class AutoAppConfig {
 * 생성자 주입을 사용하면 final을 사용할 수 있음 → 생성자에서 혹시라도 값이 설정되지 않는 오류를 컴파일 시점에 막아줌
   * ```java: variable discountPolicy might not have been initialized```
   * ```@RequiredArgsConstructor```을 사용하면 final이 붙은 필드를 모아서 생성자를 자동으로 만들어줌
+
+### 스프링빈의 라이프사이클
+
+스프링 컨테이너 생성 -> 스프링 빈 생성 -> 의존관계 주입 -> 초기화 콜백 -> 사용 -> 소멸 전 콜백 -> 종료
+
+* 스프링빈은 객체를 생성하고 의존관계 주입이 다 끝난 다음에야 필요한 데이터를 사용할 준비를 마치므로 초기화 작업은 의존관계 주입이 모두 완료되고 호출해야함
+* 스프링은 의존관계 주입이 완료되면 스프링 빈에게 콜백 메서드를 통해서 초기화 시점을 알려줌
+* 또한 스프링 컨테이너가 종료되기 직전에 소멸 콜백을 줌
+
+### 초기화 콜백
+
+방법 1 : ```implements InitializingBean, DisposableBean```
+* InitializingBean은 afterPropertiesSet() 메서드로 초기화를 지원
+* DisposableBean은 destroy() 메서드로 소멸을 지원
+* 이 인터페이스는 스프링 전용 인터페이스므로 해당 코드가 스프링 전용 인터페이스에 의존하므로 메서드 이름 변경을 할 수 없으며, 외부 라이브러리에 적용 불가
+
+방법 2 : 빈등록 초기화, 소멸 메서드 지정
+* @Bean(initMethod = "init", destroyMethod = "close")
+* 스프링 빈이 스프링 코드에 의존하지 않으며, 설정 정보를 사용하기 때문에 외부라이브러에도 초기화, 종료 메서드를 작성할 수 있음
+* destroyMethod의 속성의 경우 기본값이 inferred(추론)이므로 close, shutdown이라는 이름을 가진 메서드를 자동으로 호출
+
+방법 3 : @PostConstruct, @PreDestory
+* 최신 스프링에서 가장 권장하는 방법 
+* 패키지 : ```javax.annotation.PostConstruct``` 
+  * 스프링 종속적 x, JSR-250 라는 자바 표준
+  * 그러므로 스프링이 아닌 다른 컨테이너에서도 작동함
+* 이 애노테이션을 사용하되, 코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료해야한다면 방법2를 사용하자

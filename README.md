@@ -276,7 +276,7 @@ public class AutoAppConfig {
 
 ### 스프링빈의 라이프사이클
 
-스프링 컨테이너 생성 -> 스프링 빈 생성 -> 의존관계 주입 -> 초기화 콜백 -> 사용 -> 소멸 전 콜백 -> 종료
+스프링 컨테이너 생성 → 스프링 빈 생성 → 의존관계 주입 → 초기화 콜백 → 사용 → 소멸 전 콜백 → 종료
 
 * 스프링빈은 객체를 생성하고 의존관계 주입이 다 끝난 다음에야 필요한 데이터를 사용할 준비를 마치므로 초기화 작업은 의존관계 주입이 모두 완료되고 호출해야함
 * 스프링은 의존관계 주입이 완료되면 스프링 빈에게 콜백 메서드를 통해서 초기화 시점을 알려줌
@@ -291,12 +291,78 @@ public class AutoAppConfig {
 
 방법 2 : 빈등록 초기화, 소멸 메서드 지정
 * @Bean(initMethod = "init", destroyMethod = "close")
-* 스프링 빈이 스프링 코드에 의존하지 않으며, 설정 정보를 사용하기 때문에 외부라이브러에도 초기화, 종료 메서드를 작성할 수 있음
-* destroyMethod의 속성의 경우 기본값이 inferred(추론)이므로 close, shutdown이라는 이름을 가진 메서드를 자동으로 호출
+* 스프링 빈이 스프링 코드에 의존하지 X + 설정 정보를 사용하기 때문에 외부라이브러에도 초기화, 종료 메서드를 작성할 수 있음
+* destroyMethod의 속성의 경우 기본값이 inferred(추론)이므로 close, shutdown 같은 메서드를 자동으로 호출
 
 방법 3 : @PostConstruct, @PreDestory
 * 최신 스프링에서 가장 권장하는 방법 
 * 패키지 : ```javax.annotation.PostConstruct``` 
   * 스프링 종속적 x, JSR-250 라는 자바 표준
   * 그러므로 스프링이 아닌 다른 컨테이너에서도 작동함
-* 이 애노테이션을 사용하되, 코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료해야한다면 방법2를 사용하자
+* 이 애노테이션을 사용하되, 코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료해야한다면 방법2를 사용하자 
+
+### 빈 스코프
+
+#### 1. 싱글톤
+* 기본 스코프, 스프링 컨테이너의 시작과 종료까지 유지되는 가장 넓은 범위의 스코프
+
+```java
+@Test
+public class SingletonTest {
+    @Test  
+    public void singletonBeanFind() {
+      SingletonBean singletonBean1 = ac.getBean(SingletonBean.class);
+      SingletonBean singletonBean2 = ac.getBean(SingletonBean.class);
+      // 싱글톤이므로 같은 인스턴스를 반환
+      System.out.println("SingletonTest1 = " + singletonBean1);
+      System.out.println("SingletonTest2 = " + singletonBean2);
+      assertThat(singletonBean1).isSameAs(singletonBean2);
+    }
+}
+```
+
+#### 2. 프로토타입
+* 스프링 컨테이너는 프로토타입 빈의 생성과 의존관계 주입까지만 관여하고 더는 관리하지 않는 매우 짧은 범위의 스코프
+
+```java
+public class PrototypeTest {
+
+  @Test
+  void prototypeBeanFind() {
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(PrototypeBean.class);
+
+    System.out.println("find prototypeBean1");
+    PrototypeBean prototypeBean1 = ac.getBean(PrototypeBean.class);
+
+    System.out.println("find prototypeBean2");
+    PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
+    System.out.println("prototypeBean1 = " + prototypeBean1);
+    System.out.println("prototypeBean2 = " + prototypeBean2);
+    assertThat(prototypeBean1).isNotSameAs(prototypeBean2);
+
+    ac.close();
+  }
+
+  @Scope("prototype")
+  // @Scope을 사용하면 @Component가 없어도 스프링 빈으로 등록됨
+  static class PrototypeBean {
+
+    @PostConstruct
+    public void init() {
+      System.out.println("PrototypeBean.init");
+    }
+
+    @PreDestroy
+    public void destroy() {
+      System.out.println("PrototypeBean.destroy");
+    }
+
+  }
+}
+```
+
+* 웹 관련 스코프
+* request: 웹 요청이 들어오고 나갈때 까지 유지되는 스코프
+* session: 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프
+* application: 웹의 서블릿 컨텍스트와 같은 범위로 유지되는 스코프
+

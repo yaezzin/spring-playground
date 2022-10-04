@@ -321,7 +321,14 @@ public class SingletonTest {
 }
 ```
 
+<img width="800" alt="스크린샷 2022-10-04 오후 4 38 07" src="https://user-images.githubusercontent.com/97823928/193761978-0bcd554f-7ec1-43ee-809e-af80212b9b02.png">
+
+* 초기화 메서드 실행 → 빈 조회 → 종료 메서드 호출
+
 #### 2. 프로토타입
+
+<img width="500" alt="스크린샷 2022-10-04 오후 4 35 25" src="https://user-images.githubusercontent.com/97823928/193761469-76c1ba06-c35c-418d-bf2e-a4cfb50fda6b.png">
+
 * 스프링 컨테이너는 프로토타입 빈의 생성과 의존관계 주입까지만 관여하고 더는 관리하지 않는 매우 짧은 범위의 스코프
 
 ```java
@@ -356,13 +363,44 @@ public class PrototypeTest {
     public void destroy() {
       System.out.println("PrototypeBean.destroy");
     }
-
   }
 }
 ```
 
-* 웹 관련 스코프
+<img width="570" alt="스크린샷 2022-10-04 오후 4 34 40" src="https://user-images.githubusercontent.com/97823928/193761318-6f600609-d3bb-48ff-9df0-5109bb76b12c.png">
+
+|싱글톤| 프로토 타입|
+|----|-----|
+|스프링 컨테이너 생성 시점에 초기화 메서드 실행|스프링 컨테이너에서 빈을 조회할 때 스코프빈이 생성되고, 초기화 메서드도 실행됨|
+|항상 같은 인스턴스를 반환|조회할 때마다 다른 스프링빈을 반환|
+|스프링컨테이너가 관리하므로 종료될떄 빈의 종료 메서드가 호출됨| 스프링 컨테이너가 생성과 의존관계 주입, 초기화까지만 관리하고 더이상 관리하지 않음 → @PreDestory 메서드 실행X|
+
+#### 3. 웹 관련 스코프
 * request: 웹 요청이 들어오고 나갈때 까지 유지되는 스코프
 * session: 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프
 * application: 웹의 서블릿 컨텍스트와 같은 범위로 유지되는 스코프
 
+### 프로토타입 스코프 with 싱글톤 빈
+
+<img width="500" alt="스크린샷 2022-10-04 오후 5 10 38" src="https://user-images.githubusercontent.com/97823928/193768275-c3292e0a-a278-49c7-89d9-fde42dbbf728.png">
+
+* ClientBean은 싱글톤이므로 스프링 컨테이너 생성 시점에 함께 생성되고, 의존관계도 주입됨
+  * 1 ) clientBean이 의존관계 자동 주입을 사용하여, 주입 시점에 스프링컨테이너에 프로토타입 빈을 요청함
+  * 2 ) 스프링 컨테이너는 프로토타입 빈을 생성해서 clientBean에 반환 
+  * clientBean은 프로토토타입빈을 내부 필드에 보관 (정확히는 참조값)
+  
+<img width="500" alt="스크린샷 2022-10-04 오후 5 18 28" src="https://user-images.githubusercontent.com/97823928/193769861-6dfbf43d-473d-4a88-94a3-f75a2f3729fd.png">
+
+* 클라이언트 A는 clientBean을 스프링컨테이너에 요청해서 받음
+  * 3 ) 클라이언트 A가 clientBean.logic()을 호출
+  * 4 ) clientBean은 프로토타입빈의 addCount()를 호출해서 프로토타입의 count 값을 1 증가시킴
+  
+<img width="500" alt="스크린샷 2022-10-04 오후 5 32 54" src="https://user-images.githubusercontent.com/97823928/193772872-1879d88b-09cc-436c-8cd8-b46fd06c8e4e.png">
+
+* 클라이언트 B는 clientBean을 스프링컨테이너에 요청해서 받음
+* **clientBean이 내부에 가지고 있는 프로토타입빈은 이미 과거에 주입이 끝난 빈**, 사용할때마다 새로된 것이 X
+  * 5 ) 클라이언트 A가 clientBean.logic()을 호출
+  * 6 ) clientBean은 프로토타입빈의 addCount()를 호출해서 프로토타입의 count 값을 1 증가시킴 -> count 값이 2가 됨
+
+#### 문제는 프로토타입 빈을 주입 시점에만 새로 생성하고, 사용할 때마다 새로 생성해서 사용하는 것이 아니다!
+* 싱글톤빈은 생성 시점에만 의존관계 주입을 받기 때문에 프로토타입 빈이 새로 생성되기는 하나, 싱글톤 빈과 함께 계속 유지되는 것이 문제이다.

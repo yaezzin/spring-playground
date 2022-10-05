@@ -375,10 +375,16 @@ public class PrototypeTest {
 |항상 같은 인스턴스를 반환|조회할 때마다 다른 스프링빈을 반환|
 |스프링컨테이너가 관리하므로 종료될떄 빈의 종료 메서드가 호출됨| 스프링 컨테이너가 생성과 의존관계 주입, 초기화까지만 관리하고 더이상 관리하지 않음 → @PreDestory 메서드 실행X|
 
-#### 3. 웹 관련 스코프
-* request: 웹 요청이 들어오고 나갈때 까지 유지되는 스코프
+#### 3. 웹 스코프
+
+<img width="500" alt="스크린샷 2022-10-05 오후 5 37 04" src="https://user-images.githubusercontent.com/97823928/194017771-11960b27-806e-4682-8781-16436abf8c2d.png">
+
+* request: Http 웹 요청이 들어오고 나갈때 까지 유지되는 스코프, 각각의 HTTP 요청마다 별도의 빈 인스턴스가 생성되고, 관리됨
 * session: 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프
 * application: 웹의 서블릿 컨텍스트와 같은 범위로 유지되는 스코프
+* websocket : 웹소켓과 동일한 생명주기를 가지는 스코프
+
+
 
 ### 프로토타입 스코프 with 싱글톤 빈
 
@@ -404,3 +410,83 @@ public class PrototypeTest {
 
 #### 문제는 프로토타입 빈을 주입 시점에만 새로 생성하고, 사용할 때마다 새로 생성해서 사용하는 것이 아니다!
 * 싱글톤빈은 생성 시점에만 의존관계 주입을 받기 때문에 프로토타입 빈이 새로 생성되기는 하나, 싱글톤 빈과 함께 계속 유지되는 것이 문제이다.
+
+### Provider을 사용하여 문제 해결
+
+방법 1 : 싱글톤 빈이 프로토타입을 사용할 때 마다 스프링컨테이너에 새로 요청    
+* 문제점 : 스프링의 애플리케이션 컨텍스트 전체를 주입받게 되면, 스프링 컨테이너에 종속적인 코드가 되고, 단위 테스트도 어려워짐
+
+```java
+static class ClientBean {
+    @Autowired
+    private ApplicationContext ac;
+
+    public int logic() { // 로직을 호출할때마다 스프링컨테이너에 새로 프로토타입빈을 요청하자!
+        // 의존관계를 외부에서 주입받는 것이 아니라 직접 필요한 의존관계를 찾음 : DL(의존관계 탐색)
+        PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+        prototypeBean.addCount();
+        int count = prototypeBean.getCount();
+        return count;
+    }
+}
+```
+
+방법 2 : ```ObjectFactory```, ```ObjectProvider```
+* ObjectProvider 의 getObject() 를 호출하면 내부에서는 스프링 컨테이너를 통해 해당 빈을 찾아서 반환한다. (DL)
+  * ObjectFactory: 기능이 단순, 별도의 라이브러리 필요 없음, 스프링에 의존
+  * ObjectProvider: ObjectFactory 상속, 옵션, 스트림 처리등 편의 기능이 많고, 별도의 라이브러리 필요 없음, 스프링에 의존
+
+```java
+static class ClientBean {
+    @Autowired
+    private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+    
+    public int logic() {
+        PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+        prototypeBean.addCount();
+        int count = prototypeBean.getCount();
+        return count;
+    }
+}
+```
+
+방법 3 : ```JSR-330 Provider```
+
+```java
+//implementation 'javax.inject:javax.inject:1' gradle 추가 필수 @Autowired
+private Provider<PrototypeBean> provider;
+    
+public int logic() {
+    PrototypeBean prototypeBean = provider.get();
+    prototypeBean.addCount();
+    int count = prototypeBean.getCount();
+    return count;
+}
+```
+* get()메서드를 사용해서 해당 빈을 찾아서 반환하나 별도의 라이브러리가 필요하다.
+  * ObjectProvider는 DL을 위한 편의 기능을 많이 제공해주고 스프링 외에 별도의 의존관계 추가가 필요 없기 때문에 편리하다. 
+  * 만약 코드를 스프링이 아닌 다른 컨테이너에서도 사용할 수 있어야 한다면 JSR-330 Provider를 사용해야한다.
+
+### 스코프와 프록시
+
+스프링 애플리케이션을 실행하는 시점에 싱글톤 빈은 생성해서 주입이 되나, request 스코프 빈은 생성되지 않는다!
+
+방법 1 : ObjectProvider 사용  
+방법 2 : 프록시 방법 사용 
+
+```java
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class MyLogger {
+    ...
+}
+```
+* MyLooger의 가짜 프록시 클래스를 만들어두고 request와 상관없이 가짜 프록시를 다른 빈에 미리 주입할 수 있음!!
+* proxyMode를 설정하면 스프링컨테이너는 CGLIB라는 라이브러리로 내 클래스를 상속 받은 가짜 프록시 객체를 만들어서 주입함!
+* 그러므로 진짜 객체 조회를 꼭 필요한 시점까지 지연처리 가능해짐
+
+<img width="500" alt="스크린샷 2022-10-05 오후 6 33 26" src="https://user-images.githubusercontent.com/97823928/194029292-171401e9-9dc1-4a58-9d3a-420238e49815.png">
+
+* CGLIB라는 라이브러리로 내 클래스를 상속 받은 가짜 프록시 객체를 만들어서 주입
+* 이 가짜 프록시 객체는 실제 요청이 오면 그때 내부에서 실제 빈을 요청하는 위임 로직이 들어있으며 단순히 싱글톤처럼 동작한다
+* 마치 싱글톤을 사용하는 것 같지만 다르게 동작하기 때문에 이러한 scope는 꼭 필요한 곳에서만 최소화해서 사용하자!

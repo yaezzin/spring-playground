@@ -1,4 +1,4 @@
-package jpabook.jpashop.web;
+package jpabook.jpashop.controller;
 
 import java.util.List;
 import jpabook.jpashop.domain.Member;

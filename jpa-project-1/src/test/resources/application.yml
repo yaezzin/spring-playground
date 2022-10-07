@@ -1,0 +1,4 @@
+# 테스트 시에는 이 위치의 설정 파일을 읽는다!
+spring:
+  logging.level:
+    org.hibernate.SQL: debug

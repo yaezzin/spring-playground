@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="edd7d27c-ca71-4925-b42c-31ee78ba387f" name="coupang" url="https://ssacyj.shop">
+        <fileTransfer rootFolder="/var/www/html/dev/api-server-spring-boot-final 2" accessType="SFTP" host="3.39.111.24" port="22" sshConfigId="175a7699-a2db-4397-b302-3a68e9d33401" sshConfig="ubuntu@3.39.111.24:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

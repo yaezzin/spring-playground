@@ -5,8 +5,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
 
+    private EmailService emailService;
+
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
     @Override
     public void sendEmail(String to, String subject, String body) throws Exception {
-        throw new Exception("실제 외부 통신 하는 코드들을 작성함");
+        emailService.sendEmail(to, subject, body);
     }
 }
